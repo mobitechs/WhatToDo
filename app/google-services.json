@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "768454092075",
+    "project_id": "whattodo-f30af",
+    "storage_bucket": "whattodo-f30af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768454092075:android:436779ad6dea332a48916e",
+        "android_client_info": {
+          "package_name": "com.wahttodo.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768454092075-k7ibno5vvj427ihhcqenfqe76hssildv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wahttodo.app",
+            "certificate_hash": "76aff88fda900667f411f58f512af1f03e8dc621"
+          }
+        },
+        {
+          "client_id": "768454092075-a3admkr5roe4seda8ghu8odflicrgh5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc6ah5q0mzDb8vdXANSQVcl_XcUAf1L6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768454092075-a3admkr5roe4seda8ghu8odflicrgh5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
