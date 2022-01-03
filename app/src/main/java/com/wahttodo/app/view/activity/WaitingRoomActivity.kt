@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+import com.wahttodo.app.utils.replaceFragment
+import com.wahttodo.app.view.fragment.DecisionSubCategoryFragment
+import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
 
 class WaitingRoomActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
@@ -47,7 +50,7 @@ class WaitingRoomActivity : AppCompatActivity() {
 //            createRoomAndAddUser()
 //        }
 //        else {
-            checkIfRoomIsActive()
+        checkIfRoomIsActive()
 //            addUser()
 //        }
     }
@@ -92,5 +95,23 @@ class WaitingRoomActivity : AppCompatActivity() {
             .addOnFailureListener {
                 showToastMsg("Record failed to add.")
             }
+    }
+
+    fun displayDecisionSubCategory() {
+        replaceFragment(
+            DecisionSubCategoryFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "DecisionSubCategoryFragment"
+        )
+    }
+
+    fun displayWaitingRoomJoinedUserList() {
+        replaceFragment(
+            WaitingRoomUserListFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "WaitingRoomUserListFragment"
+        )
     }
 }

@@ -30,9 +30,10 @@ class Constants {
         //if u add new item in weightArray then please add in qtyArray as well its must
         val qtyArray = arrayOf("1", "2", "3", "4", "6", "8 ", "10", "12", "14", "16", "18", "20")
 
-        val controllerQtyArray = arrayOf("1", "2", "3", "4")
+        val languageArray = arrayOf("English", "Hindi", "Marathi", "Telgu")
+        val typeArray = arrayOf("Comedy", "Action", "Horror", "Drama","Thrill")
 
-        //        val daysArray = arrayOf("1", "2", "3", "4", "5", "6", "7")
+        //val daysArray = arrayOf("1", "2", "3", "4", "5", "6", "7")
         val daysArray = arrayOf("1", "2")
         val hourArray = arrayOf("1", "2", "4", "6")
 

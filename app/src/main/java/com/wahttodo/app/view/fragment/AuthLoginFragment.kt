@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
@@ -29,7 +30,7 @@ class AuthLoginFragment : Fragment(), ApiResponse {
 
     lateinit var rootView: View
     lateinit var txtEmail: AppCompatEditText
-    lateinit var btnSubmit: Button
+    lateinit var btnSubmit: AppCompatButton
     lateinit var layoutLoader: RelativeLayout
     var email = ""
 
