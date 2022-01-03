@@ -13,6 +13,7 @@
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_decidion.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_home.xml" value="0.17300724637681159" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_splash.xml" value="0.1793478260869565" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_waiting_room.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_category.xml" value="0.17300724637681159" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_groups.xml" value="0.17300724637681159" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_short_listed.xml" value="0.17300724637681159" />
@@ -21,6 +22,7 @@
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_register.xml" value="0.2" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_set_passworg.xml" value="0.1793478260869565" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_decision_category.xml" value="0.17300724637681159" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_decision_listing.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_decision_short_listed.xml" value="0.17300724637681159" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_enter_otp.xml" value="0.1793478260869565" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_profile.xml" value="0.17300724637681159" />
