@@ -71,7 +71,7 @@
                     app:pinSize="@dimen/_40sdp"
                     app:showPasswordToggle="false"
                     android:textColor="@color/black"
-                     />
+                    android:textColorHint="@color/border" />
             </LinearLayout>
 
 
