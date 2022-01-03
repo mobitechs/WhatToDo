@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".view.fragment.DecisionListingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/cardStackView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+        android:padding="4dp"
+        android:clipToPadding="false"/>
 </FrameLayout>

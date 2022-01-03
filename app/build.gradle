@@ -89,4 +89,6 @@ dependencies {
     //otp view with box style
     implementation 'com.github.darshan-miskin:PinView-Android:v1.1.8'
 
+    //swipe card like tinder
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 }

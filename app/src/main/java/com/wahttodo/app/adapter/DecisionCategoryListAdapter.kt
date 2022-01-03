@@ -10,13 +10,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
 import com.wahttodo.app.model.CategoryListItems
+import com.wahttodo.app.session.SharePreferenceManager
+import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openActivity
 import com.wahttodo.app.view.activity.DecisionActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 
-class DecisionCategoryListAdapter(
-    activityContext: Context
-) :
+class DecisionCategoryListAdapter(activityContext: Context) :
     RecyclerView.Adapter<DecisionCategoryListAdapter.MyViewHolder>() {
 
     private val listItems = ArrayList<CategoryListItems>()
@@ -48,9 +48,11 @@ class DecisionCategoryListAdapter(
 
         holder.itemView.setOnClickListener {
 
+            var userId = SharePreferenceManager.getInstance(context).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
             context.openActivity(WaitingRoomActivity::class.java){
                 putParcelable("DecisionFor", item)
-
+                putString("imFrom", "DecisionCategory")
+                putString("hostUserId", userId)
             }
 
         }
