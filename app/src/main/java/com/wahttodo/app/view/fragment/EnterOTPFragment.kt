@@ -18,10 +18,7 @@ import com.wahttodo.app.R
 import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.model.UserModel
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.apiPostCall
-import com.wahttodo.app.utils.checkLogin
-import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.utils.*
 import com.wahttodo.app.view.activity.AuthActivity
 import org.json.JSONException
 import org.json.JSONObject
@@ -139,7 +136,7 @@ class EnterOTPFragment : Fragment(), ApiResponse {
     private fun getOtpAPI() {
         val rand = Random()
         actualOTP = String.format("%04d", rand.nextInt(10000))
-//        requireContext().showToastMsgLong("Your OTP is: " + actualOTP)
+        requireContext().showToastMsgLong("Your OTP is: " + actualOTP)
 
         //call get otp api
         val method = "GetOTPForEmailLogin"

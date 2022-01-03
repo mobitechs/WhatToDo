@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_rect_stroke.xml" value="0.26205128205128203" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_rect_stroke_error.xml" value="0.26614583333333336" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_rect_stroke_success.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_solid.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/circle_red.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/rounded_bg_orange.xml" value="0.26614583333333336" />

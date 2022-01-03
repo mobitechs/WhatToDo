@@ -64,14 +64,14 @@
                     android:imeOptions="actionGo"
                     app:inputType="number"
                     app:isPassword="false"
-                    app:passwordToggleColor="@color/white"
+                    app:passwordToggleColor="@color/black"
                     app:passwordToggleSize="26dp"
                     app:pinCount="4"
-                    app:textColor="@color/white"
+                    app:textColor="@color/black"
                     app:pinSize="@dimen/_40sdp"
                     app:showPasswordToggle="false"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
+                    android:textColor="@color/black"
+                     />
             </LinearLayout>
 
 
