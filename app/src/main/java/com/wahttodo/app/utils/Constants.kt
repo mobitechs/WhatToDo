@@ -16,6 +16,7 @@ class Constants {
         const val VERTICAL = "vertical"
         const val USERDATA = "userData"
 
+        const val ROOM_ID = "roomId"
         const val EARNED_POINTS = "earnedPoints"
         const val FIRST_FREE_ORDER_COMPLETE = "firstFreeOrderComplete"
 

@@ -14,6 +14,7 @@ data class JoinedUserList(
 )
 
 data class MatchedMoviesList(
+    var movieImage: String,
     var movieName: String,
     var rating: String,
     var description: String,
@@ -25,6 +26,7 @@ data class DumpMovieDetails(
 )
 
 data class DumpedMoviesList(
+    var movieImage: String,
     var movieName: String,
     var rating: String,
     var description: String,

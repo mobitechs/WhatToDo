@@ -8,9 +8,30 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:text="KGF"
         android:layout_margin="@dimen/_5sdp"
         android:textSize="@dimen/_14sdp"
-        android:id="@+id/txtName"/>
+        android:textStyle="bold"
+        android:id="@+id/textMovieName"/>
+
+    <RatingBar
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_alignParentEnd="true"
+        android:numStars="5"
+        android:stepSize="1"
+        android:isIndicator="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_below="@+id/textMovieName"
+        android:textSize="@dimen/_10sdp"
+        android:id="@+id/textDescription"/>
 
 </RelativeLayout>

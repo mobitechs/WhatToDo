@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
+import com.wahttodo.app.adapter.DecisionListCardStackAdapter
+import com.wahttodo.app.adapter.DecisionShortListedAdapter
+import com.wahttodo.app.model.DumpedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.viewModel.UserListViewModel
@@ -22,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
 
 class DecisionListingFragment : Fragment(), CardStackListener {
 
+    lateinit var listAdapter: DecisionListCardStackAdapter
+    val listItems = ArrayList<DumpedMoviesList>()
     private lateinit var manager: CardStackLayoutManager
     lateinit var rootView: View
     lateinit var viewModelUser: UserListViewModel
@@ -44,6 +49,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 
 //        setupRecyclerView()
         setupCardStackView()
+        getDecisionSelectedList()
     }
 
     private fun setupRecyclerView() {
@@ -63,7 +69,8 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         manager.setSwipeableMethod(SwipeableMethod.Manual)
         manager.setOverlayInterpolator(LinearInterpolator())
         rootView.cardStackView.layoutManager = manager
-//        rootView.cardStackView.adapter = DecisionListCardStackAdapter()
+        listAdapter = DecisionListCardStackAdapter(requireActivity())
+        rootView.cardStackView.adapter = listAdapter
         rootView.cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
@@ -95,4 +102,13 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         Log.d("CardStackView", "onCardDisappeared: ($position)")
     }
 
+    private fun getDecisionSelectedList() {
+        listItems.clear()
+        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/K.G.F_Chapter_1_poster.jpg/220px-K.G.F_Chapter_1_poster.jpg", "KGF", "5", "Best Movie of south", 0))
+        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNDExMTBlZTYtZWMzYi00NmEwLWEzZGYtOTA1MDhmNTc0ODZkXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg", "Hera Pheri", "4", "Best comedy movie", 0))
+        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTEwMWJlMWUtNGI3ZC00NzhmLWI1M2ItNGE1NTBiMjk5NmYyXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg", "Kasoor", "2", "Old Hindi Movie", 0))
+        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg", "Joker", "5", "Best English Movie", 0))
+        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", "3 Idiots", "5", "Best youth movie", 0))
+        listAdapter.updateListItems(listItems)
+    }
 }

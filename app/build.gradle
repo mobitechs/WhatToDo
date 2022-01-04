@@ -93,4 +93,7 @@ dependencies {
 
     //swipe card like tinder
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+
+    //rounded view
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }

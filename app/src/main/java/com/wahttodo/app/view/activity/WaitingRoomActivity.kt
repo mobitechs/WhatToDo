@@ -1,28 +1,31 @@
 package com.wahttodo.app.view.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wahttodo.app.R
 import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.ShareRoomLink
-import com.wahttodo.app.utils.showToastMsg
-import kotlinx.android.synthetic.main.loader.*
+import com.wahttodo.app.utils.*
+import com.wahttodo.app.utils.replaceFragment
+import com.wahttodo.app.view.fragment.DecisionListingFragment
+import com.wahttodo.app.view.fragment.DecisionShortListedFragment
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
-import com.wahttodo.app.utils.replaceFragment
 import com.wahttodo.app.view.fragment.DecisionSubCategoryFragment
 import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
 
 class WaitingRoomActivity : AppCompatActivity() {
-    private lateinit var db: FirebaseFirestore
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var db: FirebaseFirestore
+    }
     lateinit var categoryListItems: CategoryListItems
     var roomId = "1234" //userId+currentTimestamp
     var userName = ""
@@ -42,17 +45,17 @@ class WaitingRoomActivity : AppCompatActivity() {
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         userName = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.name.toString()
 
-        ShareRoomLink(this, roomId, userId)
+        SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
 
         db = FirebaseFirestore.getInstance()
 
-//        if (hostuser == userId && imFrom == "DecisionCategory") {
-//            createRoomAndAddUser()
-//        }
-//        else {
-        checkIfRoomIsActive()
-//            addUser()
-//        }
+        if (hostuser == userId && imFrom == "DecisionCategory") {
+            createRoomAndAddUser()
+            ShareRoomLink(this, roomId, userId)
+        }
+        else {
+            checkIfRoomIsActive()
+        }
     }
 
     private fun checkIfRoomIsActive() {
@@ -69,7 +72,6 @@ class WaitingRoomActivity : AppCompatActivity() {
                     showToastMsg("Room is not active")
                 }
                 else {
-                    showToastMsg("Day is greater")
                     addUser()
                 }
             }
@@ -79,7 +81,17 @@ class WaitingRoomActivity : AppCompatActivity() {
     }
 
     private fun addUser() {
-
+        val joinedUserList = JoinedUserList(userId, userName)
+        db.collection("whatToDoCollection")
+            .document(roomId)
+            .update("joinedUserList", FieldValue.arrayUnion(joinedUserList))
+            .addOnSuccessListener {
+                Log.d("TAG", "User added")
+                displayWaitingRoomJoinedUserList()
+            }
+            .addOnFailureListener {
+                showToastMsg("User failed to add")
+            }
     }
 
     private fun createRoomAndAddUser() {
@@ -91,18 +103,40 @@ class WaitingRoomActivity : AppCompatActivity() {
             .set(waitingRoomDetails)
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
+                displayWaitingRoomJoinedUserList()
             }
             .addOnFailureListener {
                 showToastMsg("Record failed to add.")
             }
     }
 
-    fun displayDecisionSubCategory() {
+    fun displayDecisionShortListed() {
         replaceFragment(
+            DecisionShortListedFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "DecisionShortListedFragment"
+        )
+    }
+
+    fun displayDecisionCardListing() {
+        replaceFragment(
+            DecisionListingFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "DecisionListingFragment"
+        )
+    }
+
+    fun displayDecisionSubCategory(count: Int) {
+        var bundle = Bundle()
+        bundle.putInt("user_count", count)
+        replaceFragmentWithData(
             DecisionSubCategoryFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionSubCategoryFragment"
+            "DecisionSubCategoryFragment",
+            bundle
         )
     }
 

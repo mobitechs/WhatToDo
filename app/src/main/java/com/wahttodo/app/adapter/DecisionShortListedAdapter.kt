@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
 import com.wahttodo.app.model.CategoryListItems
+import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.model.ShortListedItems
 import com.wahttodo.app.view.activity.DecisionActivity
 
@@ -20,12 +22,12 @@ class DecisionShortListedAdapter (
 ) :
     RecyclerView.Adapter<DecisionShortListedAdapter.MyViewHolder>() {
 
-    private val listItems = ArrayList<ShortListedItems>()
+    private val listItems = ArrayList<MatchedMoviesList>()
     var context: Context = activityContext
 
-    fun updateListItems(categoryModel: ArrayList<ShortListedItems>) {
+    fun updateListItems(list: ArrayList<MatchedMoviesList>) {
         listItems.clear()
-        listItems.addAll(categoryModel)
+        listItems.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -43,9 +45,11 @@ class DecisionShortListedAdapter (
     @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        var item: ShortListedItems = listItems.get(position)
+        var item: MatchedMoviesList = listItems[position]
 
-        holder.txtName.text = item.name
+        holder.txtName.text = item.movieName
+        holder.textDescription.text = item.description
+        holder.rating.rating = item.rating.toFloat()
 
         holder.itemView.setOnClickListener {
 //            var bundle = Bundle()
@@ -59,9 +63,9 @@ class DecisionShortListedAdapter (
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var txtName: TextView = view.findViewById(R.id.txtName)
+        var rating: RatingBar = view.findViewById(R.id.rating)
+        var textDescription: TextView = view.findViewById(R.id.textDescription)
         val cardView: View = itemView
-
-
     }
 
 }
