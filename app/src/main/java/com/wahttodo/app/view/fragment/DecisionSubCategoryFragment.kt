@@ -132,6 +132,7 @@ class DecisionSubCategoryFragment : Fragment() {
                 .update("dumpedMoviesList", FieldValue.arrayUnion(item))
                 .addOnSuccessListener {
                     Log.d("TAG", "User updated entry add")
+                    (context as WaitingRoomActivity).displayDecisionCardListing()
                 }
                 .addOnFailureListener {
                     requireActivity().showToastMsg("User updated entry failed to add")
