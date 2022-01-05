@@ -57,7 +57,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         if (hostuser == userId && imFrom == "DecisionCategory") {
             val format = SimpleDateFormat("dd-MM-yyyy_hh:mm:ss")
             val date = format.format(Date())
-            roomId = userId + "_" + date
+            roomId = userId + "a" + date
             createRoomAndAddUser()
             ShareRoomLink(this, roomId, userId)
         }
@@ -75,16 +75,22 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             .get()
             .addOnSuccessListener {
                 var currentDate = Timestamp.now().toDate().time
-                val serverTimestamp = it.data?.getValue("timeStamp") as Timestamp
-                val sfd = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-                sfd.format(serverTimestamp.toDate())
-                var serverDate = serverTimestamp.toDate().time
-                if (currentDate - serverDate >= 86400000) {
-                    showToastMsg("Room is not active")
+
+
+                if(it.data?.getValue("timeStamp")!=null){
+                    val serverTimestamp = it.data?.getValue("timeStamp") as Timestamp
+                    val sfd = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+                    sfd.format(serverTimestamp.toDate())
+                    var serverDate = serverTimestamp.toDate().time
+                    if (currentDate - serverDate >= 86400000) {
+                        showToastMsg("Room is not active")
+                    }
+                    else {
+                        addUser()
+                    }
                 }
-                else {
-                    addUser()
-                }
+
+
             }
             .addOnFailureListener {
                 showToastMsg("Record failed to fetch")

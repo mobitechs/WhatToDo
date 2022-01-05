@@ -91,6 +91,9 @@ fun <T> Context.openClearActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) 
     var intent = Intent(this, it)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //    intent.putExtras(Bundle().apply(extras))
+    if (!Bundle().apply(extras).isEmpty) {
+        intent.putExtras(Bundle().apply(extras))
+    }
     startActivity(intent)
 
 }
@@ -496,7 +499,7 @@ fun Context.ShareRoomLink(
 
     ///manual Url Link Text
     val manualUrlLinkText = "https://wahttodo.page.link/?" +
-            "link=http://www.mobitechs.in/WhatToDo/api/whattodo.php?referalUserId=$roomId"+"_"+userId +
+            "link=http://www.mobitechs.in/WhatToDo/api/whattodo.php?referalUserId=$roomId"+"_a_"+userId +
 //            "link=http://level.game/api/level.php?referalUserId=$roomId"+"_"+userId +
             "&apn=" + packageName +
             //"&ibn=com.wahttodo.app"+

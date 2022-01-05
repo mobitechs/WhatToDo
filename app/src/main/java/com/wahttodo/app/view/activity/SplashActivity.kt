@@ -50,8 +50,8 @@ class SplashActivity : AppCompatActivity() {
 //                        showToastMsg(roomId)
 //
                         var roomIdAndUserId = referredLink.substring(referredLink.lastIndexOf("=") + 1)
-                        roomId = roomIdAndUserId.split("_")[0]
-                        hostUserId = roomIdAndUserId.split("_")[1]
+                        roomId = roomIdAndUserId.split("_a_")[0]
+                        hostUserId = roomIdAndUserId.split("_a_")[1]
                     } catch (e: Exception) {
                         showToastMsg("errrr: "+e.message.toString())
                     }
