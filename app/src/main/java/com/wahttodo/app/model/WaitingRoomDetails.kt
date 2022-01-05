@@ -30,8 +30,7 @@ data class DumpedMoviesList(
     var movieName: String,
     var rating: String,
     var description: String,
-    var matchedCount: String,
-    var isSwiped:String
+    var matchedCount: String
 )
 
 

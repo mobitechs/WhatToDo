@@ -114,6 +114,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                         if (itemMovieName == movieName) {
                             movieCountDeleteData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
                             movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, updatedCount.toString())
+                            listSize -= 1
                             movieDeleteData()
                         }
                     }
@@ -146,6 +147,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                 .document(roomId)
                 .update("dumpedMoviesList", FieldValue.arrayRemove(movieCountDeleteData))
                 .addOnSuccessListener {
+                    listSize += 1
                     movieUpdateData()
                 }
                 .addOnFailureListener {
@@ -189,7 +191,8 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     val noOfUsers = data?.getValue("noOfUsers").toString()
                     val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
 
-                    if (listItems.size != listSize) {
+                    var size = listSize
+                    if (dumpedMoviesList.size != listSize) {
 //                        listItems.clear()
                         for (u in dumpedMoviesList) {
                             val moviesList = u as HashMap<*, *>
@@ -198,13 +201,29 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             val rating = moviesList["rating"].toString()
                             val description = moviesList["description"].toString()
                             val matchedCount = moviesList["matchedCount"].toString()
-                            if (!listItems.contains(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))) {
+
+                            val item = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
+
+                            if (listItems.size == 0) {
                                 listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
 //                                listAdapter.updateListItems(listItems)
                                 listAdapter.addItemToList(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
                             }
+                            else {
+                                var newEntry = true
+                                for (i in listItems) {
+                                    if (i.movieName == movieName) {
+                                        newEntry = false
+                                    }
+                                }
+                                if (newEntry) {
+                                    listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+//                                listAdapter.updateListItems(listItems)
+                                    listAdapter.addItemToList(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+                                }
+                            }
                         }
-                        listSize = listItems.size
+                        listSize = dumpedMoviesList.size
                     }
 
                     for (u in dumpedMoviesList) {
