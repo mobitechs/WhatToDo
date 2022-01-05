@@ -15,12 +15,10 @@ import androidx.appcompat.widget.AppCompatSpinner
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.wahttodo.app.R
-import com.wahttodo.app.model.DumpMovieDetails
-import com.wahttodo.app.model.DumpedMoviesList
-import com.wahttodo.app.model.JoinedUserList
-import com.wahttodo.app.model.WaitingRoomDetails
+import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
+import com.wahttodo.app.utils.getAllMoviesList
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
@@ -64,6 +62,13 @@ class DecisionSubCategoryFragment : Fragment() {
         btnSubmit.setOnClickListener {
             requireContext().showToastMsg("$selectedLanguage $selectedType")
             // Please add data which will you get from selected language and type. but first you have to check if room exist
+
+            var moviesListItems = getAllMoviesList(ArrayList<AllMoviesList>())
+            for (item in moviesListItems) {
+                if (item.language == selectedLanguage && item.type == selectedType) {
+                    listItems.add(DumpedMoviesList(item.movieImage, item.movieName, item.rating, item.description, item.matchedCount))
+                }
+            }
             checkIfRoomExist()
         }
 

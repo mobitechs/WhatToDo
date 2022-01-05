@@ -7,20 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
-import android.widget.ProgressBar
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.DecisionListCardStackAdapter
-import com.wahttodo.app.adapter.DecisionShortListedAdapter
 import com.wahttodo.app.model.DumpedMoviesList
-import com.wahttodo.app.model.JoinedUserList
 import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
@@ -30,7 +24,6 @@ import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
-import kotlinx.android.synthetic.main.progressbar.view.*
 import java.util.HashMap
 
 class DecisionListingFragment : Fragment(), CardStackListener {
@@ -175,13 +168,13 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     }
 
     private fun getDecisionSelectedList() {
-        listItems.clear()
-        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/K.G.F_Chapter_1_poster.jpg/220px-K.G.F_Chapter_1_poster.jpg", "KGF", "5", "Best Movie of south", 0))
-        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNDExMTBlZTYtZWMzYi00NmEwLWEzZGYtOTA1MDhmNTc0ODZkXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg", "Hera Pheri", "4", "Best comedy movie", 0))
-        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTEwMWJlMWUtNGI3ZC00NzhmLWI1M2ItNGE1NTBiMjk5NmYyXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg", "Kasoor", "2", "Old Hindi Movie", 0))
-        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg", "Joker", "5", "Best English Movie", 0))
-        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", "3 Idiots", "5", "Best youth movie", 0))
-        listAdapter.updateListItems(listItems)
+//        listItems.clear()
+//        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/K.G.F_Chapter_1_poster.jpg/220px-K.G.F_Chapter_1_poster.jpg", "KGF", "5", "Best Movie of south", 0))
+//        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNDExMTBlZTYtZWMzYi00NmEwLWEzZGYtOTA1MDhmNTc0ODZkXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg", "Hera Pheri", "4", "Best comedy movie", 0))
+//        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTEwMWJlMWUtNGI3ZC00NzhmLWI1M2ItNGE1NTBiMjk5NmYyXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg", "Kasoor", "2", "Old Hindi Movie", 0))
+//        listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg", "Joker", "5", "Best English Movie", 0))
+//        listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", "3 Idiots", "5", "Best youth movie", 0))
+//        listAdapter.updateListItems(listItems)
 
         decisionListingFirebaseListener = db.collection("dumpMoviesCollection")
             .document(roomId)
@@ -221,14 +214,26 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                         val description = moviesList["description"].toString()
                         val matchedCount = moviesList["matchedCount"] as Int
                         if (matchedCount == noOfUsers) {
-//                            var matchedMoviesList = MatchedMoviesList()
-//                            addMatchedMovieToWhatToDoList()
+                            var matchedMoviesList = MatchedMoviesList(movieImage, movieName, rating, description)
+                            addMatchedMovieToWhatToDoList(matchedMoviesList)
                         }
                     }
                 }
                 else{
                     requireActivity().showToastMsg("not exist failed.")
                 }
+            }
+    }
+
+    private fun addMatchedMovieToWhatToDoList(matchedMoviesList: MatchedMoviesList) {
+        db.collection("whatToDoCollection")
+            .document(roomId)
+            .update("matchedMoviesList", FieldValue.arrayUnion(matchedMoviesList))
+            .addOnSuccessListener {
+                Log.d("TAG", "User updated entry add")
+            }
+            .addOnFailureListener {
+                requireActivity().showToastMsg("User updated entry failed to add")
             }
     }
 

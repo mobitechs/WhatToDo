@@ -39,6 +39,7 @@ import com.wahttodo.app.R
 import com.wahttodo.app.callbacks.AlertDialogBtnClickedCallBack
 import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.callbacks.SpinnerItemSelectedCallback
+import com.wahttodo.app.model.AllMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.view.activity.AuthActivity
 import com.wahttodo.app.view.activity.HomeActivity
@@ -48,6 +49,7 @@ import org.json.JSONObject
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 var snackbar: Snackbar? = null
@@ -525,4 +527,14 @@ fun Context.ShareRoomLink(
                 showToastMsg(task.exception.toString())
             }
         }
+}
+
+fun getAllMoviesList(listItems: ArrayList<AllMoviesList>): ArrayList<AllMoviesList> {
+    listItems.clear()
+    listItems.add(AllMoviesList("https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/K.G.F_Chapter_1_poster.jpg/220px-K.G.F_Chapter_1_poster.jpg", "KGF", "5", "Best Movie of south", 0, "Hindi", "Action"))
+    listItems.add(AllMoviesList("https://m.media-amazon.com/images/M/MV5BNDExMTBlZTYtZWMzYi00NmEwLWEzZGYtOTA1MDhmNTc0ODZkXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg", "Hera Pheri", "4", "Best comedy movie", 0, "Hindi", "Comedy"))
+    listItems.add(AllMoviesList("https://m.media-amazon.com/images/M/MV5BNTEwMWJlMWUtNGI3ZC00NzhmLWI1M2ItNGE1NTBiMjk5NmYyXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg", "Kasoor", "2", "Old Hindi Movie", 0, "Hindi", "Romance"))
+    listItems.add(AllMoviesList("https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg", "Joker", "5", "Best English Movie", 0, "English", "Horror"))
+    listItems.add(AllMoviesList("https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", "3 Idiots", "5", "Best youth movie", 0, "Hindi", "Comedy"))
+    return listItems
 }

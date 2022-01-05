@@ -22,7 +22,7 @@ data class MatchedMoviesList(
 
 data class DumpMovieDetails(
     var dumpedMoviesList: ArrayList<DumpedMoviesList>,
-    var noOfUsers:Int
+    var noOfUsers: Int
 )
 
 data class DumpedMoviesList(
@@ -31,4 +31,14 @@ data class DumpedMoviesList(
     var rating: String,
     var description: String,
     var matchedCount: Int,
+)
+
+data class AllMoviesList(
+    var movieImage: String,
+    var movieName: String,
+    var rating: String,
+    var description: String,
+    var matchedCount: Int,
+    var language: String,
+    var type: String
 )
