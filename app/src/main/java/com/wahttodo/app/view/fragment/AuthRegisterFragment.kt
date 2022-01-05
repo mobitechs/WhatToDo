@@ -126,10 +126,6 @@ class AuthRegisterFragment : Fragment() , ApiResponse {
             SharePreferenceManager.getInstance(requireActivity())
                 .saveUserLogin(Constants.USERDATA, user)
 
-            SharePreferenceManager.getInstance(requireContext()).save(
-                Constants.EARNED_POINTS,
-                user!![0].wallet
-            )
 
             requireActivity().checkLogin()
 //            requireActivity().openActivity(UserHomeActivity::class.java)
