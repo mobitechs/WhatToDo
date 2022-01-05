@@ -71,11 +71,6 @@ class WaitingRoomUserListFragment : Fragment() {
     }
 
     private fun getListOfUsers() {
-//        listItems.add(JoinedUserList("1", "Pratik"))
-//        listItems.add(JoinedUserList("2", "Sanket"))
-//        listItems.add(JoinedUserList("3", "Amit"))
-//        listItems.add(JoinedUserList("4", "Kush"))
-//        listAdapter.updateListItems(listItems)
 
         waitingRoomFirebaseListener = db.collection("whatToDoCollection")
             .document(roomId)

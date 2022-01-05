@@ -14,6 +14,8 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatSpinner
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
 import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
@@ -23,9 +25,12 @@ import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
 import kotlinx.android.synthetic.main.loader.*
+import kotlinx.android.synthetic.main.progressbar.view.*
+import java.util.HashMap
 
 
 class DecisionSubCategoryFragment : Fragment() {
+    private lateinit var waitingRoomFirebaseListener: ListenerRegistration
     var listItems = ArrayList<DumpedMoviesList>()
     private var userCount = ""
     private lateinit var roomId: String
@@ -50,10 +55,11 @@ class DecisionSubCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-        userCount = arguments?.getInt("user_count").toString()
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
 
         (context as WaitingRoomActivity).setToolBarTitle("Categories")
+
+        getListOfUsers()
 
         spinnerLanguage = rootView.findViewById(R.id.spinnerLanguage)
         spinnerType = rootView.findViewById(R.id.spinnerType)
@@ -136,10 +142,13 @@ class DecisionSubCategoryFragment : Fragment() {
         for (item in listItems) {
             db.collection("dumpMoviesCollection")
                 .document(roomId)
-                .update("dumpedMoviesList", FieldValue.arrayUnion(item))
+                .update("dumpedMoviesList", FieldValue.arrayUnion(item), "noOfUsers", userCount)
                 .addOnSuccessListener {
                     Log.d("TAG", "User updated entry add")
                     (context as WaitingRoomActivity).displayDecisionCardListing()
+                    if(this::waitingRoomFirebaseListener.isInitialized){
+                        waitingRoomFirebaseListener.remove()
+                    }
                 }
                 .addOnFailureListener {
                     requireActivity().showToastMsg("User updated entry failed to add")
@@ -158,9 +167,42 @@ class DecisionSubCategoryFragment : Fragment() {
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
                 (context as WaitingRoomActivity).displayDecisionCardListing()
+                if(this::waitingRoomFirebaseListener.isInitialized){
+                    waitingRoomFirebaseListener.remove()
+                }
             }
             .addOnFailureListener {
                 requireActivity().showToastMsg("Record failed to add.")
             }
+    }
+
+    private fun getListOfUsers() {
+
+        waitingRoomFirebaseListener = db.collection("whatToDoCollection")
+            .document(roomId)
+            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
+                if (error != null) {
+                    requireActivity().showToastMsg("Listen failed. $error")
+                    rootView.progressBar.visibility = View.GONE
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    rootView.progressBar.visibility = View.GONE
+                    val data = snapshot.data
+                    val joinedUserList = data?.getValue("joinedUserList") as ArrayList<*>
+
+                    userCount = joinedUserList.size.toString()
+                }
+                else{
+                    requireActivity().showToastMsg("not exist failed.")
+                }
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(this::waitingRoomFirebaseListener.isInitialized){
+            waitingRoomFirebaseListener.remove()
+        }
     }
 }

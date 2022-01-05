@@ -162,14 +162,11 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     }
 
     fun displayDecisionSubCategory(count: Int) {
-        var bundle = Bundle()
-        bundle.putInt("user_count", count)
-        replaceFragmentWithData(
+        replaceFragment(
             DecisionSubCategoryFragment(),
             false,
             R.id.nav_host_fragment,
             "DecisionSubCategoryFragment",
-            bundle
         )
     }
 
