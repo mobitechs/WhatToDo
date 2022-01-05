@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.loader.*
 
 class DecisionSubCategoryFragment : Fragment() {
     var listItems = ArrayList<DumpedMoviesList>()
-    private var userCount: Int = 0
+    private var userCount = ""
     private lateinit var roomId: String
     lateinit var rootView: View
     var selectedLanguage = ""
@@ -50,7 +50,7 @@ class DecisionSubCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-        userCount = arguments?.getInt("user_count")!!
+        userCount = arguments?.getInt("user_count").toString()
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
 
         (context as WaitingRoomActivity).setToolBarTitle("Categories")

@@ -101,7 +101,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                 .document(roomId)
                 .get()
                 .addOnSuccessListener {
-                    val noOfUsers = it.data?.getValue("noOfUsers") as Int
+                    val noOfUsers = it.data?.getValue("noOfUsers").toString()
                     val dumpedMoviesList = it.data?.getValue("dumpedMoviesList") as ArrayList<*>
                     for (u in dumpedMoviesList) {
                         val movieDetails = u as HashMap<*, *>
@@ -109,10 +109,11 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                         val movieName = movieDetails["movieName"].toString()
                         val rating = movieDetails["rating"].toString()
                         val description = movieDetails["description"].toString()
-                        val matchedCount = movieDetails["matchedCount"] as Int
+                        val matchedCount = movieDetails["matchedCount"].toString()
+                        val updatedCount = matchedCount.toInt() + 1
                         if (itemMovieName == movieName) {
                             movieCountDeleteData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
-                            movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount + 1)
+                            movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, updatedCount.toString())
                             movieDeleteData()
                         }
                     }
@@ -185,7 +186,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 
                 if (snapshot != null && snapshot.exists()) {
                     val data = snapshot.data
-                    val noOfUsers = data?.getValue("noOfUsers") as Int
+                    val noOfUsers = data?.getValue("noOfUsers").toString()
                     val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
 
                     if (listItems.size != listSize) {
@@ -196,7 +197,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             val movieName = moviesList["movieName"].toString()
                             val rating = moviesList["rating"].toString()
                             val description = moviesList["description"].toString()
-                            val matchedCount = moviesList["matchedCount"] as Int
+                            val matchedCount = moviesList["matchedCount"].toString()
                             if (!listItems.contains(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))) {
                                 listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
 //                                listAdapter.updateListItems(listItems)
@@ -212,7 +213,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                         val movieName = moviesList["movieName"].toString()
                         val rating = moviesList["rating"].toString()
                         val description = moviesList["description"].toString()
-                        val matchedCount = moviesList["matchedCount"] as Int
+                        val matchedCount = moviesList["matchedCount"].toString()
                         if (matchedCount == noOfUsers) {
                             var matchedMoviesList = MatchedMoviesList(movieImage, movieName, rating, description)
                             addMatchedMovieToWhatToDoList(matchedMoviesList)
