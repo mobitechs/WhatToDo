@@ -69,7 +69,7 @@ class DecisionShortListedFragment : Fragment() {
     }
 
     private fun getListOfShortListed() {
-        shortListedFirebaseListener = db.collection("room")
+        shortListedFirebaseListener = db.collection("whatToDoCollection")
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {

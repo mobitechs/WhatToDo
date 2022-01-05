@@ -62,7 +62,7 @@ class DecisionShortListedAdapter (
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var txtName: TextView = view.findViewById(R.id.txtName)
+        var txtName: TextView = view.findViewById(R.id.textMovieName)
         var rating: RatingBar = view.findViewById(R.id.rating)
         var textDescription: TextView = view.findViewById(R.id.textDescription)
         val cardView: View = itemView

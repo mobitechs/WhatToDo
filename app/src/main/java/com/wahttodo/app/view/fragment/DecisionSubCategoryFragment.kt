@@ -183,11 +183,9 @@ class DecisionSubCategoryFragment : Fragment() {
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
                     requireActivity().showToastMsg("Listen failed. $error")
-                    rootView.progressBar.visibility = View.GONE
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    rootView.progressBar.visibility = View.GONE
                     val data = snapshot.data
                     val joinedUserList = data?.getValue("joinedUserList") as ArrayList<*>
 

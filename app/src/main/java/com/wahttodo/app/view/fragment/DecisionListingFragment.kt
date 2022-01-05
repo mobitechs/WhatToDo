@@ -40,6 +40,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     lateinit var mLayoutManager: LinearLayoutManager
     lateinit var roomId: String
     var userId = ""
+    var position=0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,7 +95,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
-        var position = manager.topPosition
+        position = manager.topPosition
         if (direction == Direction.Right) {
             var itemMovieName = listItems[position - 1].movieName
             db.collection("dumpMoviesCollection")
@@ -118,11 +119,21 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             movieDeleteData()
                         }
                     }
+
+//
                 }
                 .addOnFailureListener {
                     requireActivity().showToastMsg("Error getting room data" + it.message)
                 }
         }
+        else{
+            if(listItems.lastIndex == (position - 1)){
+                requireContext().showToastMsg("Congratulations")
+                (context as WaitingRoomActivity).displayDecisionShortListed()
+            }
+        }
+
+
     }
 
     override fun onCardRewound() {
@@ -163,6 +174,11 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                 .update("dumpedMoviesList", FieldValue.arrayUnion(movieCountUpdateData))
                 .addOnSuccessListener {
                     Log.d("TAG", "User updated entry add")
+
+                    if(listItems.lastIndex == (position - 1)){
+                        requireContext().showToastMsg("Congratulations")
+                        (context as WaitingRoomActivity).displayDecisionShortListed()
+                    }
                 }
                 .addOnFailureListener {
                     requireActivity().showToastMsg("User updated entry failed to add")
