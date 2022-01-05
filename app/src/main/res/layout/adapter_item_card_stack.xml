@@ -18,11 +18,12 @@
         android:scaleType="centerCrop"
         app:riv_corner_radius="8dp"/>
 
-    <RelativeLayout
+    <LinearLayout
+        android:background="@color/black_transparent"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="top"
         android:padding="16dp">
 
         <TextView
@@ -31,10 +32,18 @@
             android:layout_height="wrap_content"
             android:text="KGF"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="26sp"/>
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <RatingBar
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,42 +53,8 @@
             android:stepSize="1"
             android:isIndicator="true" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/left_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/right_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/top_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/bottom_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
 
 </androidx.cardview.widget.CardView>

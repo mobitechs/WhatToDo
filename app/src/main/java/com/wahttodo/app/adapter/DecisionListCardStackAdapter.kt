@@ -52,6 +52,7 @@ class DecisionListCardStackAdapter (
             .load(item.movieImage)
             .into(holder.imgMoviePoster)
         holder.textMovieName.text = item.movieName
+        holder.txtDescription.text = item.description
         holder.rating.rating = item.rating.toFloat()
     }
 
@@ -60,5 +61,6 @@ class DecisionListCardStackAdapter (
         var imgMoviePoster: RoundedImageView = view.findViewById(R.id.imgMoviePoster)
         var textMovieName: TextView = view.findViewById(R.id.textMovieName)
         var rating: RatingBar = view.findViewById(R.id.rating)
+        var txtDescription: TextView = view.findViewById(R.id.txtDescription)
     }
 }
