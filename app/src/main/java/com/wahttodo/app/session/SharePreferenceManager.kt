@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.wahttodo.app.model.ProductListItems
 import com.wahttodo.app.model.UserModel
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openActivity
@@ -138,20 +137,6 @@ class SharePreferenceManager {
     }
 
 
-    fun saveCartListItems(key: String?, list: List<ProductListItems>?) {
-        val editor: SharedPreferences.Editor = sharedPref!!.edit()
-        editor.commit()
-        val gson = Gson()
-        val json = gson.toJson(list)
-        editor.putString(key, json)
-        editor.commit() // This line is IMPORTANT !!!
-    }
 
-    fun getCartListItems(key: String?): List<ProductListItems>? {
-        val gson = Gson()
-        val json = sharedPref?.getString(key, null)
-        val type: Type = object : TypeToken<List<ProductListItems>?>() {}.type
-        return gson.fromJson(json, type)
-    }
 
 }
