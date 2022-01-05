@@ -27,6 +27,12 @@ class DecisionListCardStackAdapter (
         notifyDataSetChanged()
     }
 
+    fun addItemToList(dumpedMoviesList: DumpedMoviesList) {
+        listItems.add(dumpedMoviesList)
+//        notifyItemInserted(listItems.size - 1)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var itemView: View =
             LayoutInflater.from(parent.context)

@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import java.util.*
 
 class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
 
@@ -98,7 +99,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             .addOnFailureListener {
                 showToastMsg("User failed to add")
             }
-
     }
 
     private fun createRoomAndAddUser() {
@@ -115,9 +115,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             .addOnFailureListener {
                 showToastMsg("Record failed to add.")
             }
-
-
-
     }
 
     private fun saveJoinedRoom() {
@@ -135,6 +132,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         }
         apiPostCall(Constants.BASE_URL, jsonObject, this, method)
     }
+
     fun displayDecisionShortListed() {
         replaceFragment(
             DecisionShortListedFragment(),

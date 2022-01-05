@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
@@ -30,6 +31,7 @@ import java.util.HashMap
 class HomeActivity : AppCompatActivity() {
 
 
+    private lateinit var db: FirebaseFirestore
     lateinit var viewModelUser: UserListViewModel
     lateinit var listAdapter: GroupListAdapter
     var listItems = ArrayList<JoinedRoomListItems>()
@@ -41,6 +43,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        db = FirebaseFirestore.getInstance()
 
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
             ?.get(0)?.userId.toString()

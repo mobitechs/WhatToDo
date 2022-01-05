@@ -13,25 +13,39 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.DecisionListCardStackAdapter
 import com.wahttodo.app.adapter.DecisionShortListedAdapter
 import com.wahttodo.app.model.DumpedMoviesList
+import com.wahttodo.app.model.JoinedUserList
+import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.view.activity.WaitingRoomActivity
+import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
+import kotlinx.android.synthetic.main.progressbar.view.*
+import java.util.HashMap
 
 class DecisionListingFragment : Fragment(), CardStackListener {
 
+    var listSize: Int = 0
+    private lateinit var decisionListingFirebaseListener: ListenerRegistration
+    private lateinit var movieCountUpdateData: DumpedMoviesList
+    private lateinit var movieCountDeleteData: DumpedMoviesList
     lateinit var listAdapter: DecisionListCardStackAdapter
     val listItems = ArrayList<DumpedMoviesList>()
     private lateinit var manager: CardStackLayoutManager
     lateinit var rootView: View
     lateinit var viewModelUser: UserListViewModel
     lateinit var mLayoutManager: LinearLayoutManager
+    lateinit var roomId: String
     var userId = ""
 
     override fun onCreateView(
@@ -47,6 +61,8 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     private fun intView() {
 
         userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
+        roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
+
         (context as WaitingRoomActivity).setToolBarTitle("Movie List")
 //        setupRecyclerView()
         setupCardStackView()
@@ -85,6 +101,33 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        var position = manager.topPosition
+        if (direction == Direction.Right) {
+            var itemMovieName = listItems[position - 1].movieName
+            db.collection("dumpMoviesCollection")
+                .document(roomId)
+                .get()
+                .addOnSuccessListener {
+                    val noOfUsers = it.data?.getValue("noOfUsers") as Int
+                    val dumpedMoviesList = it.data?.getValue("dumpedMoviesList") as ArrayList<*>
+                    for (u in dumpedMoviesList) {
+                        val movieDetails = u as HashMap<*, *>
+                        val movieImage = movieDetails["movieImage"].toString()
+                        val movieName = movieDetails["movieName"].toString()
+                        val rating = movieDetails["rating"].toString()
+                        val description = movieDetails["description"].toString()
+                        val matchedCount = movieDetails["matchedCount"] as Int
+                        if (itemMovieName == movieName) {
+                            movieCountDeleteData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
+                            movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount + 1)
+                            movieDeleteData()
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    requireActivity().showToastMsg("Error getting room data" + it.message)
+                }
+        }
     }
 
     override fun onCardRewound() {
@@ -103,6 +146,34 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         Log.d("CardStackView", "onCardDisappeared: ($position)")
     }
 
+    private fun movieDeleteData() {
+        if (this::movieCountDeleteData.isInitialized) {
+            db.collection("dumpMoviesCollection")
+                .document(roomId)
+                .update("dumpedMoviesList", FieldValue.arrayRemove(movieCountDeleteData))
+                .addOnSuccessListener {
+                    movieUpdateData()
+                }
+                .addOnFailureListener {
+                    requireActivity().showToastMsg("User left entry failed to remove")
+                }
+        }
+    }
+
+    private fun movieUpdateData() {
+        if (this::movieCountUpdateData.isInitialized) {
+            db.collection("dumpMoviesCollection")
+                .document(roomId)
+                .update("dumpedMoviesList", FieldValue.arrayUnion(movieCountUpdateData))
+                .addOnSuccessListener {
+                    Log.d("TAG", "User updated entry add")
+                }
+                .addOnFailureListener {
+                    requireActivity().showToastMsg("User updated entry failed to add")
+                }
+        }
+    }
+
     private fun getDecisionSelectedList() {
         listItems.clear()
         listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/K.G.F_Chapter_1_poster.jpg/220px-K.G.F_Chapter_1_poster.jpg", "KGF", "5", "Best Movie of south", 0))
@@ -111,5 +182,60 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         listItems.add(DumpedMoviesList("https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg", "Joker", "5", "Best English Movie", 0))
         listItems.add(DumpedMoviesList("https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", "3 Idiots", "5", "Best youth movie", 0))
         listAdapter.updateListItems(listItems)
+
+        decisionListingFirebaseListener = db.collection("dumpMoviesCollection")
+            .document(roomId)
+            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
+                if (error != null) {
+                    requireActivity().showToastMsg("Listen failed. $error")
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    val data = snapshot.data
+                    val noOfUsers = data?.getValue("noOfUsers") as Int
+                    val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
+
+                    if (listItems.size != listSize) {
+//                        listItems.clear()
+                        for (u in dumpedMoviesList) {
+                            val moviesList = u as HashMap<*, *>
+                            val movieImage = moviesList["movieImage"].toString()
+                            val movieName = moviesList["movieName"].toString()
+                            val rating = moviesList["rating"].toString()
+                            val description = moviesList["description"].toString()
+                            val matchedCount = moviesList["matchedCount"] as Int
+                            if (!listItems.contains(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))) {
+                                listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+//                                listAdapter.updateListItems(listItems)
+                                listAdapter.addItemToList(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+                            }
+                        }
+                        listSize = listItems.size
+                    }
+
+                    for (u in dumpedMoviesList) {
+                        val moviesList = u as HashMap<*, *>
+                        val movieImage = moviesList["movieImage"].toString()
+                        val movieName = moviesList["movieName"].toString()
+                        val rating = moviesList["rating"].toString()
+                        val description = moviesList["description"].toString()
+                        val matchedCount = moviesList["matchedCount"] as Int
+                        if (matchedCount == noOfUsers) {
+//                            var matchedMoviesList = MatchedMoviesList()
+//                            addMatchedMovieToWhatToDoList()
+                        }
+                    }
+                }
+                else{
+                    requireActivity().showToastMsg("not exist failed.")
+                }
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(this::decisionListingFirebaseListener.isInitialized){
+            decisionListingFirebaseListener.remove()
+        }
     }
 }
