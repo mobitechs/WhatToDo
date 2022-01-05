@@ -38,7 +38,7 @@ class WaitingRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_waiting_room)
-        categoryListItems = intent.getParcelableExtra("DecisionFor")!!
+        //categoryListItems = intent.getParcelableExtra("DecisionFor")!!
         hostuser = intent.getStringExtra("hostUserId").toString()
         imFrom = intent.getStringExtra("imFrom").toString()
 

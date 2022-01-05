@@ -494,7 +494,7 @@ fun Context.ShareRoomLink(
 
     ///manual Url Link Text
     val manualUrlLinkText = "https://wahttodo.page.link/?" +
-            "link=http://www.mobitechs.in/WhatToDo/api/whattodo.php?referalUserId=$userId" +
+            "link=http://www.mobitechs.in/WhatToDo/api/whattodo.php?referalUserId=$roomId"+"_"+userId +
 //            "link=http://level.game/api/level.php?referalUserId=$roomId"+"_"+userId +
             "&apn=" + packageName +
             //"&ibn=com.wahttodo.app"+
