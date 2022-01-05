@@ -13,7 +13,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.GroupListAdapter
-import com.wahttodo.app.model.GroupListItems
+import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.model.JoinedUserList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var viewModelUser: UserListViewModel
     lateinit var listAdapter: GroupListAdapter
-    var listItems = ArrayList<GroupListItems>()
+    var listItems = ArrayList<JoinedRoomListItems>()
     lateinit var mLayoutManager: LinearLayoutManager
     var userId = ""
 
@@ -56,34 +56,6 @@ class HomeActivity : AppCompatActivity() {
        // getMyGroupsList()
     }
 
-    private fun getMyGroupsList() {
-        waitingRoomFirebaseListener = WaitingRoomActivity.db.collection("whatToDoCollection")
-            .document(userId)
-            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
-                if (error != null) {
-                    showToastMsg("Listen failed. $error")
-                    progressBar.visibility = View.GONE
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    progressBar.visibility = View.GONE
-                    val data = snapshot.data
-                    val joinedUserList = data?.getValue("joinedUserList") as ArrayList<*>
-
-                    listItems.clear()
-                    for (u in joinedUserList) {
-                        val user = u as HashMap<*, *>
-                        val id = user["userId"].toString()
-                        val name = user["userName"].toString()
-                        listItems.add(GroupListItems(id, name))
-                        listAdapter.updateListItems(listItems)
-                    }
-                }
-                else{
-                    showToastMsg("not exist failed.")
-                }
-            }
-    }
 
 
     private fun setupRecyclerView() {
@@ -109,7 +81,7 @@ class HomeActivity : AppCompatActivity() {
 
         viewModelUser.getMyGroupList(userId)
 
-        viewModelUser.groupListItems.observe(this, Observer {
+        viewModelUser.joinedRoomListItems.observe(this, Observer {
             listAdapter.updateListItems(it)
         })
 

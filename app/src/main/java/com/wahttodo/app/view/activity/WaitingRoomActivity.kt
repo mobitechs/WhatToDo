@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wahttodo.app.R
+import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
@@ -20,8 +21,11 @@ import kotlin.collections.ArrayList
 import com.wahttodo.app.view.fragment.DecisionSubCategoryFragment
 import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
 import kotlinx.android.synthetic.main.toolbar.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.*
 
-class WaitingRoomActivity : AppCompatActivity() {
+class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -94,6 +98,7 @@ class WaitingRoomActivity : AppCompatActivity() {
             .addOnFailureListener {
                 showToastMsg("User failed to add")
             }
+
     }
 
     private fun createRoomAndAddUser() {
@@ -110,8 +115,26 @@ class WaitingRoomActivity : AppCompatActivity() {
             .addOnFailureListener {
                 showToastMsg("Record failed to add.")
             }
+
+
+
     }
 
+    private fun saveJoinedRoom() {
+
+
+        //call get otp api
+        val method = "joinedRoom"
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("method", method)
+            jsonObject.put("userId", userId)
+            jsonObject.put("roomId", roomId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        apiPostCall(Constants.BASE_URL, jsonObject, this, method)
+    }
     fun displayDecisionShortListed() {
         replaceFragment(
             DecisionShortListedFragment(),
@@ -143,6 +166,7 @@ class WaitingRoomActivity : AppCompatActivity() {
     }
 
     fun displayWaitingRoomJoinedUserList() {
+        saveJoinedRoom()
         replaceFragment(
             WaitingRoomUserListFragment(),
             false,
@@ -153,5 +177,13 @@ class WaitingRoomActivity : AppCompatActivity() {
 
     fun setToolBarTitle(title: String) {
         tvToolbarTitle.text = title
+    }
+
+    override fun onSuccess(data: Any, tag: String) {
+
+    }
+
+    override fun onFailure(message: String) {
+
     }
 }

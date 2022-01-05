@@ -3,10 +3,7 @@ package com.wahttodo.app.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.wahttodo.app.model.CategoryListItems
-import com.wahttodo.app.model.GroupListItems
-import com.wahttodo.app.model.ProductListItems
-import com.wahttodo.app.model.ShortListedItems
+import com.wahttodo.app.model.*
 import com.wahttodo.app.repository.UserListRepository
 
 class UserListViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,6 +13,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
     val shortListedItems: LiveData<ArrayList<ShortListedItems>>
     val groupListItems: LiveData<ArrayList<GroupListItems>>
     val categoryListItems: LiveData<ArrayList<CategoryListItems>>
+    val joinedRoomListItems: LiveData<ArrayList<JoinedRoomListItems>>
 
 
     init {
@@ -25,6 +23,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
         this.groupListItems = repository.groupListItems
         this.categoryListItems = repository.categoryListItems
         this.shortListedItems = repository.shortListedItems
+        this.joinedRoomListItems = repository.joinedRoomListItems
     }
 
     fun changeState() {

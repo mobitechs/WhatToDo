@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
-import com.wahttodo.app.model.GroupListItems
+import com.wahttodo.app.model.JoinedRoomListItems
 
 class GroupListAdapter(
     activityContext: Context
 ) :
     RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
 
-    private val listItems = ArrayList<GroupListItems>()
+    private val listItems = ArrayList<JoinedRoomListItems>()
     var context: Context = activityContext
 
-    fun updateListItems(categoryModel: ArrayList<GroupListItems>) {
+    fun updateListItems(categoryModel: ArrayList<JoinedRoomListItems>) {
         listItems.clear()
         listItems.addAll(categoryModel)
         notifyDataSetChanged()
@@ -38,9 +38,9 @@ class GroupListAdapter(
     @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        var item: GroupListItems = listItems.get(position)
+        var item: JoinedRoomListItems = listItems.get(position)
 
-        holder.txtName.text = item.name
+        holder.txtName.text = "Room: "+item.roomId
 
 
     }

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.model.CategoryListItems
 import com.wahttodo.app.model.GroupListItems
+import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.model.ShortListedItems
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.apiGetCall
@@ -19,6 +20,7 @@ class UserListRepository(val application: Application) : ApiResponse {
     val groupListItems = MutableLiveData<ArrayList<GroupListItems>>()
     val categoryListItems = MutableLiveData<ArrayList<CategoryListItems>>()
     val shortListedItems = MutableLiveData<ArrayList<ShortListedItems>>()
+    val joinedRoomListItems = MutableLiveData<ArrayList<JoinedRoomListItems>>()
 
     var method = ""
     var userId = ""
@@ -36,7 +38,7 @@ class UserListRepository(val application: Application) : ApiResponse {
 
     fun getMyGroupList(userId: String) {
         showProgressBar.value = true
-        method = "getMyGroupList"
+        method = "getJoinedRoom"
         var url = Constants.BASE_URL + "?method=$method&userId=$userId"
         apiGetCall(url, this, method)
     }
@@ -50,11 +52,11 @@ class UserListRepository(val application: Application) : ApiResponse {
         } else {
             val gson = Gson()
 
-            if (method == "getMyGroupList") {
-                val type = object : TypeToken<ArrayList<GroupListItems>>() {}.type
-                var listItems: ArrayList<GroupListItems>? =
+            if (method == "getJoinedRoom") {
+                val type = object : TypeToken<ArrayList<JoinedRoomListItems>>() {}.type
+                var listItems: ArrayList<JoinedRoomListItems>? =
                     gson.fromJson(data.toString(), type)
-                groupListItems.value = listItems
+                joinedRoomListItems.value = listItems
             }
 
         }
