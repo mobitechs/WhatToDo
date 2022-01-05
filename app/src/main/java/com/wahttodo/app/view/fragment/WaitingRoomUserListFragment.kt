@@ -77,7 +77,7 @@ class WaitingRoomUserListFragment : Fragment() {
 //        listItems.add(JoinedUserList("4", "Kush"))
 //        listAdapter.updateListItems(listItems)
 
-        waitingRoomFirebaseListener = db.collection("room")
+        waitingRoomFirebaseListener = db.collection("whatToDoCollection")
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
@@ -98,6 +98,9 @@ class WaitingRoomUserListFragment : Fragment() {
                         listItems.add(JoinedUserList(memberUserId, memberUserName))
                         listAdapter.updateListItems(listItems)
                     }
+                }
+                else{
+                    requireActivity().showToastMsg("not exist failed.")
                 }
             }
     }
