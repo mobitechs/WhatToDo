@@ -51,18 +51,22 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         userName = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.name.toString()
 
-        SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
-
         setToolBarTitle("Waiting Room")
         db = FirebaseFirestore.getInstance()
 
         if (hostuser == userId && imFrom == "DecisionCategory") {
+            val format = SimpleDateFormat("dd-MM-yyyy_hh:mm:ss")
+            val date = format.format(Date())
+            roomId = userId + "_" + date
             createRoomAndAddUser()
             ShareRoomLink(this, roomId, userId)
         }
         else {
+            roomId = intent.getStringExtra("roomId").toString()
             checkIfRoomIsActive()
         }
+
+        SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
     }
 
     private fun checkIfRoomIsActive() {
