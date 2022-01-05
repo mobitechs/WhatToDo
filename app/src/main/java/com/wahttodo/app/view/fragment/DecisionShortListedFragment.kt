@@ -52,7 +52,7 @@ class DecisionShortListedFragment : Fragment() {
 
         userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
-
+        (context as WaitingRoomActivity).setToolBarTitle("Short Listed List")
         setupRecyclerView()
     }
 

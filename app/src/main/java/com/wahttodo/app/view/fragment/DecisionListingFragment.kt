@@ -19,6 +19,7 @@ import com.wahttodo.app.adapter.DecisionShortListedAdapter
 import com.wahttodo.app.model.DumpedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
+import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
@@ -46,7 +47,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     private fun intView() {
 
         userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
-
+        (context as WaitingRoomActivity).setToolBarTitle("Movie List")
 //        setupRecyclerView()
         setupCardStackView()
         getDecisionSelectedList()

@@ -19,6 +19,7 @@ import kotlin.collections.ArrayList
 
 import com.wahttodo.app.view.fragment.DecisionSubCategoryFragment
 import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
+import kotlinx.android.synthetic.main.toolbar.*
 
 class WaitingRoomActivity : AppCompatActivity() {
 
@@ -47,6 +48,7 @@ class WaitingRoomActivity : AppCompatActivity() {
 
         SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
 
+        setToolBarTitle("Waiting Room")
         db = FirebaseFirestore.getInstance()
 
         if (hostuser == userId && imFrom == "DecisionCategory") {
@@ -147,5 +149,9 @@ class WaitingRoomActivity : AppCompatActivity() {
             R.id.nav_host_fragment,
             "WaitingRoomUserListFragment"
         )
+    }
+
+    fun setToolBarTitle(title: String) {
+        tvToolbarTitle.text = title
     }
 }

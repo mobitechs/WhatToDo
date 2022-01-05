@@ -14,14 +14,16 @@
         <activity
             android:name=".view.activity.DecisionActivity"
             android:label="Decision For"
+            android:theme="@style/noActionBar"
             android:exported="false" />
         <activity
             android:name=".view.activity.WaitingRoomActivity"
             android:label="Waiting Room"
+            android:theme="@style/noActionBar"
             android:exported="false" />
         <activity
             android:name=".view.activity.HomeActivity"
-            android:label="Home"
+            android:theme="@style/noActionBar"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

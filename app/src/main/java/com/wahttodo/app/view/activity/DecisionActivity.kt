@@ -19,6 +19,7 @@ import com.wahttodo.app.view.fragment.DecisionCategoryFragment
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.recyclerview.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class DecisionActivity : AppCompatActivity() {
 
@@ -35,6 +36,8 @@ class DecisionActivity : AppCompatActivity() {
         userId =
             SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
                 ?.get(0)?.userId.toString()
+
+        tvToolbarTitle.text = "Decision For"
 
         setupRecyclerView()
 

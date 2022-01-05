@@ -55,6 +55,8 @@ class DecisionSubCategoryFragment : Fragment() {
         userCount = arguments?.getInt("user_count")!!
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
 
+        (context as WaitingRoomActivity).setToolBarTitle("Categories")
+
         spinnerLanguage = rootView.findViewById(R.id.spinnerLanguage)
         spinnerType = rootView.findViewById(R.id.spinnerType)
         btnSubmit = rootView.findViewById(R.id.btnSubmit)
