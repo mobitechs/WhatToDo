@@ -263,6 +263,42 @@ fun apiGetCall(url: String, apiResponse: ApiResponse, tag: String) {
         apiResponse.onFailure(e.message.toString())
     }
 }
+fun apiGetCall2(url: String, apiResponse: ApiResponse, tag: String) {
+    try {
+
+        AndroidNetworking.get(url)
+            .setTag(tag)
+            .setPriority(Priority.MEDIUM)
+            .setMaxAgeCacheControl(30, java.util.concurrent.TimeUnit.SECONDS)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    try {
+                        if (response.get("results") is JSONArray) {
+                            val arr = response.getJSONArray("results")
+                            apiResponse.onSuccess(arr, tag)
+                        } else if (response?.get("results") is String) {
+                            val msg = response.getString("results")
+                            //showToastMsg(msg)
+                            apiResponse.onSuccess(response.getString("results").toString(), tag)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        e.message
+                        apiResponse.onFailure(response?.getString("results").toString())
+                    }
+                }
+
+                override fun onError(error: ANError) {
+                    error.errorDetail
+                    apiResponse.onFailure(error.errorDetail)
+                }
+            })
+
+    } catch (e: java.lang.Exception) {
+        apiResponse.onFailure(e.message.toString())
+    }
+}
 
 fun Context.showDatePickerDialog(v: View, txtDate: TextView) {
 
@@ -378,8 +414,8 @@ fun hideKeyboard(view: View, activity: Context) {
 }
 
 fun parseDateToddMMyyyy(time: String?): String? {
-    val inputPattern = "yyyy-MM-dd HH:mm:ss"
-    val outputPattern = "dd-MMM-yyyy h:mm a"
+    val inputPattern = "dd-MM-yyyy_hh:mm:ss a"
+    val outputPattern = "dd-MMM-yyyy hh:mm a"
     val inputFormat = SimpleDateFormat(inputPattern)
     val outputFormat = SimpleDateFormat(outputPattern)
     var date: Date? = null

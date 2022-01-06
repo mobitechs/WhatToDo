@@ -14,6 +14,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
     val groupListItems: LiveData<ArrayList<GroupListItems>>
     val categoryListItems: LiveData<ArrayList<CategoryListItems>>
     val joinedRoomListItems: LiveData<ArrayList<JoinedRoomListItems>>
+    val movieList: LiveData<ArrayList<MovieList>>
 
 
     init {
@@ -24,6 +25,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
         this.categoryListItems = repository.categoryListItems
         this.shortListedItems = repository.shortListedItems
         this.joinedRoomListItems = repository.joinedRoomListItems
+        this.movieList = repository.movieList
     }
 
     fun changeState() {
@@ -35,8 +37,8 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
         repository.getMyGroupList(userId)
     }
 
-    fun getAllProduct() {
-        repository.getAllProduct()
+    fun searchMovies(languageCode: String, typeId: String) {
+        repository.searchMovies(languageCode,typeId)
     }
 
 

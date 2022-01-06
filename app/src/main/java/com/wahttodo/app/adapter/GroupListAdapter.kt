@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
 import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
+import com.wahttodo.app.utils.parseDateToddMMyyyy
 
 class GroupListAdapter(
     activityContext: Context,
@@ -42,7 +43,9 @@ class GroupListAdapter(
 
         var item: JoinedRoomListItems = listItems.get(position)
 
-        holder.txtName.text = "Room: "+item.roomId
+        var roomId = item.roomId.split("a")[1]
+        var room = parseDateToddMMyyyy(roomId)
+        holder.txtName.text = "Room: "+room
 
         holder.cardView.setOnClickListener {
             groupListCallback.getRoomId(item.roomId)

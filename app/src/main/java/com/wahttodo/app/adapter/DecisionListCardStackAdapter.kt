@@ -53,7 +53,7 @@ class DecisionListCardStackAdapter (
             .into(holder.imgMoviePoster)
         holder.textMovieName.text = item.movieName
         holder.txtDescription.text = item.description
-        holder.rating.rating = item.rating.toFloat()
+        holder.rating.rating = item.rating.toFloat()/2
     }
 
 

@@ -5,12 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.wahttodo.app.callbacks.ApiResponse
-import com.wahttodo.app.model.CategoryListItems
-import com.wahttodo.app.model.GroupListItems
-import com.wahttodo.app.model.JoinedRoomListItems
-import com.wahttodo.app.model.ShortListedItems
+import com.wahttodo.app.model.*
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.apiGetCall
+import com.wahttodo.app.utils.apiGetCall2
 import com.wahttodo.app.utils.showToastMsg
 
 
@@ -21,6 +19,7 @@ class UserListRepository(val application: Application) : ApiResponse {
     val categoryListItems = MutableLiveData<ArrayList<CategoryListItems>>()
     val shortListedItems = MutableLiveData<ArrayList<ShortListedItems>>()
     val joinedRoomListItems = MutableLiveData<ArrayList<JoinedRoomListItems>>()
+    val movieList = MutableLiveData<ArrayList<MovieList>>()
 
     var method = ""
     var userId = ""
@@ -29,10 +28,10 @@ class UserListRepository(val application: Application) : ApiResponse {
         showProgressBar.value = !(showProgressBar != null && showProgressBar.value!!)
     }
 
-    fun getAllProduct() {
-        method = "getAllProductList"
-        var url = Constants.BASE_URL + "?method=$method"
-        apiGetCall(url, this, method)
+    fun searchMovies(languageCode: String, typeId: String) {
+        method = "searchMovies"
+        var url = Constants.BASE_TMDB_URL + "&with_original_language=$languageCode&with_genres=$typeId"
+        apiGetCall2(url, this, method)
     }
 
 
@@ -57,6 +56,12 @@ class UserListRepository(val application: Application) : ApiResponse {
                 var listItems: ArrayList<JoinedRoomListItems>? =
                     gson.fromJson(data.toString(), type)
                 joinedRoomListItems.value = listItems
+            }
+            else if (method == "searchMovies") {
+                val type = object : TypeToken<ArrayList<MovieList>>() {}.type
+                var listItems: ArrayList<MovieList>? =
+                    gson.fromJson(data.toString(), type)
+                movieList.value = listItems
             }
 
         }

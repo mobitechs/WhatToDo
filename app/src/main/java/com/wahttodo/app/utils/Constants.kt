@@ -8,8 +8,14 @@ class Constants {
 
         //        const val BASE_URL = "https://mobitechs.in/plasdor/api/plasdor.php"
         const val BASE_URL = "https://mobitechs.in/whattodoApi/api/whattodo.php"
+        const val BASE_TMDB_URL = "https://api.themoviedb.org/3/discover/movie?api_key=b4be1b283a9d3641115637dc3deed3ec"
+        const val BASE_IMAGE_PATH = "https://image.tmdb.org/t/p/w500/"
+        const val TMDB_API_KEY = "b4be1b283a9d3641115637dc3deed3ec"
         const val TNC = "http://plasdorservice.com/tnc.html"
         const val Privacy = "http://plasdorservice.com/privacy.html"
+
+
+        //https://api.themoviedb.org/3/discover/movie?api_key=b4be1b283a9d3641115637dc3deed3ec&with_original_language=hi&with_genres=27
 
         const val PROJECT_NAME = "WhatToDO"
         const val HORIZONTAL = "horizontal"
@@ -31,8 +37,11 @@ class Constants {
         //if u add new item in weightArray then please add in qtyArray as well its must
         val qtyArray = arrayOf("1", "2", "3", "4", "6", "8 ", "10", "12", "14", "16", "18", "20")
 
-        val languageArray = arrayOf("English", "Hindi", "Marathi", "Telgu")
-        val typeArray = arrayOf("Comedy", "Action", "Horror", "Drama","Thrill")
+        val languageArray = arrayOf("English", "Hindi", "Marathi")
+        val languageArrayCode = arrayOf("en", "hi", "mr")
+
+        val typeIdArray = arrayOf("28", "12", "16", "35","80", "99", "18", "10751", "14","36","27", "10402", "9648","10749", "878","10770", "53", "10752", "37")
+        val typeArray = arrayOf("Action", "Adventure", "Animation", "Comedy","Crime","Documentary", "Drama", "Family", "Fantasy","History","Horror", "Music", "Mystery", "Romance","Science Fiction","TV Movie","Thriller", "War", "Western")
 
         //val daysArray = arrayOf("1", "2", "3", "4", "5", "6", "7")
         val daysArray = arrayOf("1", "2")

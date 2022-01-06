@@ -2,17 +2,16 @@ package com.wahttodo.app.view.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatSpinner
-import com.google.firebase.Timestamp
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
@@ -20,29 +19,35 @@ import com.wahttodo.app.R
 import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
+import com.wahttodo.app.utils.Constants.Companion.languageArrayCode
+import com.wahttodo.app.utils.Constants.Companion.typeIdArray
 import com.wahttodo.app.utils.getAllMoviesList
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
-import kotlinx.android.synthetic.main.loader.*
-import kotlinx.android.synthetic.main.progressbar.view.*
-import java.util.HashMap
+import com.wahttodo.app.viewModel.UserListViewModel
 
 
 class DecisionSubCategoryFragment : Fragment() {
     private lateinit var waitingRoomFirebaseListener: ListenerRegistration
     var listItems = ArrayList<DumpedMoviesList>()
+    var movieListItems = ArrayList<MovieList>()
     private var userCount = ""
     private lateinit var roomId: String
     lateinit var rootView: View
     var selectedLanguage = ""
+    var selectedLanguageCode = ""
     var languageArray = Constants.languageArray
     lateinit var spinnerLanguage: AppCompatSpinner
 
     var selectedType = ""
+    var selectedTypeId = ""
+
     var typeArray = Constants.typeArray
     lateinit var spinnerType: AppCompatSpinner
     lateinit var btnSubmit: AppCompatButton
+
+    lateinit var viewModelUser: UserListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +60,7 @@ class DecisionSubCategoryFragment : Fragment() {
     }
 
     private fun initView() {
+        viewModelUser = ViewModelProvider(requireActivity()).get(UserListViewModel::class.java)
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
 
         (context as WaitingRoomActivity).setToolBarTitle("Categories")
@@ -69,12 +75,25 @@ class DecisionSubCategoryFragment : Fragment() {
             requireContext().showToastMsg("$selectedLanguage $selectedType")
             // Please add data which will you get from selected language and type. but first you have to check if room exist
 
-            var moviesListItems = getAllMoviesList(ArrayList<AllMoviesList>())
-            for (item in moviesListItems) {
-                if (item.language == selectedLanguage && item.type == selectedType) {
-                    listItems.add(DumpedMoviesList(item.movieImage, item.movieName, item.rating, item.description, item.matchedCount))
+
+            viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId)
+
+            viewModelUser.movieList.observe(requireActivity(), Observer {
+                //listAdapter.updateListItems(it)
+                movieListItems.addAll(it)
+
+                for (item in it) {
+                    listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
                 }
-            }
+            })
+
+
+//            var moviesListItems = getAllMoviesList(ArrayList<AllMoviesList>())
+//            for (item in moviesListItems) {
+//                if (item.language == selectedLanguage && item.type == selectedType) {
+//                    listItems.add(DumpedMoviesList(item.movieImage, item.movieName, item.rating, item.description, item.matchedCount))
+//                }
+//            }
             checkIfRoomExist()
         }
 
@@ -98,6 +117,7 @@ class DecisionSubCategoryFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLanguage = languageArray[p2]
+                selectedLanguageCode = languageArrayCode[p2]
             }
         })
     }
@@ -118,6 +138,7 @@ class DecisionSubCategoryFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedType = typeArray[p2]
+                selectedTypeId = typeIdArray[p2]
             }
         })
     }
