@@ -25,6 +25,7 @@ import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_home_group_list.view.*
 import kotlinx.android.synthetic.main.progressbar.*
+import kotlinx.android.synthetic.main.progressbar.view.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.recyclerview.view.*
 import java.text.SimpleDateFormat
@@ -74,9 +75,9 @@ class HomeGroupListFragment : Fragment(), GroupListCallback {
 
         viewModelUser.showProgressBar.observe(requireActivity(), Observer {
             if (it) {
-                progressBar.visibility = View.VISIBLE
+                rootView.progressBar.visibility = View.VISIBLE
             } else {
-                progressBar.visibility = View.GONE
+                rootView.progressBar.visibility = View.GONE
             }
         })
 

@@ -207,7 +207,6 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     }
 
     private fun getDecisionSelectedList() {
-
         decisionListingFirebaseListener = db.collection("dumpMoviesCollection")
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
@@ -234,9 +233,16 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             val item = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
 
                             if (listItems.size == 0) {
-                                listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
-//                                listAdapter.updateListItems(listItems)
-                                listAdapter.addItemToList(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+                                if (imFrom == "HomeActivity") {
+                                    if (noOfUsers != matchedCount) {
+                                        listItems.add(item)
+                                        listAdapter.addItemToList(item)
+                                    }
+                                }
+                                else {
+                                    listItems.add(item)
+                                    listAdapter.addItemToList(item)
+                                }
                             }
                             else {
                                 var newEntry = true
@@ -246,11 +252,21 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                                     }
                                 }
                                 if (newEntry) {
-                                    listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
-//                                listAdapter.updateListItems(listItems)
-                                    listAdapter.addItemToList(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+                                    if (imFrom == "HomeActivity") {
+                                        if (noOfUsers != matchedCount) {
+                                            listItems.add(item)
+                                            listAdapter.addItemToList(item)
+                                        }
+                                    }
+                                    else {
+                                        listItems.add(item)
+                                        listAdapter.addItemToList(item)
+                                    }
                                 }
                             }
+                        }
+                        if (listItems.size == 0 && imFrom == "HomeActivity") {
+                            (context as HomeActivity).displayDecisionShortListed()
                         }
                         listSize = dumpedMoviesList.size
                     }
