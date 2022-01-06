@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
@@ -20,7 +21,7 @@ import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.utils.showToastMsg
-import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
+import com.wahttodo.app.view.activity.HomeActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
@@ -28,6 +29,8 @@ import java.util.HashMap
 
 class DecisionListingFragment : Fragment(), CardStackListener {
 
+    private lateinit var db: FirebaseFirestore
+    var imFrom = ""
     var listSize: Int = 0
     private lateinit var decisionListingFirebaseListener: ListenerRegistration
     private lateinit var movieCountUpdateData: DumpedMoviesList
@@ -53,11 +56,18 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     }
 
     private fun intView() {
-
+        db = FirebaseFirestore.getInstance()
+        imFrom = arguments?.getString("imFrom").toString()
         userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
 
-        (context as WaitingRoomActivity).setToolBarTitle("Movie List")
+        if (imFrom == "HomeActivity") {
+            (context as HomeActivity).setToolBarTitle("Movie List")
+        }
+        else {
+            (context as WaitingRoomActivity).setToolBarTitle("Movie List")
+        }
+
 //        setupRecyclerView()
         setupCardStackView()
         getDecisionSelectedList()
@@ -129,7 +139,12 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         else{
             if(listItems.lastIndex == (position - 1)){
                 requireContext().showToastMsg("Congratulations")
-                (context as WaitingRoomActivity).displayDecisionShortListed()
+                if (imFrom == "HomeActivity") {
+                    (context as HomeActivity).displayDecisionShortListed()
+                }
+                else {
+                    (context as WaitingRoomActivity).displayDecisionShortListed()
+                }
             }
         }
 
@@ -177,7 +192,12 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 
                     if(listItems.lastIndex == (position - 1)){
                         requireContext().showToastMsg("Congratulations")
-                        (context as WaitingRoomActivity).displayDecisionShortListed()
+                        if (imFrom == "HomeActivity") {
+                            (context as HomeActivity).displayDecisionShortListed()
+                        }
+                        else {
+                            (context as WaitingRoomActivity).displayDecisionShortListed()
+                        }
                     }
                 }
                 .addOnFailureListener {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
@@ -19,8 +20,8 @@ import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.setupCommonRecyclerViewsProperty
 import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.view.activity.HomeActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity
-import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_waiting_room_user_list.view.*
 import kotlinx.android.synthetic.main.progressbar.view.*
@@ -29,6 +30,8 @@ import java.util.HashMap
 
 class DecisionShortListedFragment : Fragment() {
 
+    lateinit var db: FirebaseFirestore
+    var imFrom = ""
     private lateinit var roomId: String
     private lateinit var shortListedFirebaseListener: ListenerRegistration
     lateinit var rootView: View
@@ -49,10 +52,16 @@ class DecisionShortListedFragment : Fragment() {
     }
 
     private fun initView() {
-
+        db = FirebaseFirestore.getInstance()
+        imFrom = arguments?.getString("imFrom").toString()
         userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
-        (context as WaitingRoomActivity).setToolBarTitle("Short Listed List")
+        if (imFrom == "HomeActivity") {
+            (context as HomeActivity).setToolBarTitle("Short Listed List")
+        }
+        else {
+            (context as WaitingRoomActivity).setToolBarTitle("Short Listed List")
+        }
         setupRecyclerView()
     }
 

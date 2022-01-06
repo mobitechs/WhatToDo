@@ -144,20 +144,26 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     }
 
     fun displayDecisionShortListed() {
-        replaceFragment(
+        val bundle = Bundle()
+        bundle.putString("imFrom", "WaitingRoomActivity")
+        replaceFragmentWithData(
             DecisionShortListedFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionShortListedFragment"
+            "DecisionShortListedFragment",
+            bundle
         )
     }
 
     fun displayDecisionCardListing() {
-        replaceFragment(
+        val bundle = Bundle()
+        bundle.putString("imFrom", "WaitingRoomActivity")
+        replaceFragmentWithData(
             DecisionListingFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionListingFragment"
+            "DecisionListingFragment",
+            bundle
         )
     }
 

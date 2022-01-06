@@ -15,10 +15,7 @@ import com.wahttodo.app.adapter.GroupListAdapter
 import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.openActivity
-import com.wahttodo.app.utils.replaceFragment
-import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.utils.*
 import com.wahttodo.app.view.fragment.DecisionListingFragment
 import com.wahttodo.app.view.fragment.DecisionShortListedFragment
 import com.wahttodo.app.view.fragment.HomeGroupListFragment
@@ -50,20 +47,26 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun displayDecisionShortListed() {
-        replaceFragment(
+        val bundle = Bundle()
+        bundle.putString("imFrom", "HomeActivity")
+        replaceFragmentWithData(
             DecisionShortListedFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionShortListedFragment"
+            "DecisionShortListedFragment",
+            bundle
         )
     }
 
     fun displayDecisionCardListing() {
-        replaceFragment(
+        val bundle = Bundle()
+        bundle.putString("imFrom", "HomeActivity")
+        replaceFragmentWithData(
             DecisionListingFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionListingFragment"
+            "DecisionListingFragment",
+            bundle
         )
     }
 
@@ -74,5 +77,9 @@ class HomeActivity : AppCompatActivity() {
             R.id.nav_host_fragment,
             "WaitingRoomUserListFragment"
         )
+    }
+
+    fun setToolBarTitle(title: String) {
+        tvToolbarTitle.text = title
     }
 }
