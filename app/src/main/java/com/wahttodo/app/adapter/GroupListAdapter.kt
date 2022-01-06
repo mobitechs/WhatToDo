@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
+import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
 
 class GroupListAdapter(
-    activityContext: Context
+    activityContext: Context,
+    var groupListCallback: GroupListCallback
 ) :
     RecyclerView.Adapter<GroupListAdapter.MyViewHolder>() {
 
@@ -42,7 +44,9 @@ class GroupListAdapter(
 
         holder.txtName.text = "Room: "+item.roomId
 
-
+        holder.cardView.setOnClickListener {
+            groupListCallback.getRoomId(item.roomId)
+        }
     }
 
 
