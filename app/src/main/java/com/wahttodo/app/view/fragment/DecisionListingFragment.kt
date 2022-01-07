@@ -232,7 +232,9 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                 if (snapshot != null && snapshot.exists()) {
                     val data = snapshot.data
                     val noOfUsers = data?.getValue("noOfUsers").toString()
-                    val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
+                    val dumpedMoviesListWithoutShuffle = data?.getValue("dumpedMoviesList") as ArrayList<*>
+//                    val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
+                    val dumpedMoviesList = dumpedMoviesListWithoutShuffle.shuffled()
 
                     var size = listSize
                     if (dumpedMoviesList.size != listSize) {
