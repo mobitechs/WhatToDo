@@ -76,7 +76,12 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         getListOfShortListed()
 
         rootView.btnShowShortListed.setOnClickListener {
-            (context as HomeActivity).displayDecisionShortListed()
+            if (imFrom == "HomeActivity") {
+                (context as HomeActivity).displayDecisionShortListed()
+            }
+            else {
+                (context as WaitingRoomActivity).displayDecisionShortListed()
+            }
         }
     }
 

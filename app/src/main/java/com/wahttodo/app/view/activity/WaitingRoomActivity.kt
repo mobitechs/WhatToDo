@@ -55,7 +55,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         db = FirebaseFirestore.getInstance()
 
         if (hostuser == userId && imFrom == "DecisionCategory") {
-            val format = SimpleDateFormat("dd-MM-yyyy_hh:mm:ss a")
+            val format = SimpleDateFormat("dd-MM-yyyy_HH:mm:ss")
             val date = format.format(Date())
             roomId = userId + "a" + date
             createRoomAndAddUser()

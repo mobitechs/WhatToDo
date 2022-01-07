@@ -414,7 +414,7 @@ fun hideKeyboard(view: View, activity: Context) {
 }
 
 fun parseDateToddMMyyyy(time: String?): String? {
-    val inputPattern = "dd-MM-yyyy_hh:mm:ss a"
+    val inputPattern = "dd-MM-yyyy_HH:mm:ss"
     val outputPattern = "dd-MMM-yyyy hh:mm a"
     val inputFormat = SimpleDateFormat(inputPattern)
     val outputFormat = SimpleDateFormat(outputPattern)

@@ -49,7 +49,7 @@ class DecisionShortListedAdapter (
 
         holder.txtName.text = item.movieName
         holder.textDescription.text = item.description
-        holder.rating.rating = item.rating.toFloat()
+        holder.rating.rating = item.rating.toFloat()/2
 
         holder.itemView.setOnClickListener {
 //            var bundle = Bundle()

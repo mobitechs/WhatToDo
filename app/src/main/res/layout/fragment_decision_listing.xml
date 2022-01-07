@@ -21,7 +21,7 @@
         android:id="@+id/btnShowShortListed"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/_5sdp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:padding="@dimen/_5sdp"
