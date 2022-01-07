@@ -121,7 +121,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                             listSize -= 1
                             movieDeleteData()
                             if (noOfUsers == updatedCount.toString()) {
-                                this.showToastMsg("Matched")
+//                                showToastMsg("Matched")
                                 layoutMatched.visibility =  View.VISIBLE
                                 Handler().postDelayed({
                                     layoutMatched.visibility =  View.GONE }, 1000.toLong())

@@ -54,21 +54,21 @@ class HomeActivity : AppCompatActivity(),GroupListCallback {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerView()
+    }
+
     private fun initView() {
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
 
         btnCreateGroupNShare.setOnClickListener{
-
             this.openActivity(DecisionActivity::class.java)
         }
-
-        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
         viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
-//        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)!!
-//        val progressBar: ProgressBar = findViewById(R.id.progressBar)!!
 
         mLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = mLayoutManager

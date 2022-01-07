@@ -76,17 +76,15 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/_20sdp"
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_solid"
-            android:text="Submit"
-            android:textColor="@color/white" />
-
 
     </LinearLayout>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_solid"
+        android:text="Submit"
+        android:textColor="@color/white" />
 </RelativeLayout>

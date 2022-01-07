@@ -67,7 +67,7 @@ class SubCategoryActivity : AppCompatActivity() {
         btnSubmit = findViewById(R.id.btnSubmit)
 
         btnSubmit.setOnClickListener {
-            this.showToastMsg("$selectedLanguage $selectedType")
+//            showToastMsg("$selectedLanguage $selectedType")
             // Please add data which will you get from selected language and type. but first you have to check if room exist
 
 
