@@ -67,8 +67,11 @@ class DecisionActivity : AppCompatActivity() {
         })
 
         getListOfCategory()
+    }
 
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        openClearActivity(HomeActivity::class.java)
     }
 
     private fun getListOfCategory() {

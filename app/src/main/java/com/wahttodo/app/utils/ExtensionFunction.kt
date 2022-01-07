@@ -125,6 +125,7 @@ fun AppCompatActivity.replaceFragmentWithData(
     fragmentTransaction.addToBackStack(flag);
     fragmentTransaction.commit()
 
+
 }
 
 fun AppCompatActivity.replaceFragment(
@@ -138,11 +139,8 @@ fun AppCompatActivity.replaceFragment(
 
     val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
     fragmentTransaction.replace(containerViewId, fragment!!, flag)
-    if (!supportFragmentManager.isStateSaved) {
-        fragmentTransaction.commit()
-    } else if (allowStateLoss) {
-        fragmentTransaction.commitAllowingStateLoss()
-    }
+    fragmentTransaction.addToBackStack(flag);
+    fragmentTransaction.commit()
 }
 
 fun AppCompatActivity.addFragmentWithData(

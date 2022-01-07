@@ -1,6 +1,7 @@
 package com.wahttodo.app.view.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.view.activity.HomeActivity
+import com.wahttodo.app.view.activity.SplashActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
@@ -140,7 +142,10 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             listSize -= 1
                             movieDeleteData()
                             if (noOfUsers == updatedCount.toString()) {
-                                requireActivity().showToastMsg("Congrats, You have matched.")
+                                requireActivity().showToastMsg("Matched")
+                                rootView.layoutMatched.visibility =  View.VISIBLE
+                                Handler().postDelayed({
+                                    rootView.layoutMatched.visibility =  View.GONE }, 1000.toLong())
                             }
                         }
                     }

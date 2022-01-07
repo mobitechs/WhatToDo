@@ -2,8 +2,10 @@ package com.wahttodo.app.view.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -189,6 +191,23 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         )
     }
 
+//    override fun onBackPressed() {
+//
+//        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+//
+//        if (fragment != null && ((fragment is DecisionSubCategoryFragment) )) {
+//            displayWaitingRoomJoinedUserList()
+//        }
+//        else if (fragment != null && ((fragment is DecisionListingFragment) )) {
+//            displayDecisionSubCategory()
+//        }
+//        else if (fragment != null && ((fragment is DecisionShortListedFragment) )) {
+//            displayDecisionCardListing()
+//        }else if (fragment != null && ((fragment is WaitingRoomUserListFragment) )) {
+//            openClearActivity(DecisionActivity::class.java)
+//        }
+//    }
+
     fun setToolBarTitle(title: String) {
         tvToolbarTitle.text = title
     }
@@ -200,4 +219,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     override fun onFailure(message: String) {
 
     }
+
+
 }

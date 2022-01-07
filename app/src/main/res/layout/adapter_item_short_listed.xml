@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_4sdp"
+    app:cardElevation="@dimen/_5sdp">
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_margin="@dimen/_5sdp"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/_60sdp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/black_logo"
+        android:id="@+id/imgMoviePoster"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:layout_toEndOf="@+id/imgMoviePoster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="KGF"
-        android:layout_margin="@dimen/_5sdp"
-        android:textSize="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
         android:id="@+id/textMovieName"/>
 
     <RatingBar
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/_3sdp"
         android:id="@+id/rating"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_margin="@dimen/_5sdp"
-        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/imgMoviePoster"
+
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:isIndicator="true"
         android:numStars="5"
-        android:stepSize="1"
-        android:isIndicator="true" />
+        android:stepSize="1" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Description"
+        android:visibility="gone"
         android:layout_margin="@dimen/_5sdp"
         android:layout_below="@+id/textMovieName"
         android:textSize="@dimen/_10sdp"
         android:id="@+id/textDescription"/>
 
 </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

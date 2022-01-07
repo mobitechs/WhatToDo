@@ -2,7 +2,9 @@ package com.wahttodo.app.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,6 +31,7 @@ class HomeActivity : AppCompatActivity() {
     companion object {
         lateinit var db: FirebaseFirestore
     }
+    private var doubleBackToExitPressedOnce = false
 
     private lateinit var waitingRoomFirebaseListener: ListenerRegistration
 
@@ -37,20 +40,31 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         db = FirebaseFirestore.getInstance()
-
         tvToolbarTitle.text = "Home"
 
-        displayGroupList()
     }
 
-    fun displayDecisionShortListed() {
+    override fun onResume() {
+        super.onResume()
+        displayGroupList()
+    }
+    fun displayGroupList() {
+        replaceFragment(
+            HomeGroupListFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "WaitingRoomUserListFragment"
+        )
+    }
+
+    fun displayDecisionSubCategory() {
         val bundle = Bundle()
         bundle.putString("imFrom", "HomeActivity")
         replaceFragmentWithData(
-            DecisionShortListedFragment(),
+            DecisionSubCategoryFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionShortListedFragment",
+            "DecisionSubCategoryFragment",
             bundle
         )
     }
@@ -67,28 +81,42 @@ class HomeActivity : AppCompatActivity() {
         )
     }
 
-    fun displayDecisionSubCategory() {
+    fun displayDecisionShortListed() {
         val bundle = Bundle()
         bundle.putString("imFrom", "HomeActivity")
         replaceFragmentWithData(
-            DecisionSubCategoryFragment(),
+            DecisionShortListedFragment(),
             false,
             R.id.nav_host_fragment,
-            "DecisionSubCategoryFragment",
+            "DecisionShortListedFragment",
             bundle
-        )
-    }
-
-    fun displayGroupList() {
-        replaceFragment(
-            HomeGroupListFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "WaitingRoomUserListFragment"
         )
     }
 
     fun setToolBarTitle(title: String) {
         tvToolbarTitle.text = title
     }
+
+//    override fun onBackPressed() {
+//        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+//
+//        if (fragment != null && ((fragment is DecisionSubCategoryFragment) )) {
+//            displayGroupList()
+//        }
+//        else if (fragment != null && ((fragment is DecisionListingFragment) )) {
+//            displayGroupList()
+//        }
+//        else if (fragment != null && ((fragment is DecisionShortListedFragment) )) {
+//            displayDecisionCardListing()
+//        }
+//        else{
+//            if (doubleBackToExitPressedOnce) {
+//                super.onBackPressed()
+//                return
+//            }
+//            this.doubleBackToExitPressedOnce = true
+//            showToastMsg("Double tap to exit")
+//            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+//        }
+//    }
 }

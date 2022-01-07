@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.wahttodo.app.R
 import com.wahttodo.app.model.CategoryListItems
 import com.wahttodo.app.model.MatchedMoviesList
@@ -51,6 +53,10 @@ class DecisionShortListedAdapter (
         holder.textDescription.text = item.description
         holder.rating.rating = item.rating.toFloat()/2
 
+        Glide.with(holder.imgMoviePoster)
+            .load(item.movieImage)
+            .into(holder.imgMoviePoster)
+
         holder.itemView.setOnClickListener {
 //            var bundle = Bundle()
 //            bundle.putParcelable("OrderDetails", item)
@@ -65,6 +71,7 @@ class DecisionShortListedAdapter (
         var txtName: TextView = view.findViewById(R.id.textMovieName)
         var rating: RatingBar = view.findViewById(R.id.rating)
         var textDescription: TextView = view.findViewById(R.id.textDescription)
+        var imgMoviePoster: AppCompatImageView = view.findViewById(R.id.imgMoviePoster)
         val cardView: View = itemView
     }
 

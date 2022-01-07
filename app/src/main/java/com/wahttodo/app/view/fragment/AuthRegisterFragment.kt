@@ -35,6 +35,9 @@ class AuthRegisterFragment : Fragment() , ApiResponse {
 //    lateinit var etPassword: TextInputEditText
 //    lateinit var etConfirmPassword: TextInputEditText
 
+    var name=""
+    var mobile=""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +49,7 @@ class AuthRegisterFragment : Fragment() , ApiResponse {
     }
 
     private fun initView() {
+        email = arguments?.getString("email").toString()
 
         layoutLoader = rootView.findViewById(R.id.layoutLoader)
         val btnSignUp: Button = rootView.findViewById(R.id.btnSignUp)!!
@@ -53,34 +57,23 @@ class AuthRegisterFragment : Fragment() , ApiResponse {
         etEmail = rootView.findViewById(R.id.etEmail)
         etMobileNo = rootView.findViewById(R.id.etMobileNo)
 
-//        etPassword = rootView.findViewById(R.id.etPassword)
-//        etConfirmPassword = rootView.findViewById(R.id.etConfirmPassword)
-
-
-
+        etEmail.setText(email)
+        etEmail.isEnabled= false
 
         btnSignUp.setOnClickListener {
+            name = etName.text.toString()
+            mobile = etName.text.toString()
+            email = etEmail.text.toString()
 
-            if (etName.text.toString().equals("")) {
+            if (name.equals("")) {
                 requireActivity().showToastMsg("Enter Name")
-            } else if (etEmail.text.toString().equals("")) {
+            } else if (email.equals("")) {
                 requireActivity().showToastMsg("Enter Email Id")
-            } else if (etMobileNo.text.toString().equals("")) {
-                requireActivity().showToastMsg("Enter Mobile No")
             }
-//            else if (etPassword.text.toString().equals("")) {
-//                requireActivity().showToastMsg("Enter Password")
-//            }
-//            else if (etConfirmPassword.text.toString().equals("")) {
-//                requireActivity().showToastMsg("Enter Confirm Password ")
-//            }
             else {
                 if (isEmailValid(etEmail.text.toString()) != true) {
                     requireActivity().showToastMsg("Email is not valid")
                 }
-//                else if (!etPassword.text.toString().equals(etConfirmPassword.text.toString())) {
-//                    requireActivity().showToastMsg("Passwords are not matched")
-//                }
                 else {
                     callRegisterAPI()
 
@@ -94,9 +87,9 @@ class AuthRegisterFragment : Fragment() , ApiResponse {
         val jsonObject = JSONObject()
         try {
             jsonObject.put("method", method)
-            jsonObject.put("name", etName.text.toString())
-            jsonObject.put("mobile", etMobileNo.text.toString())
-            jsonObject.put("email", etEmail.text.toString())
+            jsonObject.put("name", name)
+            jsonObject.put("mobile", mobile)
+            jsonObject.put("email", email)
 //            jsonObject.put("password", etPassword.text.toString())
         } catch (e: JSONException) {
             e.printStackTrace()
