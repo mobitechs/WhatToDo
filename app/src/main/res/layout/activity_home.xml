@@ -6,17 +6,33 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/_5sdp">
+        tools:context=".view.fragment.HomeGroupListFragment">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/nav_host_fragment"
-            android:background="@color/white" />
+        <include layout="@layout/recyclerview" />
+
+        <include layout="@layout/progressbar" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/circle_red"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btnCreateGroupNShare"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_add"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

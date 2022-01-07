@@ -1,11 +1,9 @@
-package com.wahttodo.app.view.fragment
+package com.wahttodo.app.view.activity
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatButton
@@ -17,19 +15,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
-import com.wahttodo.app.model.*
+import com.wahttodo.app.model.DumpMovieDetails
+import com.wahttodo.app.model.DumpedMoviesList
+import com.wahttodo.app.model.MovieList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.Constants.Companion.languageArrayCode
-import com.wahttodo.app.utils.Constants.Companion.typeIdArray
-import com.wahttodo.app.utils.getAllMoviesList
+import com.wahttodo.app.utils.openActivity
 import com.wahttodo.app.utils.showToastMsg
-import com.wahttodo.app.view.activity.HomeActivity
-import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 
-
-class DecisionSubCategoryFragment : Fragment() {
+class SubCategoryActivity : AppCompatActivity() {
 
     var imFrom = ""
     lateinit var db: FirebaseFirestore
@@ -52,44 +47,33 @@ class DecisionSubCategoryFragment : Fragment() {
     lateinit var btnSubmit: AppCompatButton
 
     lateinit var viewModelUser: UserListViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_decision_sub_category, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sub_category)
         initView()
-        return rootView
     }
 
     private fun initView() {
         db = FirebaseFirestore.getInstance()
-        viewModelUser = ViewModelProvider(requireActivity()).get(UserListViewModel::class.java)
-        roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
-        imFrom = arguments?.getString("imFrom").toString()
+        viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
+        roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
 
-        if (imFrom == "HomeActivity") {
-            (context as HomeActivity).setToolBarTitle("Categories")
-        }
-        else {
-            (context as WaitingRoomActivity).setToolBarTitle("Categories")
-        }
+
 
         getListOfUsers()
 
-        spinnerLanguage = rootView.findViewById(R.id.spinnerLanguage)
-        spinnerType = rootView.findViewById(R.id.spinnerType)
-        btnSubmit = rootView.findViewById(R.id.btnSubmit)
+        spinnerLanguage = findViewById(R.id.spinnerLanguage)
+        spinnerType = findViewById(R.id.spinnerType)
+        btnSubmit = findViewById(R.id.btnSubmit)
 
         btnSubmit.setOnClickListener {
-            requireContext().showToastMsg("$selectedLanguage $selectedType")
+            this.showToastMsg("$selectedLanguage $selectedType")
             // Please add data which will you get from selected language and type. but first you have to check if room exist
 
 
             viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId)
 
-            viewModelUser.movieList.observe(requireActivity(), Observer {
+            viewModelUser.movieList.observe(this, Observer {
                 //listAdapter.updateListItems(it)
                 movieListItems.addAll(it)
 
@@ -102,12 +86,6 @@ class DecisionSubCategoryFragment : Fragment() {
             })
 
 
-//            var moviesListItems = getAllMoviesList(ArrayList<AllMoviesList>())
-//            for (item in moviesListItems) {
-//                if (item.language == selectedLanguage && item.type == selectedType) {
-//                    listItems.add(DumpedMoviesList(item.movieImage, item.movieName, item.rating, item.description, item.matchedCount))
-//                }
-//            }
         }
 
         setupLanguageSpinner()
@@ -116,7 +94,7 @@ class DecisionSubCategoryFragment : Fragment() {
 
     private fun setupLanguageSpinner() {
         val adapter = ArrayAdapter(
-            requireContext(),
+            this,
             R.layout.spinner_layout,
             languageArray
         )
@@ -130,14 +108,14 @@ class DecisionSubCategoryFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedLanguage = languageArray[p2]
-                selectedLanguageCode = languageArrayCode[p2]
+                selectedLanguageCode = Constants.languageArrayCode[p2]
             }
         })
     }
 
     private fun setupTypeSpinner() {
         val adapter = ArrayAdapter(
-            requireContext(),
+            this,
             R.layout.spinner_layout,
             typeArray
         )
@@ -151,7 +129,7 @@ class DecisionSubCategoryFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedType = typeArray[p2]
-                selectedTypeId = typeIdArray[p2]
+                selectedTypeId = Constants.typeIdArray[p2]
             }
         })
     }
@@ -173,32 +151,19 @@ class DecisionSubCategoryFragment : Fragment() {
     }
 
     private fun updateRoomData() {
-        for (item in listItems) {
-            db.collection("dumpMoviesCollection")
-                .document(roomId)
-                .update("dumpedMoviesList", FieldValue.arrayUnion(item), "noOfUsers", userCount)
-                .addOnSuccessListener {
-                    Log.d("TAG", "User updated entry add")
-                    if (imFrom == "HomeActivity") {
-                        (context as HomeActivity).displayDecisionCardListing()
-                    }
-                    else {
-                        (context as WaitingRoomActivity).displayDecisionCardListing()
-                    }
-                    if(this::waitingRoomFirebaseListener.isInitialized){
-                        waitingRoomFirebaseListener.remove()
-                    }
+        db.collection("dumpMoviesCollection")
+            .document(roomId)
+            .update("dumpedMoviesList", listItems, "noOfUsers", userCount)
+            .addOnSuccessListener {
+                Log.d("TAG", "Movie updated entries add")
+                openActivity(ListingCardActivity::class.java)
+                if(this::waitingRoomFirebaseListener.isInitialized){
+                    waitingRoomFirebaseListener.remove()
                 }
-                .addOnFailureListener {
-                    requireActivity().showToastMsg("User updated entry failed to add")
-                }
-        }
-        if (imFrom == "HomeActivity") {
-            (context as HomeActivity).displayDecisionCardListing()
-        }
-        else {
-            (context as WaitingRoomActivity).displayDecisionCardListing()
-        }
+            }
+            .addOnFailureListener {
+                this.showToastMsg("User updated entry failed to add")
+            }
     }
 
     private fun createRoomAndAddData() {
@@ -210,18 +175,13 @@ class DecisionSubCategoryFragment : Fragment() {
             .set(dumpMovieDetails)
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
-                if (imFrom == "HomeActivity") {
-                    (context as HomeActivity).displayDecisionCardListing()
-                }
-                else {
-                    (context as WaitingRoomActivity).displayDecisionCardListing()
-                }
+                openActivity(ListingCardActivity::class.java)
                 if(this::waitingRoomFirebaseListener.isInitialized){
                     waitingRoomFirebaseListener.remove()
                 }
             }
             .addOnFailureListener {
-                requireActivity().showToastMsg("Record failed to add.")
+                this.showToastMsg("Record failed to add.")
             }
     }
 
@@ -231,7 +191,7 @@ class DecisionSubCategoryFragment : Fragment() {
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
-                    requireActivity().showToastMsg("Listen failed. $error")
+                    this.showToastMsg("Listen failed. $error")
                 }
 
                 if (snapshot != null && snapshot.exists()) {
@@ -241,7 +201,7 @@ class DecisionSubCategoryFragment : Fragment() {
                     userCount = joinedUserList.size.toString()
                 }
                 else{
-                    requireActivity().showToastMsg("not exist failed.")
+                    this.showToastMsg("not exist failed.")
                 }
             }
     }

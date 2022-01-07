@@ -3,19 +3,14 @@ package com.wahttodo.app.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.DecisionCategoryListAdapter
 import com.wahttodo.app.model.CategoryListItems
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
-import com.wahttodo.app.view.fragment.AuthSetPasswordFragment
-import com.wahttodo.app.view.fragment.DecisionCategoryFragment
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.recyclerview.*
@@ -37,7 +32,6 @@ class DecisionActivity : AppCompatActivity() {
             SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
                 ?.get(0)?.userId.toString()
 
-        tvToolbarTitle.text = "Decision For"
 
         setupRecyclerView()
 
@@ -69,10 +63,7 @@ class DecisionActivity : AppCompatActivity() {
         getListOfCategory()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        openClearActivity(HomeActivity::class.java)
-    }
+
 
     private fun getListOfCategory() {
 

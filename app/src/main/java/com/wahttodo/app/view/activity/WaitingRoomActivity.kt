@@ -2,31 +2,33 @@ package com.wahttodo.app.view.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
+import com.wahttodo.app.adapter.WaitingRoomUserListAdapter
 import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.model.*
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
-import com.wahttodo.app.utils.replaceFragment
-import com.wahttodo.app.view.fragment.DecisionListingFragment
-import com.wahttodo.app.view.fragment.DecisionShortListedFragment
-import java.text.SimpleDateFormat
-import kotlin.collections.ArrayList
-
-import com.wahttodo.app.view.fragment.DecisionSubCategoryFragment
-import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
+import com.wahttodo.app.viewModel.UserListViewModel
+import kotlinx.android.synthetic.main.activity_waiting_room.*
+import kotlinx.android.synthetic.main.progressbar.*
+import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.toolbar.*
+
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
-import java.util.*
+import kotlin.collections.ArrayList
 
 class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
 
@@ -34,6 +36,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         @SuppressLint("StaticFieldLeak")
         lateinit var db: FirebaseFirestore
     }
+
     lateinit var categoryListItems: CategoryListItems
     var roomId = "1234" //userId+currentTimestamp
     var userName = ""
@@ -43,6 +46,16 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     var dumpMoviesList = ArrayList<DumpedMoviesList>()
     var matchedMoviesList = ArrayList<MatchedMoviesList>()
     var joinedUserList = ArrayList<JoinedUserList>()
+
+
+    private lateinit var waitingRoomFirebaseListener: ListenerRegistration
+    lateinit var rootView: View
+    lateinit var viewModelUser: UserListViewModel
+    lateinit var listAdapter: WaitingRoomUserListAdapter
+    var listItems = ArrayList<JoinedUserList>()
+    lateinit var mLayoutManager: LinearLayoutManager
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_waiting_room)
@@ -50,10 +63,12 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         hostuser = intent.getStringExtra("hostUserId").toString()
         imFrom = intent.getStringExtra("imFrom").toString()
 
-        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
-        userName = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.name.toString()
+        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userId.toString()
+        userName = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.name.toString()
 
-        setToolBarTitle("Waiting Room")
+
         db = FirebaseFirestore.getInstance()
 
         if (hostuser == userId && imFrom == "DecisionCategory") {
@@ -62,13 +77,78 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             roomId = userId + "a" + date
             createRoomAndAddUser()
             ShareRoomLink(this, roomId, userId)
-        }
-        else {
+        } else {
             roomId = intent.getStringExtra("roomId").toString()
             checkIfRoomIsActive()
         }
 
         SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
+        initView()
+    }
+
+    private fun initView() {
+
+        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userId.toString()
+        roomId =
+            SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
+
+        setupRecyclerView()
+
+        btnStart.setOnClickListener {
+//            (context as WaitingRoomActivity).displayDecisionSubCategory()
+            openActivity(SubCategoryActivity::class.java)
+            waitingRoomFirebaseListener.remove()
+        }
+
+    }
+
+    private fun setupRecyclerView() {
+        viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
+//        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)!!
+        progressBar.visibility = View.VISIBLE
+
+        setupCommonRecyclerViewsProperty(recyclerView, Constants.VERTICAL)
+        listAdapter = WaitingRoomUserListAdapter(this)
+        recyclerView.adapter = listAdapter
+
+        getListOfUsers()
+    }
+
+    private fun getListOfUsers() {
+
+        waitingRoomFirebaseListener = db.collection("whatToDoCollection")
+            .document(roomId)
+            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
+                if (error != null) {
+                    showToastMsg("Listen failed. $error")
+                    progressBar.visibility = View.GONE
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    progressBar.visibility = View.GONE
+                    val data = snapshot.data
+                    val joinedUserList = data?.getValue("joinedUserList") as ArrayList<*>
+
+                    listItems.clear()
+                    for (u in joinedUserList) {
+                        val user = u as HashMap<*, *>
+                        val memberUserId = user["userId"].toString()
+                        val memberUserName = user["userName"].toString()
+                        listItems.add(JoinedUserList(memberUserId, memberUserName))
+                        listAdapter.updateListItems(listItems)
+                    }
+                } else {
+                    showToastMsg("not exist failed.")
+                }
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::waitingRoomFirebaseListener.isInitialized) {
+            waitingRoomFirebaseListener.remove()
+        }
     }
 
     private fun checkIfRoomIsActive() {
@@ -79,7 +159,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
                 var currentDate = Timestamp.now().toDate().time
 
 
-                if(it.data?.getValue("timeStamp")!=null){
+                if (it.data?.getValue("timeStamp") != null) {
                     val serverTimestamp = it.data?.getValue("timeStamp") as Timestamp
                     val sfd = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
                     sfd.format(serverTimestamp.toDate())
@@ -106,7 +186,8 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             .update("joinedUserList", FieldValue.arrayUnion(joinedUserList))
             .addOnSuccessListener {
                 Log.d("TAG", "User added")
-                displayWaitingRoomJoinedUserList()
+//                displayWaitingRoomJoinedUserList()
+                saveJoinedRoom()
             }
             .addOnFailureListener {
                 showToastMsg("User failed to add")
@@ -122,7 +203,8 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             .set(waitingRoomDetails)
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
-                displayWaitingRoomJoinedUserList()
+//                displayWaitingRoomJoinedUserList()
+                saveJoinedRoom()
             }
             .addOnFailureListener {
                 showToastMsg("Record failed to add.")
@@ -130,9 +212,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     }
 
     private fun saveJoinedRoom() {
-
-
-        //call get otp api
         val method = "joinedRoom"
         val jsonObject = JSONObject()
         try {
@@ -143,73 +222,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             e.printStackTrace()
         }
         apiPostCall(Constants.BASE_URL, jsonObject, this, method)
-    }
-
-    fun displayDecisionShortListed() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "WaitingRoomActivity")
-        replaceFragmentWithData(
-            DecisionShortListedFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionShortListedFragment",
-            bundle
-        )
-    }
-
-    fun displayDecisionCardListing() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "WaitingRoomActivity")
-        replaceFragmentWithData(
-            DecisionListingFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionListingFragment",
-            bundle
-        )
-    }
-
-    fun displayDecisionSubCategory() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "WaitingRoomActivity")
-        replaceFragmentWithData(
-            DecisionSubCategoryFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionSubCategoryFragment",
-            bundle
-        )
-    }
-
-    fun displayWaitingRoomJoinedUserList() {
-        saveJoinedRoom()
-        replaceFragment(
-            WaitingRoomUserListFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "WaitingRoomUserListFragment"
-        )
-    }
-
-//    override fun onBackPressed() {
-//
-//        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//
-//        if (fragment != null && ((fragment is DecisionSubCategoryFragment) )) {
-//            displayWaitingRoomJoinedUserList()
-//        }
-//        else if (fragment != null && ((fragment is DecisionListingFragment) )) {
-//            displayDecisionSubCategory()
-//        }
-//        else if (fragment != null && ((fragment is DecisionShortListedFragment) )) {
-//            displayDecisionCardListing()
-//        }else if (fragment != null && ((fragment is WaitingRoomUserListFragment) )) {
-//            openClearActivity(DecisionActivity::class.java)
-//        }
-//    }
-
-    fun setToolBarTitle(title: String) {
-        tvToolbarTitle.text = title
     }
 
     override fun onSuccess(data: Any, tag: String) {

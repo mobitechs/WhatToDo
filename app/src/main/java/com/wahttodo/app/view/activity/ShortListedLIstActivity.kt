@@ -1,10 +1,8 @@
-package com.wahttodo.app.view.fragment
+package com.wahttodo.app.view.activity
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,23 +11,18 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.DecisionShortListedAdapter
-import com.wahttodo.app.adapter.WaitingRoomUserListAdapter
-import com.wahttodo.app.model.JoinedUserList
 import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.setupCommonRecyclerViewsProperty
 import com.wahttodo.app.utils.showToastMsg
-import com.wahttodo.app.view.activity.HomeActivity
-import com.wahttodo.app.view.activity.WaitingRoomActivity
 import com.wahttodo.app.viewModel.UserListViewModel
-import kotlinx.android.synthetic.main.fragment_waiting_room_user_list.view.*
+import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.progressbar.view.*
+import kotlinx.android.synthetic.main.recyclerview.*
 import java.util.HashMap
 
-
-class DecisionShortListedFragment : Fragment() {
-
+class ShortListedLIstActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
     var imFrom = ""
     private lateinit var roomId: String
@@ -41,37 +34,28 @@ class DecisionShortListedFragment : Fragment() {
     lateinit var mLayoutManager: LinearLayoutManager
     var userId = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_decision_short_listed, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_short_listed_list)
         initView()
-        return rootView
     }
 
     private fun initView() {
         db = FirebaseFirestore.getInstance()
-        imFrom = arguments?.getString("imFrom").toString()
-        userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
-        roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
-        if (imFrom == "HomeActivity") {
-            (context as HomeActivity).setToolBarTitle("Short Listed List")
-        }
-        else {
-            (context as WaitingRoomActivity).setToolBarTitle("Short Listed List")
-        }
+
+        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
+        roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
+
         setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
         viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
-        val recyclerView: RecyclerView = rootView.findViewById(R.id.recyclerView)!!
-        rootView.progressBar.visibility = View.VISIBLE
+//        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)!!
+        progressBar.visibility = View.VISIBLE
 
-        requireContext().setupCommonRecyclerViewsProperty(recyclerView, Constants.VERTICAL)
-        listAdapter = DecisionShortListedAdapter(requireContext())
+        this.setupCommonRecyclerViewsProperty(recyclerView, Constants.VERTICAL)
+        listAdapter = DecisionShortListedAdapter(this)
         recyclerView.adapter = listAdapter
 
         getListOfShortListed()
@@ -82,12 +66,12 @@ class DecisionShortListedFragment : Fragment() {
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
-                    requireActivity().showToastMsg("Listen failed. $error")
-                    rootView.progressBar.visibility = View.GONE
+                    showToastMsg("Listen failed. $error")
+                    progressBar.visibility = View.GONE
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    rootView.progressBar.visibility = View.GONE
+                    progressBar.visibility = View.GONE
                     val data = snapshot.data
                     val matchedMoviesList = data?.getValue("matchedMoviesList") as ArrayList<*>
 

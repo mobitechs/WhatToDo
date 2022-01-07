@@ -1,12 +1,10 @@
-package com.wahttodo.app.view.fragment
+package com.wahttodo.app.view.activity
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,17 +18,14 @@ import com.wahttodo.app.model.DumpedMoviesList
 import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.view.activity.WaitingRoomActivity
+import com.wahttodo.app.utils.openActivity
 import com.wahttodo.app.utils.showToastMsg
-import com.wahttodo.app.view.activity.HomeActivity
-import com.wahttodo.app.view.activity.SplashActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
-import kotlinx.android.synthetic.main.progressbar.view.*
+import kotlinx.android.synthetic.main.activity_listing_card.*
 import java.util.HashMap
 
-class DecisionListingFragment : Fragment(), CardStackListener {
+class ListingCardActivity : AppCompatActivity() , CardStackListener {
 
     private lateinit var db: FirebaseFirestore
     var imFrom = ""
@@ -48,50 +43,34 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     lateinit var roomId: String
     var userId = ""
     var position=0
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_listing_card)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_decision_listing, container, false)
         intView()
-        return rootView
     }
 
     private fun intView() {
         db = FirebaseFirestore.getInstance()
-        imFrom = arguments?.getString("imFrom").toString()
-        userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
-        roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
+        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
+        roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
 
-        if (imFrom == "HomeActivity") {
-            (context as HomeActivity).setToolBarTitle("Movie List")
-        }
-        else {
-            (context as WaitingRoomActivity).setToolBarTitle("Movie List")
-        }
 
-//        setupRecyclerView()
         setupCardStackView()
         getDecisionSelectedList()
         getListOfShortListed()
 
-        rootView.btnShowShortListed.setOnClickListener {
-            if (imFrom == "HomeActivity") {
-                (context as HomeActivity).displayDecisionShortListed()
-            }
-            else {
-                (context as WaitingRoomActivity).displayDecisionShortListed()
-            }
+        btnShowShortListed.setOnClickListener {
+
+            openActivity(ShortListedLIstActivity::class.java)
         }
     }
 
-    private fun setupRecyclerView() {
-    }
+
 
     private fun setupCardStackView() {
-        manager = CardStackLayoutManager(requireActivity(), this)
+        manager = CardStackLayoutManager(this, this)
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -103,10 +82,10 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         manager.setCanScrollVertical(true)
         manager.setSwipeableMethod(SwipeableMethod.Manual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        rootView.cardStackView.layoutManager = manager
-        listAdapter = DecisionListCardStackAdapter(requireActivity())
-        rootView.cardStackView.adapter = listAdapter
-        rootView.cardStackView.itemAnimator.apply {
+        cardStackView.layoutManager = manager
+        listAdapter = DecisionListCardStackAdapter(this)
+        cardStackView.adapter = listAdapter
+        cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
             }
@@ -142,10 +121,10 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             listSize -= 1
                             movieDeleteData()
                             if (noOfUsers == updatedCount.toString()) {
-                                requireActivity().showToastMsg("Matched")
-                                rootView.layoutMatched.visibility =  View.VISIBLE
+                                this.showToastMsg("Matched")
+                                layoutMatched.visibility =  View.VISIBLE
                                 Handler().postDelayed({
-                                    rootView.layoutMatched.visibility =  View.GONE }, 1000.toLong())
+                                    layoutMatched.visibility =  View.GONE }, 1000.toLong())
                             }
                         }
                     }
@@ -153,18 +132,14 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 //
                 }
                 .addOnFailureListener {
-                    requireActivity().showToastMsg("Error getting room data" + it.message)
+                    this.showToastMsg("Error getting room data" + it.message)
                 }
         }
         else{
             if(listItems.lastIndex == (position - 1)){
-                requireContext().showToastMsg("Congratulations")
-                if (imFrom == "HomeActivity") {
-                    (context as HomeActivity).displayDecisionShortListed()
-                }
-                else {
-                    (context as WaitingRoomActivity).displayDecisionShortListed()
-                }
+                this.showToastMsg("Congratulations")
+
+                openActivity(ShortListedLIstActivity::class.java)
             }
         }
 
@@ -197,7 +172,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     movieUpdateData()
                 }
                 .addOnFailureListener {
-                    requireActivity().showToastMsg("User left entry failed to remove")
+                    this.showToastMsg("User left entry failed to remove")
                 }
         }
     }
@@ -211,17 +186,13 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     Log.d("TAG", "User updated entry add")
 
                     if(listItems.lastIndex == (position - 1)){
-                        requireContext().showToastMsg("Congratulations")
-                        if (imFrom == "HomeActivity") {
-                            (context as HomeActivity).displayDecisionShortListed()
-                        }
-                        else {
-                            (context as WaitingRoomActivity).displayDecisionShortListed()
-                        }
+                        this.showToastMsg("Congratulations")
+
+                        openActivity(ShortListedLIstActivity::class.java)
                     }
                 }
                 .addOnFailureListener {
-                    requireActivity().showToastMsg("User updated entry failed to add")
+                    this.showToastMsg("User updated entry failed to add")
                 }
         }
     }
@@ -231,7 +202,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
-                    requireActivity().showToastMsg("Listen failed. $error")
+                    this.showToastMsg("Listen failed. $error")
                 }
 
                 if (snapshot != null && snapshot.exists()) {
@@ -288,7 +259,8 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             }
                         }
                         if (listItems.size == 0 && imFrom == "HomeActivity") {
-                            (context as HomeActivity).displayDecisionShortListed()
+//                            (context as HomeActivity).displayDecisionShortListed()
+                            openActivity(ShortListedLIstActivity::class.java)
                         }
                         listSize = dumpedMoviesList.size
                     }
@@ -307,13 +279,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     }
                 }
                 else{
-//                    requireActivity().showToastMsg("not exist failed.")
-                    if (imFrom == "HomeActivity") {
-                        (context as HomeActivity).displayDecisionSubCategory()
-                    }
-                    else {
-                        (context as WaitingRoomActivity).displayDecisionSubCategory()
-                    }
+                    openActivity(SubCategoryActivity::class.java)
                 }
             }
     }
@@ -326,7 +292,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                 Log.d("TAG", "User updated entry add")
             }
             .addOnFailureListener {
-                requireActivity().showToastMsg("User updated entry failed to add")
+                this.showToastMsg("User updated entry failed to add")
             }
     }
 
@@ -335,7 +301,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
             .document(roomId)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
                 if (error != null) {
-                    requireActivity().showToastMsg("Listen failed. $error")
+                    this.showToastMsg("Listen failed. $error")
                 }
 
                 if (snapshot != null && snapshot.exists()) {
@@ -343,7 +309,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     val matchedMoviesList = data?.getValue("matchedMoviesList") as ArrayList<*>
 
                     if (matchedMoviesList.size != 0) {
-                        rootView.btnShowShortListed.visibility = View.VISIBLE
+                        btnShowShortListed.visibility = View.VISIBLE
                     }
                 }
             }

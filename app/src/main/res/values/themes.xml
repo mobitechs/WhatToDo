@@ -65,4 +65,13 @@
         <item name="android:calendarViewShown">false</item>
         <item name="android:datePickerMode">spinner</item>
     </style>
+
+    <style name="Theme.WhatToDo.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.WhatToDo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.WhatToDo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -21,13 +21,21 @@ import com.wahttodo.app.utils.*
 import com.wahttodo.app.view.fragment.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_home_group_list.view.*
 import kotlinx.android.synthetic.main.progressbar.*
+import kotlinx.android.synthetic.main.progressbar.view.*
 import kotlinx.android.synthetic.main.recyclerview.*
+import kotlinx.android.synthetic.main.recyclerview.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 
-class HomeActivity : AppCompatActivity() {
-
+class HomeActivity : AppCompatActivity(),GroupListCallback {
+    lateinit var listAdapter: GroupListAdapter
+    var listItems = ArrayList<JoinedRoomListItems>()
+    lateinit var mLayoutManager: LinearLayoutManager
+    lateinit var viewModelUser: UserListViewModel
+    var userId = ""
+    private lateinit var rootView: View
     companion object {
         lateinit var db: FirebaseFirestore
     }
@@ -40,83 +48,81 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         db = FirebaseFirestore.getInstance()
-        tvToolbarTitle.text = "Home"
+
+
+        initView()
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        displayGroupList()
-    }
-    fun displayGroupList() {
-        replaceFragment(
-            HomeGroupListFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "WaitingRoomUserListFragment"
-        )
+    private fun initView() {
+        userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
+
+        btnCreateGroupNShare.setOnClickListener{
+
+            this.openActivity(DecisionActivity::class.java)
+        }
+
+        setupRecyclerView()
     }
 
-    fun displayDecisionSubCategory() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "HomeActivity")
-        replaceFragmentWithData(
-            DecisionSubCategoryFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionSubCategoryFragment",
-            bundle
-        )
+    private fun setupRecyclerView() {
+        viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
+//        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)!!
+//        val progressBar: ProgressBar = findViewById(R.id.progressBar)!!
+
+        mLayoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.itemAnimator = DefaultItemAnimator()
+
+        listAdapter = GroupListAdapter(this, this)
+        recyclerView.adapter = listAdapter
+        listAdapter.updateListItems(listItems)
+
+        viewModelUser.showProgressBar.observe(this, Observer {
+            if (it) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModelUser.getMyGroupList(userId)
+
+        viewModelUser.joinedRoomListItems.observe(this, Observer {
+            listAdapter.updateListItems(it)
+        })
+
     }
 
-    fun displayDecisionCardListing() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "HomeActivity")
-        replaceFragmentWithData(
-            DecisionListingFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionListingFragment",
-            bundle
-        )
+    override fun getRoomId(roomId: String) {
+        SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
+        db.collection("whatToDoCollection")
+            .document(roomId)
+            .get()
+            .addOnSuccessListener {
+                var currentDate = Timestamp.now().toDate().time
+                if(it.data?.getValue("timeStamp")!=null){
+                    val serverTimestamp = it.data?.getValue("timeStamp") as Timestamp
+                    val sfd = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+                    sfd.format(serverTimestamp.toDate())
+                    var serverDate = serverTimestamp.toDate().time
+                    if (currentDate - serverDate >= 86400000) {
+                        this.showToastMsg("Room is not active")
+//                        (context as HomeActivity).displayDecisionShortListed()
+                        openActivity(ShortListedLIstActivity::class.java)
+                    }
+                    else {
+//                        (context as HomeActivity).displayDecisionCardListing()
+                        openActivity(ListingCardActivity::class.java)
+                    }
+                }
+
+
+            }
+            .addOnFailureListener {
+                this.showToastMsg("Record failed to fetch")
+            }
     }
 
-    fun displayDecisionShortListed() {
-        val bundle = Bundle()
-        bundle.putString("imFrom", "HomeActivity")
-        replaceFragmentWithData(
-            DecisionShortListedFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "DecisionShortListedFragment",
-            bundle
-        )
-    }
 
-    fun setToolBarTitle(title: String) {
-        tvToolbarTitle.text = title
-    }
-
-//    override fun onBackPressed() {
-//        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-//
-//        if (fragment != null && ((fragment is DecisionSubCategoryFragment) )) {
-//            displayGroupList()
-//        }
-//        else if (fragment != null && ((fragment is DecisionListingFragment) )) {
-//            displayGroupList()
-//        }
-//        else if (fragment != null && ((fragment is DecisionShortListedFragment) )) {
-//            displayDecisionCardListing()
-//        }
-//        else{
-//            if (doubleBackToExitPressedOnce) {
-//                super.onBackPressed()
-//                return
-//            }
-//            this.doubleBackToExitPressedOnce = true
-//            showToastMsg("Double tap to exit")
-//            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-//        }
-//    }
 }

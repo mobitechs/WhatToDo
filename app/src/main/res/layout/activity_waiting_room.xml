@@ -5,18 +5,33 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar"/>
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp"
+        android:clickable="true"
+        android:background="@color/white">
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nav_host_fragment"
-            android:background="@color/white" />
+            android:layout_marginBottom="@dimen/_5sdp">
 
+            <include layout="@layout/recyclerview" />
 
-        <include layout="@layout/loader"/>
+            <include layout="@layout/progressbar" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent"
+                android:text="Start"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 
