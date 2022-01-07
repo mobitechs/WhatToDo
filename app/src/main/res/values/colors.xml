@@ -13,7 +13,8 @@
     <color name="colorPrimary">#6a1b9a</color>
     <color name="colorPrimaryDark">#6a1b9a</color>
     <color name="midleColor">#116AF9</color>
-    <color name="colorAccent">#f44336</color>
+<!--    <color name="colorAccent">#f44336</color>-->
+    <color name="colorAccent">#6a1b9a</color>
 
 
     <color name="blue">#2196F3</color>

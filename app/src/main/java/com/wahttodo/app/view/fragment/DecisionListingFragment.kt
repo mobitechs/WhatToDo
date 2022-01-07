@@ -74,6 +74,10 @@ class DecisionListingFragment : Fragment(), CardStackListener {
         setupCardStackView()
         getDecisionSelectedList()
         getListOfShortListed()
+
+        rootView.btnShowShortListed.setOnClickListener {
+            (context as HomeActivity).displayDecisionShortListed()
+        }
     }
 
     private fun setupRecyclerView() {

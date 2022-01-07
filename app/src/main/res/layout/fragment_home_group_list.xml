@@ -13,6 +13,7 @@
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:background="@drawable/circle_red"
+        android:backgroundTint="@color/colorAccent"
         android:layout_alignParentBottom="true"
         android:id="@+id/btnCreateGroupNShare"
         android:layout_alignParentEnd="true"
