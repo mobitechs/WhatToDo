@@ -19,8 +19,6 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
 
     init {
         this.showProgressBar = repository.showProgressBar
-
-
         this.groupListItems = repository.groupListItems
         this.categoryListItems = repository.categoryListItems
         this.shortListedItems = repository.shortListedItems

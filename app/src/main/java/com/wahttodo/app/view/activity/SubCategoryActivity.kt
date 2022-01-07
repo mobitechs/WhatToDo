@@ -26,11 +26,13 @@ import com.wahttodo.app.viewModel.UserListViewModel
 
 class SubCategoryActivity : AppCompatActivity() {
 
+    var movieListItems = ArrayList<MovieList>()
+
     var imFrom = ""
     lateinit var db: FirebaseFirestore
     private lateinit var waitingRoomFirebaseListener: ListenerRegistration
     var listItems = ArrayList<DumpedMoviesList>()
-    var movieListItems = ArrayList<MovieList>()
+
     private var userCount = ""
     private lateinit var roomId: String
     lateinit var rootView: View
@@ -60,15 +62,13 @@ class SubCategoryActivity : AppCompatActivity() {
 
 
 
-        getListOfUsers()
+        getJoinedUserCount()
 
         spinnerLanguage = findViewById(R.id.spinnerLanguage)
         spinnerType = findViewById(R.id.spinnerType)
         btnSubmit = findViewById(R.id.btnSubmit)
 
         btnSubmit.setOnClickListener {
-//            showToastMsg("$selectedLanguage $selectedType")
-            // Please add data which will you get from selected language and type. but first you have to check if room exist
 
 
             viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId)
@@ -91,6 +91,7 @@ class SubCategoryActivity : AppCompatActivity() {
         setupLanguageSpinner()
         setupTypeSpinner()
     }
+
 
     private fun setupLanguageSpinner() {
         val adapter = ArrayAdapter(
@@ -185,7 +186,7 @@ class SubCategoryActivity : AppCompatActivity() {
             }
     }
 
-    private fun getListOfUsers() {
+    private fun getJoinedUserCount() {
 
         waitingRoomFirebaseListener = db.collection("whatToDoCollection")
             .document(roomId)
@@ -211,5 +212,10 @@ class SubCategoryActivity : AppCompatActivity() {
         if(this::waitingRoomFirebaseListener.isInitialized){
             waitingRoomFirebaseListener.remove()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModelUser.movieList.removeObservers(this)
     }
 }
