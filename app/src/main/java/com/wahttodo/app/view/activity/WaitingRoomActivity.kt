@@ -167,12 +167,15 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         )
     }
 
-    fun displayDecisionSubCategory(count: Int) {
-        replaceFragment(
+    fun displayDecisionSubCategory() {
+        val bundle = Bundle()
+        bundle.putString("imFrom", "WaitingRoomActivity")
+        replaceFragmentWithData(
             DecisionSubCategoryFragment(),
             false,
             R.id.nav_host_fragment,
             "DecisionSubCategoryFragment",
+            bundle
         )
     }
 

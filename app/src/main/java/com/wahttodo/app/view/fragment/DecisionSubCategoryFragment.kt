@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
 import com.wahttodo.app.R
@@ -23,12 +24,15 @@ import com.wahttodo.app.utils.Constants.Companion.languageArrayCode
 import com.wahttodo.app.utils.Constants.Companion.typeIdArray
 import com.wahttodo.app.utils.getAllMoviesList
 import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.view.activity.HomeActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity
-import com.wahttodo.app.view.activity.WaitingRoomActivity.Companion.db
 import com.wahttodo.app.viewModel.UserListViewModel
 
 
 class DecisionSubCategoryFragment : Fragment() {
+
+    var imFrom = ""
+    lateinit var db: FirebaseFirestore
     private lateinit var waitingRoomFirebaseListener: ListenerRegistration
     var listItems = ArrayList<DumpedMoviesList>()
     var movieListItems = ArrayList<MovieList>()
@@ -60,10 +64,17 @@ class DecisionSubCategoryFragment : Fragment() {
     }
 
     private fun initView() {
+        db = FirebaseFirestore.getInstance()
         viewModelUser = ViewModelProvider(requireActivity()).get(UserListViewModel::class.java)
         roomId = SharePreferenceManager.getInstance(requireContext()).getValueString(Constants.ROOM_ID).toString()
+        imFrom = arguments?.getString("imFrom").toString()
 
-        (context as WaitingRoomActivity).setToolBarTitle("Categories")
+        if (imFrom == "HomeActivity") {
+            (context as HomeActivity).setToolBarTitle("Categories")
+        }
+        else {
+            (context as WaitingRoomActivity).setToolBarTitle("Categories")
+        }
 
         getListOfUsers()
 
@@ -168,7 +179,12 @@ class DecisionSubCategoryFragment : Fragment() {
                 .update("dumpedMoviesList", FieldValue.arrayUnion(item), "noOfUsers", userCount)
                 .addOnSuccessListener {
                     Log.d("TAG", "User updated entry add")
-                    (context as WaitingRoomActivity).displayDecisionCardListing()
+                    if (imFrom == "HomeActivity") {
+                        (context as HomeActivity).displayDecisionCardListing()
+                    }
+                    else {
+                        (context as WaitingRoomActivity).displayDecisionCardListing()
+                    }
                     if(this::waitingRoomFirebaseListener.isInitialized){
                         waitingRoomFirebaseListener.remove()
                     }
@@ -177,7 +193,12 @@ class DecisionSubCategoryFragment : Fragment() {
                     requireActivity().showToastMsg("User updated entry failed to add")
                 }
         }
-        (context as WaitingRoomActivity).displayDecisionCardListing()
+        if (imFrom == "HomeActivity") {
+            (context as HomeActivity).displayDecisionCardListing()
+        }
+        else {
+            (context as WaitingRoomActivity).displayDecisionCardListing()
+        }
     }
 
     private fun createRoomAndAddData() {
@@ -189,7 +210,12 @@ class DecisionSubCategoryFragment : Fragment() {
             .set(dumpMovieDetails)
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
-                (context as WaitingRoomActivity).displayDecisionCardListing()
+                if (imFrom == "HomeActivity") {
+                    (context as HomeActivity).displayDecisionCardListing()
+                }
+                else {
+                    (context as WaitingRoomActivity).displayDecisionCardListing()
+                }
                 if(this::waitingRoomFirebaseListener.isInitialized){
                     waitingRoomFirebaseListener.remove()
                 }

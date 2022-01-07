@@ -16,10 +16,7 @@ import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
-import com.wahttodo.app.view.fragment.DecisionListingFragment
-import com.wahttodo.app.view.fragment.DecisionShortListedFragment
-import com.wahttodo.app.view.fragment.HomeGroupListFragment
-import com.wahttodo.app.view.fragment.WaitingRoomUserListFragment
+import com.wahttodo.app.view.fragment.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.progressbar.*
@@ -66,6 +63,18 @@ class HomeActivity : AppCompatActivity() {
             false,
             R.id.nav_host_fragment,
             "DecisionListingFragment",
+            bundle
+        )
+    }
+
+    fun displayDecisionSubCategory() {
+        val bundle = Bundle()
+        bundle.putString("imFrom", "HomeActivity")
+        replaceFragmentWithData(
+            DecisionSubCategoryFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "DecisionSubCategoryFragment",
             bundle
         )
     }

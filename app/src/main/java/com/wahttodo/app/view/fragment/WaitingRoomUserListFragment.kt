@@ -52,7 +52,7 @@ class WaitingRoomUserListFragment : Fragment() {
         setupRecyclerView()
 
         rootView.btnStart.setOnClickListener{
-            (context as WaitingRoomActivity).displayDecisionSubCategory(listItems.size)
+            (context as WaitingRoomActivity).displayDecisionSubCategory()
             waitingRoomFirebaseListener.remove()
         }
 

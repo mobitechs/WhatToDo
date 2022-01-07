@@ -300,7 +300,13 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                     }
                 }
                 else{
-                    requireActivity().showToastMsg("not exist failed.")
+//                    requireActivity().showToastMsg("not exist failed.")
+                    if (imFrom == "HomeActivity") {
+                        (context as HomeActivity).displayDecisionSubCategory()
+                    }
+                    else {
+                        (context as WaitingRoomActivity).displayDecisionSubCategory()
+                    }
                 }
             }
     }
