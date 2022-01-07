@@ -25,6 +25,7 @@ import com.wahttodo.app.view.activity.HomeActivity
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.fragment_decision_listing.view.*
+import kotlinx.android.synthetic.main.progressbar.view.*
 import java.util.HashMap
 
 class DecisionListingFragment : Fragment(), CardStackListener {
@@ -32,6 +33,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
     private lateinit var db: FirebaseFirestore
     var imFrom = ""
     var listSize: Int = 0
+    private lateinit var shortListedFirebaseListener: ListenerRegistration
     private lateinit var decisionListingFirebaseListener: ListenerRegistration
     private lateinit var movieCountUpdateData: DumpedMoviesList
     private lateinit var movieCountDeleteData: DumpedMoviesList
@@ -71,6 +73,7 @@ class DecisionListingFragment : Fragment(), CardStackListener {
 //        setupRecyclerView()
         setupCardStackView()
         getDecisionSelectedList()
+        getListOfShortListed()
     }
 
     private fun setupRecyclerView() {
@@ -127,6 +130,9 @@ class DecisionListingFragment : Fragment(), CardStackListener {
                             movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, updatedCount.toString())
                             listSize -= 1
                             movieDeleteData()
+                            if (noOfUsers == updatedCount.toString()) {
+                                requireActivity().showToastMsg("Congrats, You have matched.")
+                            }
                         }
                     }
 
@@ -302,10 +308,33 @@ class DecisionListingFragment : Fragment(), CardStackListener {
             }
     }
 
+    private fun getListOfShortListed() {
+        shortListedFirebaseListener = db.collection("whatToDoCollection")
+            .document(roomId)
+            .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, error ->
+                if (error != null) {
+                    requireActivity().showToastMsg("Listen failed. $error")
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    val data = snapshot.data
+                    val matchedMoviesList = data?.getValue("matchedMoviesList") as ArrayList<*>
+
+                    if (matchedMoviesList.size != 0) {
+                        rootView.btnShowShortListed.visibility = View.VISIBLE
+                    }
+                }
+            }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if(this::decisionListingFirebaseListener.isInitialized){
             decisionListingFirebaseListener.remove()
+        }
+
+        if(this::shortListedFirebaseListener.isInitialized){
+            shortListedFirebaseListener.remove()
         }
     }
 }

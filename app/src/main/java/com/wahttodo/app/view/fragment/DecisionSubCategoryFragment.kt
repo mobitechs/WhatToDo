@@ -85,6 +85,9 @@ class DecisionSubCategoryFragment : Fragment() {
                 for (item in it) {
                     listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
                 }
+                if (listItems.size != 0) {
+                    checkIfRoomExist()
+                }
             })
 
 
@@ -94,7 +97,6 @@ class DecisionSubCategoryFragment : Fragment() {
 //                    listItems.add(DumpedMoviesList(item.movieImage, item.movieName, item.rating, item.description, item.matchedCount))
 //                }
 //            }
-            checkIfRoomExist()
         }
 
         setupLanguageSpinner()

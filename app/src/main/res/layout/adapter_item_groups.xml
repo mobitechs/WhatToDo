@@ -15,23 +15,29 @@
         app:strokeWidth="@dimen/_1sdp"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layoutGetSmile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:id="@+id/txtName"
+                android:layout_toStartOf="@+id/layoutRoomStatus"
                 android:text="Get the Smile"
-                android:textSize="@dimen/_14sdp"
-              />
-        </LinearLayout>
+                android:textSize="@dimen/_14sdp"/>
+
+            <RelativeLayout
+                android:id="@+id/layoutRoomStatus"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:background="@drawable/circle_red"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_15sdp"/>
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 </RelativeLayout>
