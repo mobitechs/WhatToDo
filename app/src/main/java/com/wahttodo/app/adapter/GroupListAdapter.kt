@@ -59,11 +59,11 @@ class GroupListAdapter(
         if (currentDate - serverDate >= 86400000) {
 //            requireActivity().showToastMsg("Room is not active")
 //            (context as HomeActivity).displayDecisionShortListed()
-            holder.layoutRoomStatus.background.setTint(context.resources.getColor(R.color.red))
+            holder.layoutRoomStatus.background.setColorFilter(Color.parseColor("#FF0000"), PorterDuff.Mode.SRC_ATOP)
         }
         else {
 //            (context as HomeActivity).displayDecisionCardListing()
-            holder.layoutRoomStatus.background.setTint(context.resources.getColor(R.color.green))
+            holder.layoutRoomStatus.background.setColorFilter(Color.parseColor("#4CAF50"), PorterDuff.Mode.SRC_ATOP)
         }
 
         holder.cardView.setOnClickListener {
