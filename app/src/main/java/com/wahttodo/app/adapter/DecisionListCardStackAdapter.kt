@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import com.wahttodo.app.R
 import com.wahttodo.app.model.DumpedMoviesList
+import com.wahttodo.app.utils.setImage
 
 class DecisionListCardStackAdapter (
     activityContext: Context
@@ -48,9 +49,10 @@ class DecisionListCardStackAdapter (
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         var item: DumpedMoviesList = listItems[position]
-        Glide.with(holder.imgMoviePoster)
-            .load(item.movieImage)
-            .into(holder.imgMoviePoster)
+//        Glide.with(holder.imgMoviePoster)
+//            .load(item.movieImage)
+//            .into(holder.imgMoviePoster)
+        holder.imgMoviePoster.setImage(item.movieImage, R.drawable.cinema)
         holder.textMovieName.text = item.movieName
         holder.txtDescription.text = item.description
         holder.rating.rating = item.rating.toFloat()/2

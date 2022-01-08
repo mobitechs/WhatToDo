@@ -152,19 +152,65 @@ class SubCategoryActivity : AppCompatActivity() {
     }
 
     private fun updateRoomData() {
+
         db.collection("dumpMoviesCollection")
             .document(roomId)
-            .update("dumpedMoviesList", listItems, "noOfUsers", userCount)
+            .get()
             .addOnSuccessListener {
-                Log.d("TAG", "Movie updated entries add")
-                openActivity(ListingCardActivity::class.java)
-                if(this::waitingRoomFirebaseListener.isInitialized){
-                    waitingRoomFirebaseListener.remove()
+                val dumpedMoviesList = it.data?.getValue("dumpedMoviesList") as ArrayList<*>
+                for (item in dumpedMoviesList) {
+                    val movie = item as java.util.HashMap<*, *>
+                    val movieImage = movie["movieImage"].toString()
+                    val movieName = movie["movieName"].toString()
+                    val rating = movie["rating"].toString()
+                    val description = movie["description"].toString()
+                    val matchedCount = movie["matchedCount"].toString()
+
+                    var newEntry = true
+                    for (i in listItems) {
+                        if (i.movieName == movieName) {
+                            newEntry = false
+                        }
+                    }
+                    if (newEntry) {
+                        listItems.add(DumpedMoviesList(movieImage, movieName, rating, description, matchedCount))
+                    }
                 }
+
+                val dumpMovieDetails = DumpMovieDetails(listItems, userCount)
+
+                db.collection("dumpMoviesCollection")
+                    .document(roomId)
+                    .set(dumpMovieDetails)
+                    .addOnSuccessListener {
+                        Log.d("TAG","Record added successfully.")
+                        if(this::waitingRoomFirebaseListener.isInitialized){
+                            waitingRoomFirebaseListener.remove()
+                        }
+                        listItems.clear()
+                        openActivity(ListingCardActivity::class.java)
+                    }
+                    .addOnFailureListener {
+                        this.showToastMsg("Record failed to add.")
+                    }
             }
             .addOnFailureListener {
-                this.showToastMsg("User updated entry failed to add")
+                showToastMsg("Error getting room data" + it.message)
             }
+
+//        db.collection("dumpMoviesCollection")
+//            .document(roomId)
+//            .update("dumpedMoviesList", listItems, "noOfUsers", userCount)
+//            .addOnSuccessListener {
+//                Log.d("TAG", "Movie updated entries add")
+//                openActivity(ListingCardActivity::class.java)
+//                if(this::waitingRoomFirebaseListener.isInitialized){
+//                    waitingRoomFirebaseListener.remove()
+//                }
+//            }
+//            .addOnFailureListener {
+//                this.showToastMsg("User updated entry failed to add")
+//            }
     }
 
     private fun createRoomAndAddData() {
@@ -176,10 +222,11 @@ class SubCategoryActivity : AppCompatActivity() {
             .set(dumpMovieDetails)
             .addOnSuccessListener {
                 Log.d("TAG","Record added successfully.")
-                openActivity(ListingCardActivity::class.java)
                 if(this::waitingRoomFirebaseListener.isInitialized){
                     waitingRoomFirebaseListener.remove()
                 }
+                listItems.clear()
+                openActivity(ListingCardActivity::class.java)
             }
             .addOnFailureListener {
                 this.showToastMsg("Record failed to add.")
