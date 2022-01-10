@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:lineSpacingExtra="@dimen/_5sdp"
-                android:text="Enter the 4-digit code we have sent by text to"
+                android:text="Enter the 4-digit code we have sent by email to"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 

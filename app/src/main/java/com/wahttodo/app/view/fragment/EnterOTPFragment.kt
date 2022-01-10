@@ -70,6 +70,7 @@ class EnterOTPFragment : Fragment(), ApiResponse {
         val replaced = email.replace("(?<=.{2}).(?=[^@]*?.@)".toRegex(), "*")
 
         txtUserEmailMobile.text = "your email " + replaced
+        txtUserEmailMobile.visibility = View.VISIBLE
 
         getOtpAPI()
         btnResend.setOnClickListener {

@@ -31,6 +31,7 @@
     <color name="iconColor">#9D9D9D</color>
     <color name="cardBg">#DAD9D9</color>
     <color name="bg_sign_up_view_bg">#a6000000</color>
+    <color name="bg_sign_up_view_bg2">#FF0000</color>
 
 
 </resources>

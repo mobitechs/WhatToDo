@@ -1,10 +1,8 @@
 package com.wahttodo.app.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -17,16 +15,13 @@ import com.wahttodo.app.adapter.GroupListAdapter
 import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.*
-import com.wahttodo.app.view.fragment.*
+import com.wahttodo.app.utils.Constants
+import com.wahttodo.app.utils.openActivity
+import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_home_group_list.view.*
 import kotlinx.android.synthetic.main.progressbar.*
-import kotlinx.android.synthetic.main.progressbar.view.*
 import kotlinx.android.synthetic.main.recyclerview.*
-import kotlinx.android.synthetic.main.recyclerview.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 
 class HomeActivity : AppCompatActivity(),GroupListCallback {
@@ -35,6 +30,7 @@ class HomeActivity : AppCompatActivity(),GroupListCallback {
     lateinit var mLayoutManager: LinearLayoutManager
     lateinit var viewModelUser: UserListViewModel
     var userId = ""
+    var position = 0
     private lateinit var rootView: View
     companion object {
         lateinit var db: FirebaseFirestore
@@ -122,6 +118,24 @@ class HomeActivity : AppCompatActivity(),GroupListCallback {
             .addOnFailureListener {
                 this.showToastMsg("Record failed to fetch")
             }
+    }
+
+    override fun deleteRoom(item: JoinedRoomListItems, pos: Int) {
+        position = pos
+        deleteTheRoom()
+
+    }
+
+    override fun deleteRoomByHost(item: JoinedRoomListItems, pos: Int) {
+        position = pos
+        deleteTheRoom()
+    }
+
+    private fun deleteTheRoom() {
+        listItems.removeAt(position)
+        listAdapter.notifyItemRemoved(position)
+        listAdapter.notifyItemRangeChanged(position, listItems!!.size)
+        listAdapter.notifyDataSetChanged()
     }
 
 

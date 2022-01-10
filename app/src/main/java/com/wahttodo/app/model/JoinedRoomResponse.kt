@@ -11,6 +11,7 @@ data class JoinedRoomListItems(
     val id: String,
     val roomId: String,
     val roomName: String,
-    val userId: String,
+    val joinedUserId: String,
+    val hostUserId: String,
     val addedDate: String
 )

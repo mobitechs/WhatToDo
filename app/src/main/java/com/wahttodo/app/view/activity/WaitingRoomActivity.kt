@@ -43,6 +43,8 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     var userId = ""
     var hostuser = ""
     var imFrom = ""
+    var roomName = ""
+    var hostUserId = ""
     var dumpMoviesList = ArrayList<DumpedMoviesList>()
     var matchedMoviesList = ArrayList<MatchedMoviesList>()
     var joinedUserList = ArrayList<JoinedUserList>()
@@ -212,12 +214,15 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
     }
 
     private fun saveJoinedRoom() {
+        hostUserId = hostuser
         val method = "joinedRoom"
         val jsonObject = JSONObject()
         try {
             jsonObject.put("method", method)
-            jsonObject.put("userId", userId)
+            jsonObject.put("joinedUserId", userId)
+            jsonObject.put("hostUserId", hostUserId)
             jsonObject.put("roomId", roomId)
+            jsonObject.put("roomName", roomName)
         } catch (e: JSONException) {
             e.printStackTrace()
         }

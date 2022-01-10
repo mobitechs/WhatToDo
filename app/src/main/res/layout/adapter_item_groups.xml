@@ -20,24 +20,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <RelativeLayout
+                android:id="@+id/layoutRoomStatus"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/circle_red" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:id="@+id/txtName"
-                android:layout_toStartOf="@+id/layoutRoomStatus"
+                android:layout_toEndOf="@+id/layoutRoomStatus"
                 android:text="Get the Smile"
                 android:textSize="@dimen/_14sdp"/>
 
-            <RelativeLayout
-                android:id="@+id/layoutRoomStatus"
-                android:layout_width="@dimen/_10sdp"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@drawable/circle_red"
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_15sdp"/>
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:id="@+id/imgDelete"/>
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
