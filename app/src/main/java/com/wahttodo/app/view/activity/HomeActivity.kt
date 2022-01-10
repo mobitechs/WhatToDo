@@ -12,25 +12,30 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.wahttodo.app.R
 import com.wahttodo.app.adapter.GroupListAdapter
+import com.wahttodo.app.callbacks.AlertDialogBtnClickedCallBack
+import com.wahttodo.app.callbacks.ApiResponse
 import com.wahttodo.app.callbacks.GroupListCallback
 import com.wahttodo.app.model.JoinedRoomListItems
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.openActivity
-import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.utils.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.recyclerview.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 
-class HomeActivity : AppCompatActivity(),GroupListCallback {
+class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
+    AlertDialogBtnClickedCallBack {
     lateinit var listAdapter: GroupListAdapter
     var listItems = ArrayList<JoinedRoomListItems>()
     lateinit var mLayoutManager: LinearLayoutManager
     lateinit var viewModelUser: UserListViewModel
     var userId = ""
     var position = 0
+    var method = ""
+    var roomId = ""
     private lateinit var rootView: View
     companion object {
         lateinit var db: FirebaseFirestore
@@ -85,7 +90,9 @@ class HomeActivity : AppCompatActivity(),GroupListCallback {
         viewModelUser.getMyGroupList(userId)
 
         viewModelUser.joinedRoomListItems.observe(this, Observer {
-            listAdapter.updateListItems(it)
+            listItems.clear()
+            listItems.addAll(it)
+            listAdapter.updateListItems(listItems)
         })
 
     }
@@ -122,21 +129,59 @@ class HomeActivity : AppCompatActivity(),GroupListCallback {
 
     override fun deleteRoom(item: JoinedRoomListItems, pos: Int) {
         position = pos
-        deleteTheRoom()
+        method = "deleteRoom"
+        roomId = item.roomId
+        showAlertDialog("Confirmation","Do you really want to delete this room?","YES","NO",this)
 
     }
 
     override fun deleteRoomByHost(item: JoinedRoomListItems, pos: Int) {
+        method = "deleteRoomByHost"
         position = pos
-        deleteTheRoom()
+        roomId = item.roomId
+        showAlertDialog("Confirmation","Do you really want to delete this room, if you delete this room no one can able see this group.","YES","NO",this)
     }
 
-    private fun deleteTheRoom() {
-        listItems.removeAt(position)
-        listAdapter.notifyItemRemoved(position)
-        listAdapter.notifyItemRangeChanged(position, listItems!!.size)
-        listAdapter.notifyDataSetChanged()
+
+
+    private fun deleteRoomAPI() {
+        val jsonObject = JSONObject()
+        if(method == "deleteRoom"){
+            try {
+                jsonObject.put("method", method)
+                jsonObject.put("joinedUserId", userId)
+                jsonObject.put("roomId", roomId)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }else{
+            try {
+                jsonObject.put("method", method)
+                jsonObject.put("hostUserId", userId)
+                jsonObject.put("roomId", roomId)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+
+
+        apiPostCall(Constants.BASE_URL, jsonObject, this, method)
     }
 
+    override fun onSuccess(data: Any, tag: String) {
+        listAdapter.deleteRoomItems(position)
+    }
+
+    override fun onFailure(message: String) {
+
+    }
+
+    override fun positiveBtnClicked() {
+        deleteRoomAPI()
+    }
+
+    override fun negativeBtnClicked() {
+
+    }
 
 }

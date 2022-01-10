@@ -44,8 +44,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:src="@drawable/ic_baseline_delete_24"
                 android:id="@+id/imgDelete"/>
         </RelativeLayout>

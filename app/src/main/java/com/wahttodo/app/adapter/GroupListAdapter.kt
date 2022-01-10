@@ -28,6 +28,14 @@ class GroupListAdapter(
     private val listItems = ArrayList<JoinedRoomListItems>()
     var context: Context = activityContext
 
+
+
+    fun deleteRoomItems(position: Int) {
+        listItems.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, listItems!!.size)
+        notifyDataSetChanged()
+    }
     fun updateListItems(categoryModel: ArrayList<JoinedRoomListItems>) {
         currentDate = Timestamp.now().toDate().time
         listItems.clear()
