@@ -177,6 +177,7 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
     }
 
     override fun positiveBtnClicked() {
+        //delete from firebase
         deleteRoomAPI()
     }
 
