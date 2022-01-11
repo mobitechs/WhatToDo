@@ -159,5 +159,7 @@
         android:background="@drawable/bg_solid"
         android:text="Submit"
         android:textColor="@color/white" />
+        <include layout="@layout/loader"/>
 </RelativeLayout>
+
 </LinearLayout>

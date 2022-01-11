@@ -2,6 +2,8 @@ package com.wahttodo.app.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -11,6 +13,7 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
@@ -24,6 +27,7 @@ import com.wahttodo.app.utils.openActivity
 import com.wahttodo.app.utils.openClearActivity
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
+import kotlinx.android.synthetic.main.loader.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
@@ -59,6 +63,8 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
     lateinit var btnSubmit: AppCompatButton
 
     lateinit var viewModelUser: UserListViewModel
+    var isDataAdded = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub_category)
@@ -69,8 +75,6 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
         db = FirebaseFirestore.getInstance()
         viewModelUser = ViewModelProvider(this).get(UserListViewModel::class.java)
         roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
-
-
 
         getJoinedUserCount()
 
@@ -107,13 +111,28 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
         listItems.clear()
     }
 
+//    private fun checkValidity() {
+//        if(selectedType == "None" && selectedType2 == "None" && selectedType3 == "None"){
+//            showToastMsg("Please select atleast one genre")
+//        }
+//        else{
+//            getMovieList()
+//
+//        }
+//    }
+
     private fun checkValidity() {
         if(selectedType == "None" && selectedType2 == "None" && selectedType3 == "None"){
             showToastMsg("Please select atleast one genre")
         }
         else{
             getMovieList()
-
+            layoutLoader.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (isDataAdded) {
+                    checkIfRoomExist()
+                }
+            }, 5000)
         }
     }
 
@@ -123,15 +142,30 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
         viewModelUser.movieList.observe(this, Observer {
             //listAdapter.updateListItems(it)
             movieListItems.addAll(it)
-           // showToastMsg(movieListItems.size.toString())
+            // showToastMsg(movieListItems.size.toString())
             for (item in it) {
-                listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
+                if (!listItems.contains(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))) {
+                    listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
+                }
             }
-            if (listItems.size != 0) {
-                checkIfRoomExist()
-            }
+            isDataAdded = true
         })
     }
+//    private fun getMovieList() {
+//
+//        viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId,selectedType2,selectedType3)
+//        viewModelUser.movieList.observe(this, Observer {
+//            //listAdapter.updateListItems(it)
+//            movieListItems.addAll(it)
+//           // showToastMsg(movieListItems.size.toString())
+//            for (item in it) {
+//                listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
+//            }
+//            if (listItems.size != 0) {
+//                checkIfRoomExist()
+//            }
+//        })
+//    }
 
 
     private fun setupLanguageSpinner() {
@@ -255,7 +289,7 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
                             waitingRoomFirebaseListener.remove()
                         }
                         listItems.clear()
-                        openActivity(ListingCardActivity::class.java)
+                        openListingPage()
                     }
                     .addOnFailureListener {
                         this.showToastMsg("Record failed to add.")
@@ -280,6 +314,11 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
 //            }
     }
 
+    private fun openListingPage() {
+        openActivity(ListingCardActivity::class.java)
+        layoutLoader.visibility = View.GONE
+    }
+
     private fun createRoomAndAddData() {
         // listItem will be the data which you will get by selecting language and type
         val dumpMovieDetails = DumpMovieDetails(listItems, userCount)
@@ -293,7 +332,7 @@ class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
                     waitingRoomFirebaseListener.remove()
                 }
                 listItems.clear()
-                openActivity(ListingCardActivity::class.java)
+                openListingPage()
             }
             .addOnFailureListener {
                 this.showToastMsg("Record failed to add.")

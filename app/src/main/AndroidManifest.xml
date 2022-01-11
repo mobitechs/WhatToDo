@@ -12,7 +12,7 @@
         android:theme="@style/Theme.WhatToDo"
         android:usesCleartextTraffic="true">
         <activity
-            android:noHistory="true"
+            
             android:label="Listing"
             android:theme="@style/noActionBar"
             android:name=".view.activity.ListingCardActivity"

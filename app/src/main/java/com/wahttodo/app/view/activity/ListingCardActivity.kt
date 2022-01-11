@@ -65,7 +65,6 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
         getListOfShortListed()
 
         btnShowShortListed.setOnClickListener {
-
             openActivity(ShortListedLIstActivity::class.java)
         }
 
@@ -149,34 +148,22 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                     this.showToastMsg("Error getting room data" + it.message)
                 }
         }
-        else if(direction == Direction.Left){
+        else{
+            layoutMatched.visibility =  View.VISIBLE
+            if(noOfUsers == "1"){
+                txtMatched.text = "Not Liked"
+            }else{
+                txtMatched.text = "Not\nMatched"
+            }
 
-            db.collection("dumpMoviesCollection")
-                .document(roomId)
-                .get()
-                .addOnSuccessListener {
-                    noOfUsers = it.data?.getValue("noOfUsers").toString()
-                    layoutMatched.visibility =  View.VISIBLE
-                    if(noOfUsers == "1"){
-                        txtMatched.text = "Not Liked"
-                    }else{
-                        txtMatched.text = "Not\nMatched"
-                    }
-
-                    Handler().postDelayed({
-                        layoutMatched.visibility =  View.GONE }, 1000.toLong())
-                }
-                .addOnFailureListener {
-                    this.showToastMsg("Error getting room data" + it.message)
-                }
+            Handler().postDelayed({
+                layoutMatched.visibility =  View.GONE }, 1000.toLong())
 
         }
-        else{
-            if(listItems.lastIndex == (position - 1)){
-                this.showToastMsg("Congratulations")
+        if(listItems.lastIndex == (position - 1)){
+            this.showToastMsg("Congratulations")
 
-                openActivity(ShortListedLIstActivity::class.java)
-            }
+            openActivity(ShortListedLIstActivity::class.java)
         }
 
 
@@ -243,7 +230,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
 
                 if (snapshot != null && snapshot.exists()) {
                     val data = snapshot.data
-                    val noOfUsers = data?.getValue("noOfUsers").toString()
+                    noOfUsers = data?.getValue("noOfUsers").toString()
                     val dumpedMoviesListWithoutShuffle = data?.getValue("dumpedMoviesList") as ArrayList<*>
 //                    val dumpedMoviesList = data?.getValue("dumpedMoviesList") as ArrayList<*>
                     val dumpedMoviesList = dumpedMoviesListWithoutShuffle.shuffled()
