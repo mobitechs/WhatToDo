@@ -8,9 +8,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.MetadataChanges
@@ -26,7 +26,7 @@ import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.toolbar.*
 
-class SubCategoryActivity : AppCompatActivity() {
+class SubCategoryActivity : AppCompatActivity(), LifecycleObserver {
 
     var movieListItems = ArrayList<MovieList>()
 
@@ -43,11 +43,19 @@ class SubCategoryActivity : AppCompatActivity() {
     var languageArray = Constants.languageArray
     lateinit var spinnerLanguage: AppCompatSpinner
 
-    var selectedType = ""
-    var selectedTypeId = ""
+    var selectedType = "Action"
+    var selectedTypeId = "28"
+
+    var selectedType2 = "Adventure"
+    var selectedTypeId2 = "12"
+
+    var selectedType3 = "Animation"
+    var selectedTypeId3 = "16"
 
     var typeArray = Constants.typeArray
     lateinit var spinnerType: AppCompatSpinner
+    lateinit var spinnerType2: AppCompatSpinner
+    lateinit var spinnerType3: AppCompatSpinner
     lateinit var btnSubmit: AppCompatButton
 
     lateinit var viewModelUser: UserListViewModel
@@ -68,34 +76,61 @@ class SubCategoryActivity : AppCompatActivity() {
 
         spinnerLanguage = findViewById(R.id.spinnerLanguage)
         spinnerType = findViewById(R.id.spinnerType)
+        spinnerType2 = findViewById(R.id.spinnerType2)
+        spinnerType3 = findViewById(R.id.spinnerType3)
         btnSubmit = findViewById(R.id.btnSubmit)
 
         btnSubmit.setOnClickListener {
-
-
-            viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId)
-
-            viewModelUser.movieList.observe(this, Observer {
-                //listAdapter.updateListItems(it)
-                movieListItems.addAll(it)
-
-                for (item in it) {
-                    listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
-                }
-                if (listItems.size != 0) {
-                    checkIfRoomExist()
-                }
-            })
-
-
+            btnSubmit.isEnabled = false
+            btnSubmit.isClickable = false
+            checkValidity()
         }
+
         tvToolbarTitle.text="Filters"
+
         imgHome.setOnClickListener{
             openClearActivity(HomeActivity::class.java)
         }
 
         setupLanguageSpinner()
         setupTypeSpinner()
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+       // showToastMsg("Restart")
+
+        btnSubmit.isEnabled = true
+        btnSubmit.isClickable = true
+        movieListItems.clear()
+        listItems.clear()
+    }
+
+    private fun checkValidity() {
+        if(selectedType == "None" && selectedType2 == "None" && selectedType3 == "None"){
+            showToastMsg("Please select atleast one genre")
+        }
+        else{
+            getMovieList()
+
+        }
+    }
+
+    private fun getMovieList() {
+
+        viewModelUser.searchMovies(selectedLanguageCode,selectedTypeId,selectedType2,selectedType3)
+        viewModelUser.movieList.observe(this, Observer {
+            //listAdapter.updateListItems(it)
+            movieListItems.addAll(it)
+           // showToastMsg(movieListItems.size.toString())
+            for (item in it) {
+                listItems.add(DumpedMoviesList(Constants.BASE_IMAGE_PATH+""+item.poster_path, item.title, item.vote_average.toString(), item.overview, "0"))
+            }
+            if (listItems.size != 0) {
+                checkIfRoomExist()
+            }
+        })
     }
 
 
@@ -121,22 +156,48 @@ class SubCategoryActivity : AppCompatActivity() {
     }
 
     private fun setupTypeSpinner() {
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.spinner_layout,
-            typeArray
-        )
+        val adapter = ArrayAdapter(this, R.layout.spinner_layout, typeArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerType.setAdapter(adapter)
-//        spinnerType.setSelection(listItem.controllerQty - 1)
-        spinnerType.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
 
+        spinnerType.setAdapter(adapter)
+        spinnerType.setSelection(1)
+
+        spinnerType2.setAdapter(adapter)
+        spinnerType2.setSelection(0)
+
+        spinnerType3.setAdapter(adapter)
+        spinnerType3.setSelection(0)
+
+        spinnerType.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
-
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedType = typeArray[p2]
                 selectedTypeId = Constants.typeIdArray[p2]
+
+            }
+        })
+
+
+        spinnerType2.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                selectedType2 = typeArray[p2]
+                selectedTypeId2 = Constants.typeIdArray[p2]
+
+            }
+        })
+
+
+        spinnerType3.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                selectedType3 = typeArray[p2]
+                selectedTypeId3 = Constants.typeIdArray[p2]
+
             }
         })
     }
@@ -268,7 +329,15 @@ class SubCategoryActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        super.onPause()
+
+        this.getLifecycle().removeObserver(this);
         viewModelUser.movieList.removeObservers(this)
+        super.onPause()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+      //  showToastMsg("stop")
     }
 }

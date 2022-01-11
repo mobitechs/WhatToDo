@@ -35,8 +35,13 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
         repository.getMyGroupList(userId)
     }
 
-    fun searchMovies(languageCode: String, typeId: String) {
-        repository.searchMovies(languageCode,typeId)
+    fun searchMovies(
+        languageCode: String,
+        typeId: String,
+        selectedType2: String,
+        selectedType3: String
+    ) {
+        repository.searchMovies(languageCode,typeId,selectedType2,selectedType3)
     }
 
 

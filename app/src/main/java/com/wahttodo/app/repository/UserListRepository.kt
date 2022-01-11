@@ -28,10 +28,25 @@ class UserListRepository(val application: Application) : ApiResponse {
         showProgressBar.value = !(showProgressBar != null && showProgressBar.value!!)
     }
 
-    fun searchMovies(languageCode: String, typeId: String) {
+    fun searchMovies(
+        languageCode: String,
+        typeId: String,
+        selectedType2: String,
+        selectedType3: String
+    ) {
         method = "searchMovies"
         var url = Constants.BASE_TMDB_URL + "&with_original_language=$languageCode&with_genres=$typeId"
-        apiGetCall2(url, this, method)
+        var url2 = Constants.BASE_TMDB_URL + "&with_original_language=$languageCode&with_genres=$selectedType2"
+        var url3 = Constants.BASE_TMDB_URL + "&with_original_language=$languageCode&with_genres=$selectedType3"
+        if(typeId !="None"){
+            apiGetCall2(url, this, method)
+        }
+        if(selectedType2 !="None"){
+            apiGetCall2(url2, this, method)
+        }
+        if(selectedType3 !="None"){
+            apiGetCall2(url3, this, method)
+        }
     }
 
 

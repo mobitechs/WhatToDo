@@ -40,8 +40,8 @@ class Constants {
         val languageArray = arrayOf("English", "Hindi")
         val languageArrayCode = arrayOf("en", "hi")
 
-        val typeIdArray = arrayOf("28", "12", "16", "35","80", "99", "18", "10751", "14","36","27", "10402", "9648","10749", "878","10770", "53", "10752", "37")
-        val typeArray = arrayOf("Action", "Adventure", "Animation", "Comedy","Crime","Documentary", "Drama", "Family", "Fantasy","History","Horror", "Music", "Mystery", "Romance","Science Fiction","TV Movie","Thriller", "War", "Western")
+        val typeIdArray = arrayOf("00","28", "12", "16", "35","80", "99", "18", "10751", "14","36","27", "10402", "9648","10749", "878","10770", "53", "10752", "37")
+        val typeArray = arrayOf("None","Action", "Adventure", "Animation", "Comedy","Crime","Documentary", "Drama", "Family", "Fantasy","History","Horror", "Music", "Mystery", "Romance","Science Fiction","TV Movie","Thriller", "War", "Western")
 
         //val daysArray = arrayOf("1", "2", "3", "4", "5", "6", "7")
         val daysArray = arrayOf("1", "2")
