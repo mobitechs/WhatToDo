@@ -14,11 +14,11 @@
         <activity
             android:noHistory="true"
             android:label="Listing"
-            android:theme="@style/Theme.WhatToDo"
+            android:theme="@style/noActionBar"
             android:name=".view.activity.ListingCardActivity"
             android:exported="false" />
         <activity
-            android:theme="@style/Theme.WhatToDo"
+            android:theme="@style/noActionBar"
             android:label="Short Listed"
             android:name=".view.activity.ShortListedLIstActivity"
             android:exported="false" />
@@ -26,17 +26,17 @@
             android:name=".view.activity.SubCategoryActivity"
             android:exported="false"
             android:label="Filters"
-            android:theme="@style/Theme.WhatToDo" />
+            android:theme="@style/noActionBar"/>
         <activity
             android:name=".view.activity.DecisionActivity"
             android:exported="false"
             android:label="Decision For"
-            android:theme="@style/Theme.WhatToDo" />
+            android:theme="@style/noActionBar" />
         <activity
             android:name=".view.activity.WaitingRoomActivity"
             android:exported="false"
             android:label="Waiting Room"
-            android:theme="@style/Theme.WhatToDo" />
+            android:theme="@style/noActionBar" />
         <activity
             android:name=".view.activity.HomeActivity"
             android:exported="false"

@@ -19,10 +19,12 @@ import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openActivity
+import com.wahttodo.app.utils.openClearActivity
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.activity_listing_card.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.HashMap
 
 class ListingCardActivity : AppCompatActivity() , CardStackListener {
@@ -43,7 +45,8 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
     lateinit var roomId: String
     var userId = ""
     var position=0
-    
+    var noOfUsers=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listing_card)
@@ -64,6 +67,12 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
         btnShowShortListed.setOnClickListener {
 
             openActivity(ShortListedLIstActivity::class.java)
+        }
+
+        tvToolbarTitle.text="Listing"
+
+        imgHome.setOnClickListener{
+            openClearActivity(HomeActivity::class.java)
         }
     }
 
@@ -105,7 +114,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                 .document(roomId)
                 .get()
                 .addOnSuccessListener {
-                    val noOfUsers = it.data?.getValue("noOfUsers").toString()
+                    noOfUsers = it.data?.getValue("noOfUsers").toString()
                     val dumpedMoviesList = it.data?.getValue("dumpedMoviesList") as ArrayList<*>
                     for (u in dumpedMoviesList) {
                         val movieDetails = u as HashMap<*, *>
@@ -134,10 +143,33 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                             }
                         }
                     }
+
                 }
                 .addOnFailureListener {
                     this.showToastMsg("Error getting room data" + it.message)
                 }
+        }
+        else if(direction == Direction.Left){
+
+            db.collection("dumpMoviesCollection")
+                .document(roomId)
+                .get()
+                .addOnSuccessListener {
+                    noOfUsers = it.data?.getValue("noOfUsers").toString()
+                    layoutMatched.visibility =  View.VISIBLE
+                    if(noOfUsers == "1"){
+                        txtMatched.text = "Not Liked"
+                    }else{
+                        txtMatched.text = "Not\nMatched"
+                    }
+
+                    Handler().postDelayed({
+                        layoutMatched.visibility =  View.GONE }, 1000.toLong())
+                }
+                .addOnFailureListener {
+                    this.showToastMsg("Error getting room data" + it.message)
+                }
+
         }
         else{
             if(listItems.lastIndex == (position - 1)){

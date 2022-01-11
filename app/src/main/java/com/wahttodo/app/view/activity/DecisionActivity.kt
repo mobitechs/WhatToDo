@@ -60,6 +60,10 @@ class DecisionActivity : AppCompatActivity() {
             }
         })
 
+        tvToolbarTitle.text="Decision For"
+        imgHome.setOnClickListener{
+            openClearActivity(HomeActivity::class.java)
+        }
         getListOfCategory()
     }
 

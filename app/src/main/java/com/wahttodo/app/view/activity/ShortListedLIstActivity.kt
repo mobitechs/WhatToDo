@@ -14,12 +14,14 @@ import com.wahttodo.app.adapter.DecisionShortListedAdapter
 import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
+import com.wahttodo.app.utils.openClearActivity
 import com.wahttodo.app.utils.setupCommonRecyclerViewsProperty
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.progressbar.view.*
 import kotlinx.android.synthetic.main.recyclerview.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.HashMap
 
 class ShortListedLIstActivity : AppCompatActivity() {
@@ -45,6 +47,11 @@ class ShortListedLIstActivity : AppCompatActivity() {
 
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
+
+        tvToolbarTitle.text="Short Listed"
+        imgHome.setOnClickListener{
+            openClearActivity(HomeActivity::class.java)
+        }
 
         setupRecyclerView()
     }

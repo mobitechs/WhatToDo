@@ -21,8 +21,10 @@ import com.wahttodo.app.model.MovieList
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openActivity
+import com.wahttodo.app.utils.openClearActivity
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
+import kotlinx.android.synthetic.main.toolbar.*
 
 class SubCategoryActivity : AppCompatActivity() {
 
@@ -86,6 +88,10 @@ class SubCategoryActivity : AppCompatActivity() {
             })
 
 
+        }
+        tvToolbarTitle.text="Filters"
+        imgHome.setOnClickListener{
+            openClearActivity(HomeActivity::class.java)
         }
 
         setupLanguageSpinner()

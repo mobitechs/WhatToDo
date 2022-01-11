@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:clickable="true">
 
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/cardStackView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="4dp" />
+    <include layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:background="@drawable/circle_red"
-        android:backgroundTint="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/btnShowShortListed"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/_10sdp"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:padding="@dimen/_5sdp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_add"
-            android:visibility="gone"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="@dimen/_5sdp"
-            android:text="@string/shorted_list"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_10sdp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:clickable="true"
-        android:visibility="gone"
-        android:id="@+id/layoutMatched"
-        android:background="@color/black_transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Its\nMatched"
-            android:id="@+id/txtMatched"
-            android:textSize="@dimen/_45sdp"
-            android:gravity="center"
-            android:textColor="@color/green"
-            android:textStyle="bold"/>
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/cardStackView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="4dp" />
 
+        <RelativeLayout
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/circle_red"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btnShowShortListed"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:padding="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_add"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/shorted_list"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:clickable="true"
+            android:visibility="gone"
+            android:id="@+id/layoutMatched"
+            android:background="@color/black_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Its\nMatched"
+                android:id="@+id/txtMatched"
+                android:textSize="@dimen/_45sdp"
+                android:gravity="center"
+                android:textColor="@color/green"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+
+
+</LinearLayout>

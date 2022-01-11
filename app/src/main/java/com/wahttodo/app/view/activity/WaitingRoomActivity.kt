@@ -85,6 +85,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         }
 
         SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
+
         initView()
     }
 
@@ -96,6 +97,10 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
 
         setupRecyclerView()
+        tvToolbarTitle.text="Waiting Room"
+        imgHome.setOnClickListener{
+            openClearActivity(HomeActivity::class.java)
+        }
 
         btnStart.setOnClickListener {
 //            (context as WaitingRoomActivity).displayDecisionSubCategory()
