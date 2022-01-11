@@ -123,13 +123,17 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                             if (noOfUsers == updatedCount.toString()) {
 //                                showToastMsg("Matched")
                                 layoutMatched.visibility =  View.VISIBLE
+                                if(noOfUsers == "1"){
+                                    txtMatched.text = "Liked"
+                                }else{
+                                    txtMatched.text = "Its\nMatched"
+                                }
+
                                 Handler().postDelayed({
                                     layoutMatched.visibility =  View.GONE }, 1000.toLong())
                             }
                         }
                     }
-
-//
                 }
                 .addOnFailureListener {
                     this.showToastMsg("Error getting room data" + it.message)

@@ -37,8 +37,8 @@ class Constants {
         //if u add new item in weightArray then please add in qtyArray as well its must
         val qtyArray = arrayOf("1", "2", "3", "4", "6", "8 ", "10", "12", "14", "16", "18", "20")
 
-        val languageArray = arrayOf("English", "Hindi", "Marathi")
-        val languageArrayCode = arrayOf("en", "hi", "mr")
+        val languageArray = arrayOf("English", "Hindi")
+        val languageArrayCode = arrayOf("en", "hi")
 
         val typeIdArray = arrayOf("28", "12", "16", "35","80", "99", "18", "10751", "14","36","27", "10402", "9648","10749", "878","10770", "53", "10752", "37")
         val typeArray = arrayOf("Action", "Adventure", "Animation", "Comedy","Crime","Documentary", "Drama", "Family", "Fantasy","History","Horror", "Music", "Mystery", "Romance","Science Fiction","TV Movie","Thriller", "War", "Western")
