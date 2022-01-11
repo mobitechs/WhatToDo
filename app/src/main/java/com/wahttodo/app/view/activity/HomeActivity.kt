@@ -20,7 +20,9 @@ import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.loader.*
 import kotlinx.android.synthetic.main.progressbar.*
+import kotlinx.android.synthetic.main.progressbar.progressBar
 import kotlinx.android.synthetic.main.recyclerview.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -50,9 +52,7 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
 
         db = FirebaseFirestore.getInstance()
 
-
         initView()
-
     }
 
     override fun onResume() {
@@ -168,6 +168,37 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
         apiPostCall(Constants.BASE_URL, jsonObject, this, method)
     }
 
+    private fun deleteRoomFirebase() {
+        db.collection("whatToDoCollection")
+            .document(roomId)
+            .delete()
+            .addOnSuccessListener {
+                db.collection("dumpMoviesCollection").document(roomId)
+                    .get()
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            if (it.result.exists()) {
+                                db.collection("dumpMoviesCollection")
+                                    .document(roomId)
+                                    .delete()
+                                    .addOnSuccessListener {
+                                        showToastMsg("Room successfully deleted")
+                                    }
+                                    .addOnFailureListener {
+                                        showToastMsg("Room failed to delete")
+                                    }
+                            }
+                            else {
+                                showToastMsg("Room successfully deleted")
+                            }
+                        }
+                    }
+            }
+            .addOnFailureListener {
+                showToastMsg("Room failed to delete")
+            }
+    }
+
     override fun onSuccess(data: Any, tag: String) {
         listAdapter.deleteRoomItems(position)
     }
@@ -179,6 +210,7 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
     override fun positiveBtnClicked() {
         //delete from firebase
         deleteRoomAPI()
+        deleteRoomFirebase()
     }
 
     override fun negativeBtnClicked() {
