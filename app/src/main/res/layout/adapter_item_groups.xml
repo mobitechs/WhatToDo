@@ -15,39 +15,74 @@
         app:strokeWidth="@dimen/_1sdp"
         app:cardUseCompatPadding="true">
 
-        <RelativeLayout
-            android:id="@+id/layoutGetSmile"
+        <LinearLayout
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
-
             <RelativeLayout
-                android:id="@+id/layoutRoomStatus"
-                android:layout_width="@dimen/_10sdp"
-                android:layout_height="@dimen/_10sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:background="@drawable/circle_red" />
+                android:id="@+id/layoutGetSmile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
+                <RelativeLayout
+                    android:id="@+id/layoutRoomStatus"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/circle_red" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:id="@+id/txtName"
+                    android:layout_toEndOf="@+id/layoutRoomStatus"
+                    android:text="Get the Smile"
+                    android:textSize="@dimen/_14sdp"/>
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    android:id="@+id/imgDelete"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:paddingVertical="@dimen/_5sdp"
-                android:id="@+id/txtName"
-                android:layout_toEndOf="@+id/layoutRoomStatus"
-                android:text="Get the Smile"
-                android:textSize="@dimen/_14sdp"/>
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:textAllCaps="false"
+                    android:id="@+id/btnKeepSwipe"
+                    android:text="Keep Swapping"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:paddingHorizontal="@dimen/_10sdp"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="Matched Shortlisted"
+                    android:id="@+id/btnMatchedShortList"
+                    android:textAllCaps="false"
+                    android:background="@color/green"
+                    android:textColor="@color/white"
+                    android:paddingHorizontal="@dimen/_10sdp"/>
 
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:src="@drawable/ic_baseline_delete_24"
-                android:id="@+id/imgDelete"/>
-        </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

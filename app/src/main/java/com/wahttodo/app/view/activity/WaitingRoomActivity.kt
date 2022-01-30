@@ -97,7 +97,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
             SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
 
         setupRecyclerView()
-        tvToolbarTitle.text="Waiting Room"
+        tvToolbarTitle.text="My Group"
         imgHome.setOnClickListener{
             openClearActivity(HomeActivity::class.java)
         }

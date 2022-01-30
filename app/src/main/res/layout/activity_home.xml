@@ -6,12 +6,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.fragment.HomeGroupListFragment">
 
+
+        <include layout="@layout/empty_screen" />
         <include layout="@layout/recyclerview" />
 
         <include layout="@layout/progressbar" />

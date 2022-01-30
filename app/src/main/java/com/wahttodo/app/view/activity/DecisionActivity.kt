@@ -60,7 +60,7 @@ class DecisionActivity : AppCompatActivity() {
             }
         })
 
-        tvToolbarTitle.text="Decision For"
+        tvToolbarTitle.text="What to do for?"
         imgHome.setOnClickListener{
             openClearActivity(HomeActivity::class.java)
         }
@@ -71,10 +71,10 @@ class DecisionActivity : AppCompatActivity() {
 
     private fun getListOfCategory() {
 
-        listItems.add(CategoryListItems("1", "Movie"))
-        listItems.add(CategoryListItems("2", "Food"))
-        listItems.add(CategoryListItems("3", "Games"))
-        listItems.add(CategoryListItems("4", "Dance"))
+        listItems.add(CategoryListItems("1", "Begin and Chill"))
+        listItems.add(CategoryListItems("2", "Much and chomp"))
+        listItems.add(CategoryListItems("3", "Board in a house"))
+        listItems.add(CategoryListItems("4", "Go Outing"))
         listAdapter.updateListItems(listItems)
     }
 

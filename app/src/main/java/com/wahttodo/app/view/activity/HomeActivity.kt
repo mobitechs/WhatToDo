@@ -20,8 +20,7 @@ import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.loader.*
-import kotlinx.android.synthetic.main.progressbar.*
+import kotlinx.android.synthetic.main.empty_screen.*
 import kotlinx.android.synthetic.main.progressbar.progressBar
 import kotlinx.android.synthetic.main.recyclerview.*
 import org.json.JSONException
@@ -93,11 +92,18 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
             listItems.clear()
             listItems.addAll(it)
             listAdapter.updateListItems(listItems)
+
+            if(listItems.size ==0){
+                txtContent.text = "Room not available"
+                emptyLayout.visibility = View.VISIBLE
+            }
         })
+
+
 
     }
 
-    override fun getRoomId(roomId: String) {
+    override fun getRoomId(roomId: String, iamFor: String) {
         SharePreferenceManager.getInstance(this).save(Constants.ROOM_ID, roomId)
         db.collection("whatToDoCollection")
             .document(roomId)
@@ -109,14 +115,20 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
                     val sfd = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
                     sfd.format(serverTimestamp.toDate())
                     var serverDate = serverTimestamp.toDate().time
-                    if (currentDate - serverDate >= 86400000) {
-                        this.showToastMsg("Room is not active")
-//                        (context as HomeActivity).displayDecisionShortListed()
-                        openActivity(ShortListedLIstActivity::class.java)
+//                    if (currentDate - serverDate >= 86400000) {
+//                        this.showToastMsg("Room is not active")
+////                        (context as HomeActivity).displayDecisionShortListed()
+//                        openActivity(ShortListedLIstActivity::class.java)
+//                    }
+//                    else {
+////                        (context as HomeActivity).displayDecisionCardListing()
+//                        openActivity(ListingCardActivity::class.java)
+//                    }
+                    if (iamFor == "KeepSwipe") {
+                        openActivity(ListingCardActivity::class.java)
                     }
                     else {
-//                        (context as HomeActivity).displayDecisionCardListing()
-                        openActivity(ListingCardActivity::class.java)
+                        openActivity(ShortListedLIstActivity::class.java)
                     }
                 }
 
@@ -139,7 +151,7 @@ class HomeActivity : AppCompatActivity(),GroupListCallback, ApiResponse,
         method = "deleteRoomByHost"
         position = pos
         roomId = item.roomId
-        showAlertDialog("Confirmation","Do you really want to delete this room, if you delete this room no one can able see this group.","YES","NO",this)
+        showAlertDialog("Confirmation","Do you want to delete? once deleted the room cannot be access by any one.","YES","NO",this)
     }
 
 

@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/_5sdp">
 
+
+        <include layout="@layout/empty_screen" />
         <include layout="@layout/recyclerview" />
 
         <include layout="@layout/progressbar" />

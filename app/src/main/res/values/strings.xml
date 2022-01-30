@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WhatToDo</string>
     <string name="whattodo">What To \n Do</string>
-    <string name="shorted_list">Shorted\nList</string>
+<!--    <string name="shorted_list">Shorted\nList</string>-->
+    <string name="shorted_list">Matches</string>
 
 </resources>

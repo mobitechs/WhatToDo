@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/emptyLayout"
+    android:visibility="gone"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:cardCornerRadius="@dimen/_8sdp"-->
+<!--            app:cardElevation="@dimen/_5sdp"-->
+<!--            app:strokeColor="@color/colorAccent"-->
+<!--            app:strokeWidth="@dimen/_1sdp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            app:cardUseCompatPadding="true">-->
+
+            <LinearLayout
+                android:layout_margin="@dimen/_15sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_24sdp"
+                    android:id="@+id/txtContent"
+                    android:text="Room Not available"/>
+            </LinearLayout>
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -18,6 +18,7 @@ import com.wahttodo.app.utils.openClearActivity
 import com.wahttodo.app.utils.setupCommonRecyclerViewsProperty
 import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.viewModel.UserListViewModel
+import kotlinx.android.synthetic.main.empty_screen.*
 import kotlinx.android.synthetic.main.progressbar.*
 import kotlinx.android.synthetic.main.progressbar.view.*
 import kotlinx.android.synthetic.main.recyclerview.*
@@ -48,7 +49,7 @@ class ShortListedLIstActivity : AppCompatActivity() {
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
         roomId = SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
 
-        tvToolbarTitle.text="Short Listed"
+        tvToolbarTitle.text="Matches"
         imgHome.setOnClickListener{
             openClearActivity(HomeActivity::class.java)
         }
@@ -91,6 +92,10 @@ class ShortListedLIstActivity : AppCompatActivity() {
                         val description = user["description"].toString()
                         listItems.add(MatchedMoviesList(movieImage, movieName, rating, description))
                         listAdapter.updateListItems(listItems)
+                    }
+                    if(listItems.size ==0){
+                        txtContent.text = "There is no matched yet"
+                        emptyLayout.visibility = View.VISIBLE
                     }
                 }
             }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
@@ -79,8 +80,14 @@ class GroupListAdapter(
             }
         }
 
-        holder.cardView.setOnClickListener {
-            groupListCallback.getRoomId(item.roomId)
+//        holder.cardView.setOnClickListener {
+//            groupListCallback.getRoomId(item.roomId, "KeepSwipw")
+//        }
+        holder.btnKeepSwipe.setOnClickListener {
+            groupListCallback.getRoomId(item.roomId,"KeepSwipe")
+        }
+        holder.btnMatchedShortList.setOnClickListener {
+            groupListCallback.getRoomId(item.roomId,"ShorListing")
         }
 
         holder.imgDelete.setOnClickListener {
@@ -104,6 +111,8 @@ class GroupListAdapter(
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
+        var btnMatchedShortList: AppCompatButton = view.findViewById(R.id.btnMatchedShortList)
+        var btnKeepSwipe: AppCompatButton = view.findViewById(R.id.btnKeepSwipe)
         var txtName: TextView = view.findViewById(R.id.txtName)
         var imgDelete: AppCompatImageView = view.findViewById(R.id.imgDelete)
         var layoutRoomStatus: RelativeLayout = view.findViewById(R.id.layoutRoomStatus)
