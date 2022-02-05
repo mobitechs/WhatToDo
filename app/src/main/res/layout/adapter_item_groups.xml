@@ -65,7 +65,7 @@
                     android:layout_height="@dimen/_30sdp"
                     android:textAllCaps="false"
                     android:id="@+id/btnKeepSwipe"
-                    android:text="Keep Swapping"
+                    android:text="Keep Swiping"
                     android:background="@color/blue"
                     android:textColor="@color/white"
                     android:paddingHorizontal="@dimen/_10sdp"/>

@@ -60,7 +60,7 @@ class DecisionActivity : AppCompatActivity() {
             }
         })
 
-        tvToolbarTitle.text="What to do for?"
+        tvToolbarTitle.text="What would you like to do?"
         imgHome.setOnClickListener{
             openClearActivity(HomeActivity::class.java)
         }

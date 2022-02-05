@@ -30,7 +30,7 @@
         <activity
             android:name=".view.activity.DecisionActivity"
             android:exported="false"
-            android:label="What to do for?"
+            android:label="What would you like to do?"
             android:theme="@style/noActionBar" />
         <activity
             android:name=".view.activity.WaitingRoomActivity"
