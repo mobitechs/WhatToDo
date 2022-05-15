@@ -23,14 +23,15 @@
         android:id="@+id/imgMoviePoster"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_toEndOf="@+id/imgMoviePoster"
+        android:id="@+id/textMovieName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="KGF"
         android:layout_marginTop="@dimen/_5sdp"
+        android:layout_toEndOf="@+id/imgMoviePoster"
+        android:text="KGF"
+        style="@style/textHeading"
         android:textSize="@dimen/_12sdp"
-        android:textStyle="bold"
-        android:id="@+id/textMovieName"/>
+        android:textStyle="bold" />
 
     <RatingBar
         android:layout_alignParentBottom="true"
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:visibility="gone"
+        style="@style/textNormal"
         android:layout_margin="@dimen/_5sdp"
         android:layout_below="@+id/textMovieName"
         android:textSize="@dimen/_10sdp"

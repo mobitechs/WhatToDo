@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="@dimen/_130sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="@dimen/_5sdp"
+        app:cardUseCompatPadding="true"
         app:strokeColor="@color/colorAccent"
-        app:strokeWidth="@dimen/_1sdp"
-        app:cardUseCompatPadding="true">
+        app:strokeWidth="@dimen/_1sdp">
 
-        <LinearLayout
-            android:layout_gravity="center"
+        <RelativeLayout
             android:id="@+id/layoutGetSmile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/txtName"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text="Get the Smile"
-                android:textSize="@dimen/_18sdp"
-                />
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/movie" />
+
+
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtName"
+        style="@style/textHeading"
+        android:layout_marginTop="-10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Get the Smile"
+        android:textSize="@dimen/_14sdp" />
 
-</RelativeLayout>
+
+</LinearLayout>

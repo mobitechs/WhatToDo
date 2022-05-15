@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
@@ -83,7 +84,7 @@ class GroupListAdapter(
 //        holder.cardView.setOnClickListener {
 //            groupListCallback.getRoomId(item.roomId, "KeepSwipw")
 //        }
-        holder.btnKeepSwipe.setOnClickListener {
+        holder.cardView.setOnClickListener {
             groupListCallback.getRoomId(item.roomId,"KeepSwipe")
         }
         holder.btnMatchedShortList.setOnClickListener {
@@ -111,10 +112,11 @@ class GroupListAdapter(
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
-        var btnMatchedShortList: AppCompatButton = view.findViewById(R.id.btnMatchedShortList)
-        var btnKeepSwipe: AppCompatButton = view.findViewById(R.id.btnKeepSwipe)
+        var btnMatchedShortList: LinearLayout = view.findViewById(R.id.btnMatchedShortList)
+        var btnKeepSwipe: AppCompatImageView = view.findViewById(R.id.btnKeepSwipe)
+        var imgDelete: LinearLayout = view.findViewById(R.id.imgDelete)
         var txtName: TextView = view.findViewById(R.id.txtName)
-        var imgDelete: AppCompatImageView = view.findViewById(R.id.imgDelete)
+
         var layoutRoomStatus: RelativeLayout = view.findViewById(R.id.layoutRoomStatus)
         val cardView: View = itemView
 

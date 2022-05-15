@@ -27,6 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                style="@style/textNormal"
                 android:text="Language: " />
 
             <LinearLayout
@@ -58,6 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                style="@style/textNormal"
                 android:text="Genre 1: " />
 
             <LinearLayout
@@ -91,6 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                style="@style/textNormal"
                 android:text="Genre 2: " />
 
             <LinearLayout
@@ -124,6 +127,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                style="@style/textNormal"
                 android:text="Genre 3: " />
 
             <LinearLayout
@@ -158,7 +162,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_solid"
         android:text="Submit"
-        android:textColor="@color/white" />
+        style="@style/textHeading"
+        android:textColor="@color/logoBg" />
         <include layout="@layout/loader"/>
 </RelativeLayout>
 

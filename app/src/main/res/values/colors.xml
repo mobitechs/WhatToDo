@@ -10,10 +10,10 @@
     <color name="purple">#6a1b9a</color>
 
 
-    <color name="colorPrimary">#6a1b9a</color>
-    <color name="colorPrimaryDark">#6a1b9a</color>
+    <color name="colorPrimary">#28004D</color>
+    <color name="colorPrimaryDark">#28004D</color>
     <color name="midleColor">#116AF9</color>
-    <color name="colorAccent">#f44336</color>
+    <color name="colorAccent">#FDC301</color>
 <!--    <color name="colorAccent">#6a1b9a</color>-->
 
 
@@ -32,6 +32,9 @@
     <color name="cardBg">#DAD9D9</color>
     <color name="bg_sign_up_view_bg">#a6000000</color>
     <color name="bg_sign_up_view_bg2">#FF0000</color>
+
+    <color name="logoBg">#FDC301</color>
+    <color name="logoBg2">#28004D</color>
 
 
 </resources>

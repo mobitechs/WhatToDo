@@ -74,4 +74,19 @@
     <style name="Theme.WhatToDo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.WhatToDo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="textHeading" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
+
+
+    <style name="textMedium" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/lato_medium</item>
+    </style>
+
+    <style name="textNormal" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
 </resources>

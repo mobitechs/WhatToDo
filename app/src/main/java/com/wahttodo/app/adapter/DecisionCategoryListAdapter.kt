@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.wahttodo.app.R
@@ -45,6 +46,7 @@ class DecisionCategoryListAdapter(activityContext: Context) :
         var item: CategoryListItems = listItems.get(position)
 
         holder.txtName.text = item.name
+        holder.img.setImageResource(item.img)
 
         holder.itemView.setOnClickListener {
 
@@ -62,6 +64,7 @@ class DecisionCategoryListAdapter(activityContext: Context) :
 
         var txtName: TextView = view.findViewById(R.id.txtName)
         val cardView: View = itemView
+        val img: ImageView = view.findViewById(R.id.img)
 
     }
 

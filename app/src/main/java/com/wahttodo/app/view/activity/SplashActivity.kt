@@ -10,6 +10,7 @@ import com.wahttodo.app.R
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openClearActivity
+import com.wahttodo.app.utils.setStatusColor
 import com.wahttodo.app.utils.showToastMsg
 
 class SplashActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-
+        setStatusColor(window, resources.getColor(R.color.logoBg))
         Handler().postDelayed({ getReferralLinkDetails() }, SPLASH_TIME_OUT.toLong())
     }
 

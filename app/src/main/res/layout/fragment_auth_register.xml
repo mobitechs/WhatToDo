@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/logoBg">
 
 
     <RelativeLayout
@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="What's your Details?"
+                style="@style/textHeading"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
 
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:lineSpacingExtra="@dimen/_5sdp"
+                style="@style/textNormal"
                 android:text="We protect our community by making sure everyone using WhatToDO is real."
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
@@ -58,6 +60,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Name"
                         android:inputType="text"
+                        style="@style/textNormal"
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:background="@null"
@@ -81,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Mobile No"
                         android:background="@null"
+                        style="@style/textNormal"
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:inputType="text"
@@ -103,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Email"
                         android:background="@null"
+                        style="@style/textNormal"
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingHorizontal="@dimen/_5sdp"
                         android:inputType="text"
@@ -147,7 +152,8 @@
             android:layout_marginTop="@dimen/_60sdp"
             android:background="@drawable/bg_solid"
             android:text="Submit"
-            android:textColor="@color/white" />
+            style="@style/textHeading"
+            android:textColor="@color/logoBg" />
 
     </RelativeLayout>
     <!--        </androidx.cardview.widget.CardView>-->

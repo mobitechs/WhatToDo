@@ -29,7 +29,8 @@
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/bg_solid"
                 android:text="Start"
-                android:textColor="@color/white" />
+                style="@style/textHeading"
+                android:textColor="@color/logoBg" />
 
         </RelativeLayout>
 

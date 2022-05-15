@@ -3,7 +3,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
+    android:background="@color/logoBg2"
     android:contentInsetStart="0dp"
     android:contentInsetLeft="0dp"
     android:contentInsetEnd="0dp"
@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:padding="@dimen/_8sdp"
                 android:visibility="visible"
-                android:tint="@color/white"
+                android:tint="@color/logoBg"
                 android:id="@+id/imgHome"
                 android:src="@drawable/ic_baseline_home_24" />
 
@@ -38,9 +38,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:gravity="center_vertical"
-                android:maxLength="25"
                 android:text="Home"
-                android:textColor="@color/white"
+                style="@style/textHeading"
+                android:textColor="@color/logoBg"
                 android:textSize="@dimen/_14sdp" />
         </LinearLayout>
 

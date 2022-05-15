@@ -19,5 +19,6 @@ data class GroupListItems(
 @Parcelize
 data class CategoryListItems(
     val id: String,
-    val name: String
+    val name: String,
+    val img: Int
 ) : Parcelable

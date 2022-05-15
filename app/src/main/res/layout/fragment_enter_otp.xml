@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/logoBg">
 
     <RelativeLayout
         android:layout_marginTop="@dimen/_50sdp"
@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Verify your Email "
+                style="@style/textHeading"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
 
@@ -35,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:lineSpacingExtra="@dimen/_5sdp"
+                style="@style/textNormal"
                 android:text="Enter the 4-digit code we have sent by email to"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
@@ -93,6 +95,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:lineSpacingExtra="@dimen/_3sdp"
                         android:text="Resend"
+                        style="@style/textNormal"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
@@ -122,14 +125,16 @@
 
 
         </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_solid"
-            android:textColor="@color/white"
             android:layout_alignParentBottom="true"
-            android:text="Submit" />
+            android:background="@drawable/bg_solid"
+            android:text="Submit"
+            style="@style/textHeading"
+            android:textColor="@color/logoBg" />
     </RelativeLayout>
 
 

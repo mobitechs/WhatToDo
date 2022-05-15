@@ -9,6 +9,7 @@
     android:textColorHint="@color/white"
     android:drawableTint="@color/white"
     android:hint="Search"
+    style="@style/textNormal"
     android:imeOptions="actionDone"
     android:inputType="text"
     android:textSize="@dimen/_14sdp" />

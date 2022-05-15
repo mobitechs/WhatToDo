@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary">
+    android:background="@color/logoBg">
 
     <RelativeLayout
         android:layout_marginTop="@dimen/_50sdp"
@@ -23,6 +23,7 @@
                 android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/textHeading"
                 android:text="What's your Email?"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
@@ -60,6 +61,7 @@
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:background="@null"
                         android:hint="Email"
+                        style="@style/textNormal"
                         android:imeOptions="actionGo"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/black"
@@ -79,7 +81,8 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/bg_solid"
             android:text="Submit"
-            android:textColor="@color/white" />
+            style="@style/textHeading"
+            android:textColor="@color/logoBg" />
 
     </RelativeLayout>
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.HomeGroupListFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/recyclerview" />
 
@@ -13,7 +13,7 @@
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:background="@drawable/circle_red"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/logoBg2"
         android:layout_alignParentBottom="true"
         android:id="@+id/btnCreateGroupNShare"
         android:layout_alignParentEnd="true"
@@ -21,6 +21,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:padding="@dimen/_5sdp"
+            app:tint="@color/logoBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_add"/>

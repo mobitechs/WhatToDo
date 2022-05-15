@@ -7,24 +7,26 @@
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_rect_stroke_error.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_rect_stroke_success.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/bg_solid.xml" value="0.26614583333333336" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/circle_outline.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/circle_red.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/drawable/rounded_bg_orange.xml" value="0.26614583333333336" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_auth.xml" value="0.12158054711246201" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_decidion.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_home.xml" value="0.17300724637681159" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_listing_card.xml" value="0.25" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_short_listed_list.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_splash.xml" value="0.1793478260869565" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_sub_category.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/activity_waiting_room.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_card_stack.xml" value="0.25" />
-        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_category.xml" value="0.17300724637681159" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_category.xml" value="0.6" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_groups.xml" value="0.264" />
-        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_joined_user_list.xml" value="0.12158054711246201" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_joined_user_list.xml" value="0.264" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/adapter_item_short_listed.xml" value="0.4625" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/empty_screen.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_forget_password.xml" value="0.1793478260869565" />
-        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_login.xml" value="0.1793478260869565" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_login.xml" value="0.2" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_register.xml" value="0.2" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_auth_set_passworg.xml" value="0.1793478260869565" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/fragment_decision_category.xml" value="0.17300724637681159" />
@@ -38,6 +40,8 @@
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/loader.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/progressbar.xml" value="0.1793478260869565" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/recyclerview.xml" value="0.25" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/search_edittext.xml" value="0.25" />
+        <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/spinner_layout.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/toolbar.xml" value="0.25" />
         <entry key="..\:/Pratik/Projects/Freelancing/WhatToDo/app/src/main/res/layout/view_transperent.xml" value="0.1" />
         <entry key="..\:/Users/MSI/AndroidStudioProjects/WhatToDo/app/src/main/res/layout/adapter_item_card_stack.xml" value="0.20520833333333333" />
