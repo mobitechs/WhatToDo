@@ -74,13 +74,10 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         db = FirebaseFirestore.getInstance()
 
         if (hostuser == userId && imFrom == "DecisionCategory") {
-            val format = SimpleDateFormat("dd-MM-yyyy_HH:mm:ss")
-            val date = format.format(Date())
-            roomId = userId + "a" + date
-            createRoomAndAddUser()
-            ShareRoomLink(this, roomId, userId)
+            createRoomWithCustomName()
         } else {
             roomId = intent.getStringExtra("roomId").toString()
+            btnShare.visibility =View.GONE
             checkIfRoomIsActive()
         }
 
@@ -89,13 +86,38 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
         initView()
     }
 
+    private fun createRoomWithCustomName() {
+        layoutRoomName.visibility =View.VISIBLE
+        btnShare.visibility = View.VISIBLE
+
+
+        btnRoomNameSubmit.setOnClickListener {
+
+            if(etRoomName.text.toString() == ""){
+                showToastMsg("Please enter room name")
+            }else{
+                roomName = etRoomName.text.toString()
+                val format = SimpleDateFormat("dd-MM-yyyy_HH:mm:ss")
+                val date = format.format(Date())
+                roomId = userId + "a" + date
+                createRoomAndAddUser()
+                ShareRoomLink(this, roomId, userId)
+                layoutRoomName.visibility =View.GONE
+
+                getListOfUsers()
+            }
+        }
+    }
+
     private fun initView() {
 
         userId = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
             ?.get(0)?.userId.toString()
         roomId =
             SharePreferenceManager.getInstance(this).getValueString(Constants.ROOM_ID).toString()
-
+        if (hostuser == userId) {
+            btnShare.visibility =View.VISIBLE
+        }
         setupRecyclerView()
         tvToolbarTitle.text="My Group"
         imgHome.setOnClickListener{
@@ -106,6 +128,10 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
 //            (context as WaitingRoomActivity).displayDecisionSubCategory()
             openActivity(SubCategoryActivity::class.java)
             waitingRoomFirebaseListener.remove()
+        }
+
+        btnShare.setOnClickListener {
+            ShareRoomLink(this, roomId, userId)
         }
 
     }
@@ -146,7 +172,7 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
                         listAdapter.updateListItems(listItems)
                     }
                 } else {
-                    showToastMsg("not exist failed.")
+                   // showToastMsg("not exist failed.")
                 }
             }
     }
@@ -178,8 +204,6 @@ class WaitingRoomActivity : AppCompatActivity(), ApiResponse {
                         addUser()
                     }
                 }
-
-
             }
             .addOnFailureListener {
                 showToastMsg("Record failed to fetch")

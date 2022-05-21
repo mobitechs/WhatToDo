@@ -25,6 +25,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:layout_marginVertical="@dimen/_5sdp"
                     android:id="@+id/layoutGetSmile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -33,25 +34,36 @@
                         android:id="@+id/layoutRoomStatus"
                         android:layout_width="@dimen/_10sdp"
                         android:layout_height="@dimen/_10sdp"
-                        android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/circle_red" />
 
+                    <LinearLayout
+
+                        android:layout_toEndOf="@+id/layoutRoomStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtName"
                         style="@style/textNormal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:layout_toEndOf="@+id/layoutRoomStatus"
-                        android:paddingVertical="@dimen/_5sdp"
                         android:text="Room name"
                         android:textSize="@dimen/_12sdp" />
-
+                        <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtCreatedAt"
+                        style="@style/textNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="Room name"
+                        android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <LinearLayout

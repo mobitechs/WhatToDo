@@ -71,10 +71,10 @@ class DecisionActivity : AppCompatActivity() {
 
     private fun getListOfCategory() {
 
-        listItems.add(CategoryListItems("1", "Begin and Chill",R.drawable.movie))
-        listItems.add(CategoryListItems("2", "Much and chomp",R.drawable.food))
-        listItems.add(CategoryListItems("3", "Board in a house",R.drawable.games))
-        listItems.add(CategoryListItems("4", "Go Outing",R.drawable.outing))
+        listItems.add(CategoryListItems("1", "Binge and Chill",R.drawable.movie))
+        listItems.add(CategoryListItems("2", "Munch and Chomp",R.drawable.food))
+        listItems.add(CategoryListItems("3", "Board in the house",R.drawable.games))
+        listItems.add(CategoryListItems("4", "Go Out",R.drawable.outing))
         listAdapter.updateListItems(listItems)
     }
 

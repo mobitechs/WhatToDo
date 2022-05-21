@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -22,19 +27,103 @@
 
             <include layout="@layout/progressbar" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnStart"
+            <LinearLayout
+                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/bg_solid"
-                android:text="Start"
-                style="@style/textHeading"
-                android:textColor="@color/logoBg" />
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnShare"
+                    style="@style/textHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_solid"
+                    android:backgroundTint="@color/logoBg"
+                    android:text="Share With Friends"
+                    android:textColor="@color/logoBg2" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnStart"
+                    style="@style/textHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/bg_solid"
+                    android:text="Start"
+                    android:textColor="@color/logoBg" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
     </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:clickable="true"
+        android:id="@+id/layoutRoomName"
+        android:background="@color/black_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:elevation="@dimen/_16sdp"
+            app:cardCornerRadius="@dimen/_15sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_25sdp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/signInTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:text="Add Room Name"
+                    style="@style/textHeading"
+                    android:textColor="@color/logoBg2"
+                    android:textSize="@dimen/_15sdp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:theme="@style/inputLayoutTheme">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etRoomName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Room Name"
+                        style="@style/textNormal"
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRoomNameSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/rounded_bg_orange"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Submit"
+                    style="@style/textHeading"
+                    android:textColor="@color/logoBg" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

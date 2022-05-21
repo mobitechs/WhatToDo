@@ -61,7 +61,9 @@ class GroupListAdapter(
 
         var roomId = item.roomId.split("a")[1]
         var room = parseDateToddMMyyyy(roomId)
-        holder.txtName.text = "Room: "+room
+        holder.txtCreatedAt.text = "Created At: "+room
+        holder.txtName.text = item.roomName
+
 
         val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(item.addedDate)
         var serverDate = date.time
@@ -116,6 +118,7 @@ class GroupListAdapter(
         var btnKeepSwipe: AppCompatImageView = view.findViewById(R.id.btnKeepSwipe)
         var imgDelete: LinearLayout = view.findViewById(R.id.imgDelete)
         var txtName: TextView = view.findViewById(R.id.txtName)
+        var txtCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
 
         var layoutRoomStatus: RelativeLayout = view.findViewById(R.id.layoutRoomStatus)
         val cardView: View = itemView

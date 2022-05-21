@@ -94,7 +94,7 @@ class ShortListedLIstActivity : AppCompatActivity() {
                         listAdapter.updateListItems(listItems)
                     }
                     if(listItems.size ==0){
-                        txtContent.text = "There is no matched yet"
+                        txtContent.text = "There are no matches yet"
                         emptyLayout.visibility = View.VISIBLE
                     }
                 }
