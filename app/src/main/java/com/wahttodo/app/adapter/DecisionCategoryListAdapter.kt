@@ -14,6 +14,7 @@ import com.wahttodo.app.model.CategoryListItems
 import com.wahttodo.app.session.SharePreferenceManager
 import com.wahttodo.app.utils.Constants
 import com.wahttodo.app.utils.openActivity
+import com.wahttodo.app.utils.showToastMsg
 import com.wahttodo.app.view.activity.DecisionActivity
 import com.wahttodo.app.view.activity.WaitingRoomActivity
 
@@ -50,11 +51,15 @@ class DecisionCategoryListAdapter(activityContext: Context) :
 
         holder.itemView.setOnClickListener {
 
-            var userId = SharePreferenceManager.getInstance(context).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
-            context.openActivity(WaitingRoomActivity::class.java){
-                putParcelable("DecisionFor", item)
-                putString("imFrom", "DecisionCategory")
-                putString("hostUserId", userId)
+            if(item.id=="1"){
+                var userId = SharePreferenceManager.getInstance(context).getUserLogin(Constants.USERDATA)?.get(0)?.userId.toString()
+                context.openActivity(WaitingRoomActivity::class.java){
+                    putParcelable("DecisionFor", item)
+                    putString("imFrom", "DecisionCategory")
+                    putString("hostUserId", userId)
+                }
+            }else{
+                context.showToastMsg("Work in progress")
             }
 
         }

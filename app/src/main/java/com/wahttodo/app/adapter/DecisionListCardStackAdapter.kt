@@ -55,14 +55,14 @@ class DecisionListCardStackAdapter (
         holder.imgMoviePoster.setImage(item.movieImage, R.drawable.cinema)
         holder.textMovieName.text = item.movieName
         holder.txtDescription.text = item.description
-        holder.rating.rating = item.rating.toFloat()/2
+        holder.ratingBar.rating = item.rating.toFloat()/2
     }
 
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgMoviePoster: RoundedImageView = view.findViewById(R.id.imgMoviePoster)
         var textMovieName: TextView = view.findViewById(R.id.textMovieName)
-        var rating: RatingBar = view.findViewById(R.id.rating)
+        var ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
         var txtDescription: TextView = view.findViewById(R.id.txtDescription)
     }
 }

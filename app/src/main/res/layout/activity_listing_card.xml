@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -10,6 +9,7 @@
     <include layout="@layout/toolbar"/>
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -58,17 +58,92 @@
             android:background="@color/black_transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Its\nMatched"
-                style="@style/textHeading"
-                android:id="@+id/txtMatched"
-                android:textSize="@dimen/_40sdp"
-                android:gravity="center"
-                android:textColor="@color/logoBg"
-                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/layoutPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardUseCompatPadding="true"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/imgMoviePosterPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius="8dp"/>
+
+                    <LinearLayout
+                        android:background="@color/black_transparent"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/textMovieNamePreview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KGF"
+                            style="@style/textHeading"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="26sp"/>
+                        <TextView
+                            android:id="@+id/txtDescriptionPreview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            style="@style/textNormal"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
+
+                        <RatingBar
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:id="@+id/ratingBarPreview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_below="@+id/textMovieName"
+                            android:numStars="5"
+                            android:stepSize="1"
+                            android:isIndicator="true" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_transparent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtMatched"
+                    style="@style/textHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Its\nMatched"
+                    android:textColor="@color/logoBg"
+                    android:textSize="@dimen/_40sdp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
 
         </RelativeLayout>
     </RelativeLayout>

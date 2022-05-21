@@ -17,13 +17,11 @@ import com.wahttodo.app.adapter.DecisionListCardStackAdapter
 import com.wahttodo.app.model.DumpedMoviesList
 import com.wahttodo.app.model.MatchedMoviesList
 import com.wahttodo.app.session.SharePreferenceManager
-import com.wahttodo.app.utils.Constants
-import com.wahttodo.app.utils.openActivity
-import com.wahttodo.app.utils.openClearActivity
-import com.wahttodo.app.utils.showToastMsg
+import com.wahttodo.app.utils.*
 import com.wahttodo.app.viewModel.UserListViewModel
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.activity_listing_card.*
+import kotlinx.android.synthetic.main.adapter_item_card_stack.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.HashMap
 
@@ -79,7 +77,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
 
     private fun setupCardStackView() {
         manager = CardStackLayoutManager(this, this)
-        manager.setStackFrom(StackFrom.None)
+        manager.setStackFrom(StackFrom.Top)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
@@ -123,14 +121,25 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                         val description = movieDetails["description"].toString()
                         val matchedCount = movieDetails["matchedCount"].toString()
                         val updatedCount = matchedCount.toInt() + 1
+
+
                         if (itemMovieName == movieName) {
+                            imgMoviePosterPreview.setImage(movieImage, R.drawable.cinema)
+                            textMovieNamePreview.text = movieName
+                            txtDescriptionPreview.text = description
+                            ratingBarPreview.rating = rating.toFloat()/2
+                            //showToastMsg(movieName)
+
                             movieCountDeleteData = DumpedMoviesList(movieImage, movieName, rating, description, matchedCount)
                             movieCountUpdateData = DumpedMoviesList(movieImage, movieName, rating, description, updatedCount.toString())
                             listSize -= 1
                             movieDeleteData()
                             if (noOfUsers == updatedCount.toString()) {
-//                                showToastMsg("Matched")
+                                //showToastMsg(noOfUsers + "= "+ updatedCount.toString())
                                 layoutMatched.visibility =  View.VISIBLE
+                                layoutPreview.visibility =  View.VISIBLE
+
+
                                 if(noOfUsers == "1"){
                                     txtMatched.text = "Liked"
                                 }else{
@@ -138,7 +147,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                                 }
 
                                 Handler().postDelayed({
-                                    layoutMatched.visibility =  View.GONE }, 1000.toLong())
+                                    layoutMatched.visibility =  View.GONE }, 3000.toLong())
                             }
                         }
                     }
@@ -149,6 +158,7 @@ class ListingCardActivity : AppCompatActivity() , CardStackListener {
                 }
         }
         else{
+            layoutPreview.visibility =  View.GONE
             layoutMatched.visibility =  View.VISIBLE
             if(noOfUsers == "1"){
                 txtMatched.text = "Not Liked"
